@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="vlcj-3.0.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/vlcj-3.0.1-dist/vlcj-3.0.1/vlcj-3.0.1.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/vlcj-3.0.1-dist/vlcj-3.0.1/vlcj-3.0.1-tests.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/vlcj-3.0.1-dist/vlcj-3.0.1/platform-3.5.2.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/vlcj-3.0.1-dist/vlcj-3.0.1/jna-3.5.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/Downloads/vlcj-3.0.1-dist/vlcj-3.0.1/vlcj-3.0.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Downloads/vlcj-3.0.1-dist/vlcj-3.0.1/vlcj-3.0.1-test-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/vlcj-3.0.1-dist/vlcj-3.0.1/vlcj-3.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
