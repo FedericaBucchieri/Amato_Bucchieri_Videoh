@@ -31,8 +31,6 @@ public class MainLoginPanelView { //view
         setupWelcomeLabel();
         setupStudProfPanel();
         setupProblemButton();//any problem
-        //add(mainPanel, BorderLayout.CENTER);
-        //pack();
     }
 
     private void setupProblemButton() {

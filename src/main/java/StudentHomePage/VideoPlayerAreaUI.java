@@ -7,8 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StudentHomePageUI {
-    private StudentHomePage controller;
+public class VideoPlayerAreaUI {
+    private VideoPlayerArea controller;
     private JPanel mainPanel;
     private VideoBox videoBox;
     private JPanel settingsPanel;
@@ -16,17 +16,17 @@ public class StudentHomePageUI {
 
     private JButton backButton;
 
-    public StudentHomePageUI(StudentHomePage controller){
+    public VideoPlayerAreaUI(VideoPlayerArea controller){
         this.controller = controller;
 
         setupMainPanel();
         setupVideoBox();
-        setupSettingsPanel();
-        setupAnnotationsPanel();
-        setupBackButton();
+        //setupSettingsPanel();
+        //setupBackButton();
 
     }
 
+    /*
     private void setupBackButton() {
         Icon icon = new ImageIcon("src/main/images/back-2.png");
         backButton = new JButton(icon);
@@ -41,7 +41,11 @@ public class StudentHomePageUI {
         });
     }
 
-    private void setupAnnotationsPanel() {
+     */
+
+
+    public void dismissVideo(){
+        videoBox.dismissVideo();
     }
 
     private void setupSettingsPanel() {

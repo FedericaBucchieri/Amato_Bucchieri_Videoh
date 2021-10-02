@@ -8,7 +8,7 @@ import javax.swing.*;
 public class UpdateProfileScene implements Scene {
     private UpdateProfile updateProfile;
 
-    public UpdateProfileScene (ProfessorHomePage professorHomePage, Professor professor) {
+    public UpdateProfileScene(ProfessorHomePage professorHomePage, Professor professor) {
         updateProfile = new UpdateProfile(professorHomePage, professor);
     }
 

@@ -27,6 +27,9 @@ public class Utils {
     public static final int DIVIDER = 200;
     public static final int DESCRIPTION_WIDTH = 300;
     public static final int DESCRIPTION_HEIGHT = 150;
+    public static final int PLAY_PAUSE_SIZE = 30;
+    public static final int ANNOTATION_PANEL_HEIGHT = 50;
+    public static final int ANNOTATION_BUTTON_SIZE = 50;
     public static final String ERROR_EMPTY_LIST = "Your list is empty! Please add a new video to start your VIDEOH experience";
     public static final String ERROR_UPDATE_VIDEO = "Sorry, an error occured while updating your video details";
 

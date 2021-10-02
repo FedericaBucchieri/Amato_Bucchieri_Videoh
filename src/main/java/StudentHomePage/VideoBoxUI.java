@@ -1,11 +1,15 @@
 package StudentHomePage;
 
+import sceneManager.Utils;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
+import uk.co.caprica.vlcj.player.MediaPlayer;
+import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.player.direct.*;
 import uk.co.caprica.vlcj.player.direct.format.RV32BufferFormat;
 
-import javax.print.attribute.standard.Media;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,14 +17,15 @@ import java.awt.image.BufferedImage;
 
 public class VideoBoxUI {
     private VideoBox controller;
-
-
-
     private JPanel mainPanel;
     private JPanel videoSurface;
     private JPanel controllButtonsPanel;
     private JButton pausePlayButton;
+    private JButton infoButton;
+    private JSlider slider;
+    private AnnotationPanel annotationPanel;
     private boolean isPlaying = false;
+    private JPanel southPanel;
 
     private BufferedImage image;
     private DirectMediaPlayerComponent mediaPlayerComponent;
@@ -33,29 +38,44 @@ public class VideoBoxUI {
         setupMainPanel();
         setupImage();
         setupVideoSurface();
+
+        mediaPlayerComponent.getMediaPlayer().playMedia(this.controller.getModel().getFile().getPath());
+        isPlaying = true;
+
+        setupSouthPanel();
+
+    }
+
+    public void installUI(){
+        setupAnnotationPanel();
+    }
+
+    private void setupSouthPanel(){
+        southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
+
         setupControllButtonsPanel();
-
-        //TODO: raggruppa tutto in una funzione.
-       mediaPlayerComponent.getMediaPlayer().playMedia(this.controller.getModel().getFile().getPath());
-       isPlaying = true;
-
-
     }
 
     private void setupControllButtonsPanel() {
         controllButtonsPanel = new JPanel();
-        controllButtonsPanel.setLayout(new BoxLayout(controllButtonsPanel, BoxLayout.Y_AXIS));
-        mainPanel.add(controllButtonsPanel, BorderLayout.SOUTH);
-
+        controllButtonsPanel.setLayout(new BoxLayout(controllButtonsPanel, BoxLayout.X_AXIS));
+        southPanel.add(controllButtonsPanel);
 
         setupPlayButton();
-
+        setupTimeline();
+        setupInfoButton();
 
     }
 
     private void setupPlayButton() {
-        pausePlayButton = new JButton("PAUSE / PLAY");
+
+        pausePlayButton = new JButton();
+        pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/pause.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
         pausePlayButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pausePlayButton.setOpaque(true);
+        pausePlayButton.setBorderPainted(false);
         controllButtonsPanel.add(pausePlayButton);
 
         pausePlayButton.addActionListener(new ActionListener() {
@@ -64,15 +84,62 @@ public class VideoBoxUI {
                 if(isPlaying){
                     mediaPlayerComponent.getMediaPlayer().pause();
                     isPlaying = false;
-                    System.out.println("PAUSED AT: ");
-                    System.out.println(mediaPlayerComponent.getMediaPlayer().getTime());
+                    pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/play.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
                 }else{
+                    pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/pause.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
                     mediaPlayerComponent.getMediaPlayer().play();
                     isPlaying = true;
                 }
 
             }
         });
+    }
+
+    private void setupTimeline(){
+        MediaPlayer embededMediaPlayer = mediaPlayerComponent.getMediaPlayer();
+        slider = new JSlider(0, (int)embededMediaPlayer.getLength(), 0);
+        JLabel currentTime = new JLabel();
+        JLabel finalTime = new JLabel();
+
+        embededMediaPlayer.addMediaPlayerEventListener(new MediaPlayerEventAdapter(){
+            @Override
+            public void timeChanged(MediaPlayer mediaPlayer, long newTime) {
+                super.timeChanged(mediaPlayer, newTime);
+                slider.setMaximum((int)mediaPlayerComponent.getMediaPlayer().getLength());
+                finalTime.setText(formatTime(mediaPlayerComponent.getMediaPlayer().getLength()));
+
+                slider.setValue((int)mediaPlayerComponent.getMediaPlayer().getTime());
+                currentTime.setText(formatTime(mediaPlayerComponent.getMediaPlayer().getTime()));
+            }
+        });
+
+        slider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                long currentTime = mediaPlayerComponent.getMediaPlayer().getTime();
+                mediaPlayerComponent.getMediaPlayer().skip(slider.getValue() - currentTime);
+            }
+        });
+
+        controllButtonsPanel.add(currentTime);
+        controllButtonsPanel.add(slider);
+        controllButtonsPanel.add(finalTime);
+    }
+
+    private void setupInfoButton(){
+        infoButton = new JButton();
+        infoButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/information.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        infoButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        infoButton.setOpaque(true);
+        infoButton.setBorderPainted(false);
+        controllButtonsPanel.add(infoButton);
+
+        //TODO: action Listener
+    }
+
+    private void setupAnnotationPanel(){
+        annotationPanel = new AnnotationPanel(controller);
+        southPanel.add(annotationPanel.getMainPanel());
     }
 
     private void setupVideoSurface() {
@@ -84,9 +151,6 @@ public class VideoBoxUI {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         setupImage();
-        //mediaPlayerComponent.getMediaPlayer().playMedia(this.controller.getModel().getFile().getPath());
-        //isPlaying = true;
-
     }
 
     public JPanel getMainPanel() {
@@ -115,10 +179,24 @@ public class VideoBoxUI {
 
     }
 
+    public static String formatTime(long value) {
+        value /= 1000;
+        int hours = (int) value / 3600;
+        int remainder = (int) value - hours * 3600;
+        int minutes = remainder / 60;
+        remainder = remainder - minutes * 60;
+        int seconds = remainder;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
+
     public void dismissVideo(){
         this.mediaPlayerComponent.release();
     }
 
+    public JSlider getSlider() {
+        return slider;
+    }
 
     private class TutorialRenderCallbackAdapter extends RenderCallbackAdapter {
 

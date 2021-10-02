@@ -1,10 +1,12 @@
 package StudentHomePage;
 
-import uk.co.caprica.vlcj.player.media.Media;
+import EventManagement.Event;
+import EventManagement.Listener;
 
+import javax.swing.*;
 import java.io.File;
 
-public class VideoBox {//controller
+public class VideoBox implements Listener {//controller
 
     private VideoBoxModel model;
     private VideoBoxUI UI;
@@ -14,7 +16,11 @@ public class VideoBox {//controller
     public VideoBox(File file){
         model = new VideoBoxModel(file);
         UI = new VideoBoxUI(this);
+        UI.installUI();
+    }
 
+    public JSlider getSlider(){
+        return UI.getSlider();
     }
 
     public VideoBoxModel getModel() {
@@ -27,6 +33,11 @@ public class VideoBox {//controller
 
     public void dismissVideo() {
         getUI().dismissVideo();
+    }
+
+    @Override
+    public void listen(Event event) {
+
     }
 }
 

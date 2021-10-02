@@ -27,7 +27,6 @@ public class ProfessorLoginFormUI {
         setupBackButton();
     }
 
-
     private void setupForm(){
         setupNameTextField();
         setupPassTextField();
