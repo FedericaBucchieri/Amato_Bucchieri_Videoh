@@ -4,6 +4,7 @@ import EventManagement.Event;
 import EventManagement.Listener;
 import EventManagement.LogoutEvent;
 import EventManagement.NewVideoRequestEvent;
+import entities.Video;
 import sceneManager.Scene;
 import sceneManager.SceneManager;
 
@@ -23,14 +24,14 @@ public class StudentHomePageScene implements Listener, Scene{
     private CardLayout cardLayout;
     private List<Listener> listeners = new ArrayList<>();
 
-    public StudentHomePageScene(SceneManager sceneManager, File file, String username) {
+    public StudentHomePageScene(SceneManager sceneManager, Video video, String username) {
         this.username = username;
         this.listeners.add(sceneManager);
 
         this.mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        setupCentralPanel(sceneManager, file);
+        setupCentralPanel(sceneManager, video);
         setupLeftPanel(sceneManager);
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
@@ -38,12 +39,12 @@ public class StudentHomePageScene implements Listener, Scene{
 
     }
 
-    public void setupCentralPanel(SceneManager sceneManager, File file){
+    public void setupCentralPanel(SceneManager sceneManager, Video video){
         cardLayout = new CardLayout();
         this.centerPanel = new JPanel();
         centerPanel.setLayout(cardLayout);
 
-        videoPlayerArea = new VideoPlayerArea(sceneManager, file, username);
+        videoPlayerArea = new VideoPlayerArea(sceneManager, video, username);
         centerPanel.add(videoPlayerArea.getMainPanel());
         cardLayout.next(centerPanel);
     }

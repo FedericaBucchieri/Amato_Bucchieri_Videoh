@@ -30,6 +30,10 @@ public class Utils {
     public static final int PLAY_PAUSE_SIZE = 30;
     public static final int ANNOTATION_PANEL_HEIGHT = 50;
     public static final int ANNOTATION_BUTTON_SIZE = 50;
+    public final static int NEGATIVE_INTERACTION = 0;
+    public final static int POSITIVE_INTERACTION = 1;
+    public final static int TIMELINE_BOXES = 82;
+    public final static int TAG_SIZE = 30;
     public static final String ERROR_EMPTY_LIST = "Your list is empty! Please add a new video to start your VIDEOH experience";
     public static final String ERROR_UPDATE_VIDEO = "Sorry, an error occured while updating your video details";
 

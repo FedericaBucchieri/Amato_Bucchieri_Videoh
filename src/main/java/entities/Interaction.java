@@ -2,24 +2,19 @@ package entities;
 
 import jakarta.persistence.*;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.Date;
-
 @Entity
-public class Interaction {
+public class Interaction implements GenericInteraction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @Temporal(TemporalType.DATE)
-    private Date timestamp;
+    private int timestamp;
     private int type;
 
     public Interaction() {
     }
 
-    public Interaction(int type, Video video) {
-        this.timestamp = new Timestamp(System.currentTimeMillis());
+    public Interaction(int type, Video video, int timestamp) {
+        this.timestamp = timestamp;
         this.type = type;
         this.video = video;
     }
@@ -36,11 +31,11 @@ public class Interaction {
         this.id = id;
     }
 
-    public Date getTimestamp() {
+    public int getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(int timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -59,4 +54,5 @@ public class Interaction {
     public void setVideo(Video video) {
         this.video = video;
     }
+
 }

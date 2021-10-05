@@ -2,6 +2,7 @@ package StudentHomePage;
 
 import EventManagement.BackEvent;
 import EventManagement.Listener;
+import entities.Video;
 import sceneManager.SceneManager;
 
 import javax.swing.*;
@@ -14,9 +15,9 @@ public class VideoPlayerArea extends JComponent { //controler
     private VideoPlayerAreaUI UI;
     private List<Listener> listeners = new ArrayList<>();
 
-    public VideoPlayerArea(SceneManager sceneManager, File file, String username) {
+    public VideoPlayerArea(SceneManager sceneManager, Video video, String username) {
         this.listeners.add(sceneManager);
-        model = new VideoPlayerAreaModel(this, file, username);
+        model = new VideoPlayerAreaModel(this, video, username);
         UI = new VideoPlayerAreaUI(this);
     }
 

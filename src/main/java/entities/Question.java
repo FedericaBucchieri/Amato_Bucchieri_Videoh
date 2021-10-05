@@ -2,18 +2,14 @@ package entities;
 
 import jakarta.persistence.*;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 @Entity
-public class Question {
+public class Question implements GenericInteraction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String text;
     private String student;
-    @Temporal(TemporalType.DATE)
-    private Date timestamp;
+    private int timestamp;
 
     @ManyToOne
     @JoinColumn(name = "video")
@@ -22,11 +18,11 @@ public class Question {
     public Question() {
     }
 
-    public Question(String text, String student, Video video) {
+    public Question(String text, String student, Video video, int timestamp) {
         this.text = text;
         this.student = student;
         this.video = video;
-        this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.timestamp = timestamp;
     }
 
     public Integer getId() {
@@ -53,11 +49,12 @@ public class Question {
         this.student = student;
     }
 
-    public Date getTimestamp() {
+    @Override
+    public int getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(int timestamp) {
         this.timestamp = timestamp;
     }
 

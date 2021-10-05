@@ -3,20 +3,24 @@ package services;
 import entities.Interaction;
 import entities.Video;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceContext;
+import sceneManager.Utils;
 
+import java.util.Date;
 import java.util.List;
 
 
 public class InteractionService {
-    private final static int TYPE_UNCLEAR = 0;
-    private final static int TYPE_CLEAR = 1;
-
     @PersistenceContext(unitName="default")
     private EntityManager em;
+    private EntityManagerFactory entityManagerFactory;
 
-    public InteractionService(EntityManager em) {
-        this.em = em;
+
+    public InteractionService() {
+        this.entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        this.em = entityManagerFactory.createEntityManager();
     }
 
     public Interaction findInteractionById(int interactionId) {
@@ -29,25 +33,27 @@ public class InteractionService {
         return video.getInteractionList();
     }
 
-    public List<Interaction> findClearInteractionsByVideo(int videoId) {
+    public List<Interaction> findPositiveInteractionsByVideo(int videoId) {
         List<Interaction> interactions = em
-                .createQuery("Select interaction from Interaction interaction where interaction.video.id = :videoId AND interaction.type =" + TYPE_CLEAR + "", Interaction.class)
+                .createQuery("Select interaction from Interaction interaction where interaction.video.id = :videoId AND interaction.type =" + Utils.POSITIVE_INTERACTION + "", Interaction.class)
                 .setParameter("videoId", videoId).getResultList();
         return interactions;
     }
 
-    public List<Interaction> findNotClearInteractionsByVideo(int videoId) {
+    public List<Interaction> findNegativeInteractionsByVideo(int videoId) {
         List<Interaction> interactions = em
-                .createQuery("Select interaction from Interaction interaction where interaction.video.id = :videoId AND interaction.type =" + TYPE_UNCLEAR + "", Interaction.class)
+                .createQuery("Select interaction from Interaction interaction where interaction.video.id = :videoId AND interaction.type =" + Utils.NEGATIVE_INTERACTION + "", Interaction.class)
                 .setParameter("videoId", videoId).getResultList();
         return interactions;
     }
 
-    public void createInteraction(int type, int videoId){
+    public Interaction createInteraction(int type, int videoId, int timestamp){
         Video video = em.find(Video.class, videoId);
-        Interaction interaction = new Interaction(type, video);
+        Interaction interaction = new Interaction(type, video, timestamp);
         em.getTransaction().begin();
         em.persist(interaction);
         em.getTransaction().commit();
+
+        return interaction;
     }
 }

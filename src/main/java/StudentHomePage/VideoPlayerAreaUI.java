@@ -66,7 +66,7 @@ public class VideoPlayerAreaUI {
 
     private void setupVideoBox() {
         new NativeDiscovery().discover();
-        videoBox = new VideoBox(controller.getModel().getFile());
+        videoBox = new VideoBox(controller.getModel().getVideo());
         mainPanel.add(videoBox.getUI().getMainPanel(), BorderLayout.CENTER);
 
     }

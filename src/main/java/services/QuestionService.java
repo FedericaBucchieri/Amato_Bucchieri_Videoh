@@ -26,9 +26,9 @@ public class QuestionService {
         return video.getQuestionList();
     }
 
-    public void createQuestion(String text, String student, int videoId){
+    public void createQuestion(String text, String student, int videoId, int timestamp){
         Video video = em.find(Video.class, videoId);
-        Question question = new Question(text, student, video);
+        Question question = new Question(text, student, video, timestamp);
         em.getTransaction().begin();
         em.persist(question);
         em.getTransaction().commit();

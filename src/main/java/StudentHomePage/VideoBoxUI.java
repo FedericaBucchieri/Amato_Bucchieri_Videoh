@@ -23,8 +23,9 @@ public class VideoBoxUI {
     private JButton pausePlayButton;
     private JButton infoButton;
     private JSlider slider;
-    private AnnotationPanel annotationPanel;
+    private InteractionPanel interactionPanel;
     private boolean isPlaying = false;
+    private boolean isTimeSetted = false;
     private JPanel southPanel;
 
     private BufferedImage image;
@@ -39,7 +40,7 @@ public class VideoBoxUI {
         setupImage();
         setupVideoSurface();
 
-        mediaPlayerComponent.getMediaPlayer().playMedia(this.controller.getModel().getFile().getPath());
+        mediaPlayerComponent.getMediaPlayer().playMedia(this.controller.getModel().getVideo().getFile().getPath());
         isPlaying = true;
 
         setupSouthPanel();
@@ -98,6 +99,7 @@ public class VideoBoxUI {
     private void setupTimeline(){
         MediaPlayer embededMediaPlayer = mediaPlayerComponent.getMediaPlayer();
         slider = new JSlider(0, (int)embededMediaPlayer.getLength(), 0);
+        slider.setPreferredSize(new Dimension(700, slider.getHeight()));
         JLabel currentTime = new JLabel();
         JLabel finalTime = new JLabel();
 
@@ -105,21 +107,33 @@ public class VideoBoxUI {
             @Override
             public void timeChanged(MediaPlayer mediaPlayer, long newTime) {
                 super.timeChanged(mediaPlayer, newTime);
-                slider.setMaximum((int)mediaPlayerComponent.getMediaPlayer().getLength());
-                finalTime.setText(formatTime(mediaPlayerComponent.getMediaPlayer().getLength()));
+                int time = (int)mediaPlayerComponent.getMediaPlayer().getTime();
 
-                slider.setValue((int)mediaPlayerComponent.getMediaPlayer().getTime());
-                currentTime.setText(formatTime(mediaPlayerComponent.getMediaPlayer().getTime()));
+                if(!isTimeSetted) {
+                    slider.setMaximum((int) mediaPlayerComponent.getMediaPlayer().getLength());
+                    System.out.println("General film lenght:" + embededMediaPlayer.getLength());
+                    System.out.println("General slider width:" + slider.getPreferredSize().getWidth());
+                    finalTime.setText(formatTime(mediaPlayerComponent.getMediaPlayer().getLength()));
+                    isTimeSetted = true;
+                }
+
+                if (!slider.getValueIsAdjusting()) {
+                    slider.setValue(time);
+                    currentTime.setText(formatTime(mediaPlayerComponent.getMediaPlayer().getTime()));
+                }
             }
         });
 
         slider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                long currentTime = mediaPlayerComponent.getMediaPlayer().getTime();
-                mediaPlayerComponent.getMediaPlayer().skip(slider.getValue() - currentTime);
+                if (slider.getValueIsAdjusting()) {
+                    long currentTime = mediaPlayerComponent.getMediaPlayer().getTime();
+                    mediaPlayerComponent.getMediaPlayer().skip(slider.getValue() - currentTime);
+                }
             }
         });
+
 
         controllButtonsPanel.add(currentTime);
         controllButtonsPanel.add(slider);
@@ -138,8 +152,8 @@ public class VideoBoxUI {
     }
 
     private void setupAnnotationPanel(){
-        annotationPanel = new AnnotationPanel(controller);
-        southPanel.add(annotationPanel.getMainPanel());
+        interactionPanel = new InteractionPanel(controller);
+        southPanel.add(interactionPanel.getMainPanel());
     }
 
     private void setupVideoSurface() {

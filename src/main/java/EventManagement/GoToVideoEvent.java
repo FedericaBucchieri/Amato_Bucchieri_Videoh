@@ -1,20 +1,20 @@
 package EventManagement;
 
-import uk.co.caprica.vlcj.player.media.Media;
+import entities.Video;
 
 import java.io.File;
 
 public class GoToVideoEvent implements Event {
-    private File file;
+    private Video video;
     private String username;
 
-    public GoToVideoEvent (File file, String username){
-        this.file = file;
+    public GoToVideoEvent (Video video, String username){
+        this.video = video;
         this.username = username;
     }
 
-    public File getFile() {
-        return file;
+    public Video getVideo() {
+        return video;
     }
 
 

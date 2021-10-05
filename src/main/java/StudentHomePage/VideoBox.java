@@ -1,20 +1,17 @@
 package StudentHomePage;
 
-import EventManagement.Event;
-import EventManagement.Listener;
+import EventManagement.*;
+import entities.Video;
 
 import javax.swing.*;
-import java.io.File;
 
 public class VideoBox implements Listener {//controller
 
     private VideoBoxModel model;
     private VideoBoxUI UI;
 
-
-
-    public VideoBox(File file){
-        model = new VideoBoxModel(file);
+    public VideoBox(Video video){
+        model = new VideoBoxModel(video);
         UI = new VideoBoxUI(this);
         UI.installUI();
     }
@@ -31,14 +28,18 @@ public class VideoBox implements Listener {//controller
         return UI;
     }
 
+    public int getVideoId(){
+        return model.getVideo().getId();
+    }
+
     public void dismissVideo() {
         getUI().dismissVideo();
     }
 
     @Override
     public void listen(Event event) {
-
     }
+
 }
 
 

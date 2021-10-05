@@ -1,22 +1,21 @@
 package StudentHomePage;
 
+import entities.Video;
+
 import java.io.File;
 
 public class VideoPlayerAreaModel {
     private VideoPlayerArea controller;
-    private File file;
+    private Video video;
     private String username;
 
-    public VideoPlayerAreaModel(VideoPlayerArea controller, File file, String username){
+    public VideoPlayerAreaModel(VideoPlayerArea controller, Video video, String username){
         this.controller = controller;
-        this.file = file;
+        this.video = video;
         this.username = username;
     }
 
-
-    public File getFile() {
-        return file;
+    public Video getVideo() {
+        return video;
     }
-
-
 }
