@@ -1,6 +1,7 @@
 package ProfessorHomePage;
 
 import EventManagement.DeleteVideoEvent;
+import EventManagement.GoToStatisticsEvent;
 import EventManagement.Listener;
 import entities.Video;
 
@@ -49,7 +50,9 @@ public class VideoListElement extends JPanel{
 
     public void handleStatisticRequest(){
         //@TODO
-        System.out.println("Statistic request");
+        for (Listener listener : listeners){
+            listener.listen(new GoToStatisticsEvent(video));
+        }
     }
 
     public void paintComponent(Graphics pen) {

@@ -17,6 +17,7 @@ public class ProfessorHomePage implements Listener, Scene {
     private DetailPanel detailPanel;
     private AddVideoForm addVideoForm;
     private UpdateProfile updateProfile;
+    private StatisticsPane statisticsPane;
     private Professor professor;
     private JPanel mainPanel;
     private JPanel centerPanel;
@@ -90,6 +91,18 @@ public class ProfessorHomePage implements Listener, Scene {
         else if(event.getClass().equals(LogoutEvent.class)){
             dispatchLogoutEvent((LogoutEvent) event);
         }
+        else if (event.getClass().equals(GoToStatisticsEvent.class)){
+            GoToStatisticsEvent e = ((GoToStatisticsEvent) event);
+            goToStatisticsPage(e.getVideo());
+        }
+    }
+
+    private void goToStatisticsPage(Video video) {
+            statisticsPane = new StatisticsPane(video, this);
+            centerPanel.add(statisticsPane.getMainPanel());
+            cardLayout.next(centerPanel);
+
+
     }
 
     public Professor getProfessor() {

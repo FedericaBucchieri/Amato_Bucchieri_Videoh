@@ -49,6 +49,7 @@ public class StudentHomePageScene implements Listener, Scene{
         cardLayout.next(centerPanel);
     }
 
+    //TODO: rename in setupRightPanel
     public void setupLeftPanel(SceneManager sceneManager){
         this.rightPanel = new JPanel();
         studentDetailPanel = new StudentDetailPanel(username,this, sceneManager);

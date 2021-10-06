@@ -15,6 +15,7 @@ import java.util.List;
 public class ProfessorLoginForm extends JComponent implements Listener {
     private ProfessorLoginFormModel model;
     private ProfessorLoginFormUI ui;
+
     private List<Listener> listeners = new ArrayList<>();
 
     public ProfessorLoginForm(SceneManager sceneManager) {
