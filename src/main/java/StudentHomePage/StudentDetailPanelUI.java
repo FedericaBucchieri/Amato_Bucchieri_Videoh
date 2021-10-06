@@ -1,11 +1,13 @@
 package StudentHomePage;
 
+import entities.Question;
 import sceneManager.Utils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class StudentDetailPanelUI {
     private JPanel mainPanel;
@@ -13,6 +15,7 @@ public class StudentDetailPanelUI {
     private JLabel studentLogo;
     private StudentDetailPanel controller;
     private JButton logoutButton;
+    private JPanel questionPanel;
 
     public StudentDetailPanelUI() {
         this.mainPanel = new JPanel();
@@ -26,6 +29,9 @@ public class StudentDetailPanelUI {
 
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
         setupWelcome();
+
+        mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
+        setupQuestionPanel();
 
         setupButtons();
 
@@ -45,9 +51,55 @@ public class StudentDetailPanelUI {
         mainPanel.add(studentName);
     }
 
+    private void setupQuestionPanel(){
+        JLabel listTitle = new JLabel("Your Questions:");
+        listTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        listTitle.setForeground(Color.white);
+        mainPanel.add(listTitle);
+
+        questionPanel = new JPanel();
+        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+        JScrollPane scrollPane = new JScrollPane(questionPanel);
+        mainPanel.add(scrollPane);
+    }
+
+    public void repaintQuestionList(){
+        List<Question> questionList = controller.getModel().getQuestionList();
+
+        questionPanel.removeAll();
+
+        for (Question question: questionList) {
+            displayNewQuestion(question);
+        }
+    }
+
+    public void displayNewQuestion(Question question){
+        JPanel questionElement = new JPanel();
+        questionElement.setLayout(new BoxLayout(questionElement, BoxLayout.X_AXIS));
+
+        JLabel questionTime = new JLabel(String.valueOf(Utils.formatTime(question.getTimestamp())));
+        questionTime.setForeground(Color.decode("#F0A037"));
+        questionTime.setFont((new Font(Font.SANS_SERIF,  Font.ITALIC, Utils.DATE_FONT_WIDTH)));
+        questionTime.setAlignmentX(Component.LEFT_ALIGNMENT);
+        questionTime.setAlignmentY(Component.TOP_ALIGNMENT);
+        questionElement.add(questionTime);
+
+        questionElement.add(Box.createHorizontalStrut(Utils.STANDARD_BORDER));
+
+        JLabel questionBody = new JLabel(question.getText());
+        questionBody.setAlignmentX(Component.LEFT_ALIGNMENT);
+        questionBody.setAlignmentY(Component.TOP_ALIGNMENT);
+        questionElement.add(questionBody);
+
+        questionElement.setAlignmentY(Component.TOP_ALIGNMENT);
+        questionElement.setAlignmentX(Component.LEFT_ALIGNMENT);
+        questionPanel.add(questionElement);
+
+    }
+
     private void setupButtons(){
         Utils utils = new Utils();
-        mainPanel.add(Box.createVerticalStrut(Utils.DIVIDER));
+        mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
 
         logoutButton = new JButton("Logout");
         logoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);

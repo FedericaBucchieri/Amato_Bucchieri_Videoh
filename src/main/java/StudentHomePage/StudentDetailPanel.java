@@ -1,7 +1,9 @@
 package StudentHomePage;
 
+import EventManagement.Event;
 import EventManagement.Listener;
 import EventManagement.LogoutEvent;
+import entities.Question;
 import sceneManager.SceneManager;
 import sceneManager.Utils;
 
@@ -10,7 +12,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDetailPanel extends JComponent {
+public class StudentDetailPanel extends JComponent{
     private StudentDetailPanelModel model;
     private StudentDetailPanelUI ui;
     private List<Listener> listeners = new ArrayList<>();
@@ -39,6 +41,19 @@ public class StudentDetailPanel extends JComponent {
             listener.listen(new LogoutEvent());
     }
 
+    public void addQuestionToList(Question question){
+        model.addQuestionToList(question);
+        ui.displayNewQuestion(question);
+    }
+
+    public StudentDetailPanelModel getModel() {
+        return model;
+    }
+
+    public void updateQuestionList(){
+        ui.repaintQuestionList();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         add(this.ui.getMainPanel());
@@ -49,4 +64,5 @@ public class StudentDetailPanel extends JComponent {
         return new Dimension(Utils.DETAILPANEL_WIDTH, Utils.DETAILPANEL_HEIGHT);
     }
     public Dimension getMaximumSize() { return getPreferredSize(); }
+
 }

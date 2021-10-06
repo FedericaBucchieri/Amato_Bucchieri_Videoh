@@ -1,9 +1,7 @@
 package StudentHomePage;
 
+import EventManagement.*;
 import EventManagement.Event;
-import EventManagement.Listener;
-import EventManagement.LogoutEvent;
-import EventManagement.NewVideoRequestEvent;
 import entities.Video;
 import sceneManager.Scene;
 import sceneManager.SceneManager;
@@ -44,7 +42,7 @@ public class StudentHomePageScene implements Listener, Scene{
         this.centerPanel = new JPanel();
         centerPanel.setLayout(cardLayout);
 
-        videoPlayerArea = new VideoPlayerArea(sceneManager, video, username);
+        videoPlayerArea = new VideoPlayerArea(sceneManager, this, video, username);
         centerPanel.add(videoPlayerArea.getMainPanel());
         cardLayout.next(centerPanel);
     }
@@ -59,7 +57,6 @@ public class StudentHomePageScene implements Listener, Scene{
     public String getUsername(){return this.username;}
 
     public JPanel getMainPanel() {
-        //return videoPlayerArea.getMainPanel();
         return mainPanel;
     }
 
@@ -67,7 +64,12 @@ public class StudentHomePageScene implements Listener, Scene{
     public void listen(Event event) {
         if(event.getClass().equals(LogoutEvent.class)){
             videoPlayerArea.dismissVideo();
-
+        }
+        else if(event.getClass().equals(NewQuestionEvent.class)){
+            studentDetailPanel.addQuestionToList(((NewQuestionEvent) event).getQuestion());
+        }
+        else if(event.getClass().equals(UpdateQuestionEvent.class)){
+            studentDetailPanel.updateQuestionList();
         }
     }
 }

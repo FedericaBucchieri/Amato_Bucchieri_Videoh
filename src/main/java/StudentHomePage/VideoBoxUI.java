@@ -47,10 +47,6 @@ public class VideoBoxUI {
 
     }
 
-    public void installUI(){
-        setupAnnotationPanel();
-    }
-
     private void setupSouthPanel(){
         southPanel = new JPanel();
         southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
@@ -100,8 +96,8 @@ public class VideoBoxUI {
         MediaPlayer embededMediaPlayer = mediaPlayerComponent.getMediaPlayer();
         slider = new JSlider(0, (int)embededMediaPlayer.getLength(), 0);
         slider.setPreferredSize(new Dimension(700, slider.getHeight()));
-        JLabel currentTime = new JLabel();
-        JLabel finalTime = new JLabel();
+        JLabel currentTimeLabel = new JLabel();
+        JLabel finalTimeLabel = new JLabel();
 
         embededMediaPlayer.addMediaPlayerEventListener(new MediaPlayerEventAdapter(){
             @Override
@@ -111,15 +107,14 @@ public class VideoBoxUI {
 
                 if(!isTimeSetted) {
                     slider.setMaximum((int) mediaPlayerComponent.getMediaPlayer().getLength());
-                    System.out.println("General film lenght:" + embededMediaPlayer.getLength());
-                    System.out.println("General slider width:" + slider.getPreferredSize().getWidth());
-                    finalTime.setText(formatTime(mediaPlayerComponent.getMediaPlayer().getLength()));
+                    finalTimeLabel.setText(Utils.formatTime(mediaPlayerComponent.getMediaPlayer().getLength()));
+                    setupAnnotationPanel();
                     isTimeSetted = true;
                 }
 
                 if (!slider.getValueIsAdjusting()) {
                     slider.setValue(time);
-                    currentTime.setText(formatTime(mediaPlayerComponent.getMediaPlayer().getTime()));
+                    currentTimeLabel.setText(Utils.formatTime(mediaPlayerComponent.getMediaPlayer().getTime()));
                 }
             }
         });
@@ -129,15 +124,15 @@ public class VideoBoxUI {
             public void stateChanged(ChangeEvent e) {
                 if (slider.getValueIsAdjusting()) {
                     long currentTime = mediaPlayerComponent.getMediaPlayer().getTime();
+                    currentTimeLabel.setText(Utils.formatTime(mediaPlayerComponent.getMediaPlayer().getTime()));
                     mediaPlayerComponent.getMediaPlayer().skip(slider.getValue() - currentTime);
                 }
             }
         });
 
-
-        controllButtonsPanel.add(currentTime);
+        controllButtonsPanel.add(currentTimeLabel);
         controllButtonsPanel.add(slider);
-        controllButtonsPanel.add(finalTime);
+        controllButtonsPanel.add(finalTimeLabel);
     }
 
     private void setupInfoButton(){
@@ -167,6 +162,21 @@ public class VideoBoxUI {
         setupImage();
     }
 
+    public void freezeVideo(){
+        if(isPlaying)
+            mediaPlayerComponent.getMediaPlayer().pause();
+        isPlaying = false;
+        pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/play.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        pausePlayButton.setEnabled(false);
+    }
+
+    public void restartVideoAfterFreeze(){
+        mediaPlayerComponent.getMediaPlayer().play();
+        isPlaying = true;
+        pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/pause.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        pausePlayButton.setEnabled(true);
+    }
+
     public JPanel getMainPanel() {
         return mainPanel;
     }
@@ -191,16 +201,6 @@ public class VideoBoxUI {
         };
 
 
-    }
-
-    public static String formatTime(long value) {
-        value /= 1000;
-        int hours = (int) value / 3600;
-        int remainder = (int) value - hours * 3600;
-        int minutes = remainder / 60;
-        remainder = remainder - minutes * 60;
-        int seconds = remainder;
-        return String.format("%02d:%02d", minutes, seconds);
     }
 
 

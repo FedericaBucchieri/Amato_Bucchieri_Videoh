@@ -1,31 +1,38 @@
 package StudentHomePage;
 
 import entities.GenericInteraction;
-import entities.Interaction;
 import sceneManager.Utils;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 public class InteractionPanelUI {
     private InteractionPanel controller;
     private JButton positiveInteractionButton;
     private JButton negativeInteractionButton;
     private JButton questionButton;
-    //private JPanel interactionsDisplay;
-    private InteractionDisplay interactionDisplay;
+    private InteractionList interactionList;
+    private JTextField questionField;
     private JPanel mainPanel;
+    private JPanel questionPanel;
+    private JPanel interactionTimelinePanel;
+    private CardLayout cardLayout;
+    private JPanel generalInteractionsPanel;
 
-    public InteractionPanelUI(InteractionPanel interactionPanel) {
-        this.controller = interactionPanel;
+    public InteractionPanelUI(InteractionPanel interactionTimelinePanel) {
+        this.controller = interactionTimelinePanel;
 
         mainPanel = new JPanel();
         mainPanel.setLayout( new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+
+        generalInteractionsPanel = new JPanel();
+        cardLayout = new CardLayout();
+        generalInteractionsPanel.setLayout(cardLayout);
+        mainPanel.add(generalInteractionsPanel);
+
         setupAnnotationDisplay();
         setupAnnotationButtons();
     }
@@ -47,24 +54,37 @@ public class InteractionPanelUI {
             }
         });
 
+        questionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.handleQuestionInteraction(model.getSliderValue());
+            }
+        });
+
 
     }
 
     public void setupAnnotationDisplay() {
-        JPanel interactionPanel = new JPanel(new BorderLayout());
-        interactionDisplay = new InteractionDisplay( 55681);
-        interactionDisplay.setBorder(new LineBorder(Color.black));
-        interactionPanel.add(Box.createHorizontalStrut(Utils.TIMELINE_BOXES), BorderLayout.WEST);
-        interactionPanel.add(interactionDisplay, BorderLayout.CENTER);
-        interactionPanel.add(Box.createHorizontalStrut(Utils.TIMELINE_BOXES), BorderLayout.EAST);
+        interactionTimelinePanel = new JPanel(new BorderLayout());
+        interactionList = new InteractionList(controller.getModel().getSliderMaximum(), controller);
+        interactionList.setBorder(new LineBorder(Color.black));
+        interactionTimelinePanel.add(Box.createHorizontalStrut(Utils.TIMELINE_BOXES), BorderLayout.WEST);
+        interactionTimelinePanel.add(interactionList, BorderLayout.CENTER);
+        interactionTimelinePanel.add(Box.createHorizontalStrut(Utils.TIMELINE_BOXES), BorderLayout.EAST);
 
-        mainPanel.add(interactionPanel);
+        generalInteractionsPanel.add(interactionTimelinePanel);
+        cardLayout.next(generalInteractionsPanel);
     }
 
-    public void printNewInteraction(){
-        List<GenericInteraction> interactionList = controller.getModel().getInteractionList();
-        interactionDisplay.setInteractionList(interactionList);
-        interactionDisplay.repaint();
+    public void printNewInteraction(GenericInteraction interaction){
+        //List<GenericInteraction> interactionList = controller.getModel().getInteractionList();
+        //interactionListComponent.setInteractionList(interactionList);
+        interactionList.addInteractionToList(interaction);
+        interactionList.repaint();
+    }
+
+    public void printInteractionList(){
+        interactionList.repaint();
     }
 
     public void setupAnnotationButtons(){
@@ -96,5 +116,45 @@ public class InteractionPanelUI {
 
     public JPanel getMainPanel() {
         return mainPanel;
+    }
+
+
+    public void displayQuestionTextField(){
+        questionPanel = new JPanel();
+        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.X_AXIS));
+
+        questionField = new JTextField(Utils.WRITE_QUESTION_TEXT);
+        questionField.setVisible(true);
+        questionPanel.add(questionField);
+
+        JButton sendButton = new JButton();
+        sendButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/check.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        sendButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.sendQuestion(questionField.getText());
+            }
+        });
+        questionPanel.add(sendButton);
+
+        JButton cancelButton = new JButton();
+        cancelButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/cancel.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.cancelQuestionInsertion();
+            }
+        });
+        questionPanel.add(cancelButton);
+
+        generalInteractionsPanel.add(questionPanel);
+        cardLayout.next(generalInteractionsPanel);
+        generalInteractionsPanel.repaint();
+    }
+
+    public void hideQuestionTextField(){
+        generalInteractionsPanel.add(interactionTimelinePanel);
+        cardLayout.next(generalInteractionsPanel);
+        generalInteractionsPanel.repaint();
     }
 }

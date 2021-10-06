@@ -14,6 +14,7 @@ import java.io.IOException;
 public class InteractionDrawing extends JComponent {
     private GenericInteraction interaction;
     private int x;
+    private boolean selected;
 
     public InteractionDrawing(GenericInteraction interaction, int x) {
         this.interaction = interaction;
@@ -23,7 +24,10 @@ public class InteractionDrawing extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         Image image = getRightInteractionIcon(interaction);
-        g.drawImage(image, x, 0, Utils.TAG_SIZE, Utils.TAG_SIZE, this);
+        if(!isSelected())
+            g.drawImage(image, x, 0, Utils.TAG_SIZE, Utils.TAG_SIZE, this);
+        else
+            g.drawImage(image, x, 0, Utils.TAG_SIZE + 20, Utils.TAG_SIZE + 20, this);
     }
 
     public BufferedImage getRightInteractionIcon(GenericInteraction interaction){
@@ -43,5 +47,25 @@ public class InteractionDrawing extends JComponent {
             e.printStackTrace();
         }
         return tagImage;
+    }
+
+    public boolean contain(Point point){
+        return point.x >= x && point.x < x + Utils.TAG_SIZE && point.y >= 0 && point.y < Utils.TAG_SIZE;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public GenericInteraction getInteraction() {
+        return interaction;
     }
 }
