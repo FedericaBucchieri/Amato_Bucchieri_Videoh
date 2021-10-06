@@ -13,6 +13,9 @@ public class VideoBoxModel {
         this.video = video;
         this.username = username;
     }
+    public VideoBoxModel (Video video){
+        this.video = video;
+    }
 
     public int getWidth() {
         return width;
