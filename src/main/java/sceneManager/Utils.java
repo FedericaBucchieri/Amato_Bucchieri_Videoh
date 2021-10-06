@@ -10,9 +10,10 @@ public class Utils {
     public static final int VIDEOLIST_WIDTH = 900;
     public static final int VIDEOLIST_HEIGHT = 750;
     public static final int DETAILPANEL_WIDTH = 250;
-    public static final int DETAILPANEL_HEIGHT = 750;
+    public static final int DETAILPANEL_HEIGHT = 700;
     public static final int VIDEO_CODE_BOUND = 999999;
     public static final int TITLE_WIDTH = 36;
+    public static final int DATE_FONT_WIDTH = 10;
     public static final int TITLE_MARGIN= 80;
     public static final int SUBTITLE_WIDTH = 24;
     public static final int BUTTON_LABEL_WIDTH = 16;
@@ -34,6 +35,8 @@ public class Utils {
     public final static int POSITIVE_INTERACTION = 1;
     public final static int TIMELINE_BOXES = 82;
     public final static int TAG_SIZE = 30;
+    public final static int QUESTION_LIST_HEIGHT = 250;
+    public final static String WRITE_QUESTION_TEXT = "Write your question here";
     public static final String ERROR_EMPTY_LIST = "Your list is empty! Please add a new video to start your VIDEOH experience";
     public static final String ERROR_UPDATE_VIDEO = "Sorry, an error occured while updating your video details";
 
@@ -72,5 +75,15 @@ public class Utils {
         backButton.setBorderPainted(false);
 
         return backButton;
+    }
+
+    public static String formatTime(long value) {
+        value /= 1000;
+        int hours = (int) value / 3600;
+        int remainder = (int) value - hours * 3600;
+        int minutes = remainder / 60;
+        remainder = remainder - minutes * 60;
+        int seconds = remainder;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 }

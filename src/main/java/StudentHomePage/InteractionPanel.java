@@ -1,19 +1,21 @@
 package StudentHomePage;
 
-import EventManagement.Listener;
+import EventManagement.*;
 import entities.Interaction;
+import entities.Question;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InteractionPanel {
+public class InteractionPanel implements Listener {
     private InteractionsPanelModel model;
     private InteractionPanelUI ui;
     private List<Listener> listeners = new ArrayList<>();
 
     public InteractionPanel(VideoBox videoBox) {
         this.listeners.add(videoBox);
+
         this.model = new InteractionsPanelModel(videoBox);
         this.ui = new InteractionPanelUI(this);
         this.ui.install();
@@ -28,13 +30,58 @@ public class InteractionPanel {
     }
 
     public void handlePositiveInteraction(int timestamp){
-        model.insertPositiveInteraction(timestamp);
-        ui.printNewInteraction();
+        Interaction interaction = model.insertPositiveInteraction(timestamp);
+        ui.printNewInteraction(interaction);
     }
 
     public void handleNegativeInteraction(int timestamp){
-        model.insertNegativeInteraction(timestamp);
-        ui.printNewInteraction();
+        Interaction interaction = model.insertNegativeInteraction(timestamp);
+        ui.printNewInteraction(interaction);
     }
 
+    public void handleQuestionInteraction(int timestamp){
+        dispatchFreezeEvent();
+        ui.displayQuestionTextField();
+        model.setLastQuestionTimestamp(timestamp);
+    }
+
+    private void dispatchFreezeEvent(){
+        for (Listener listener : listeners)
+            listener.listen(new FreezeEvent());
+    }
+
+    public void sendQuestion(String text){
+        Question question = model.insertNewQuestion(text);
+        ui.hideQuestionTextField();
+        ui.printNewInteraction(question);
+        dispatchNewQuestionEvent(question);
+    }
+
+    public void cancelQuestionInsertion(){
+        ui.hideQuestionTextField();
+        ui.printInteractionList();
+        dispatchRestartAfterFreezeEvent();
+    }
+
+    private void dispatchNewQuestionEvent(Question question){
+        for(Listener listener: listeners)
+            listener.listen(new NewQuestionEvent(question));
+    }
+
+    private void dispatchRestartAfterFreezeEvent(){
+        for (Listener listener : listeners)
+            listener.listen(new RestartAfterFreezeEvent());
+    }
+
+    private void dispatchUpdateQuestionEvent(){
+        for (Listener listener : listeners)
+            listener.listen(new UpdateQuestionEvent());
+    }
+
+    @Override
+    public void listen(Event event) {
+        if (event.getClass().equals(UpdateQuestionEvent.class)){
+            dispatchUpdateQuestionEvent();
+        }
+    }
 }

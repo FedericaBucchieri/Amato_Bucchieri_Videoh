@@ -21,42 +21,14 @@ public class VideoPlayerAreaUI {
 
         setupMainPanel();
         setupVideoBox();
-        //setupSettingsPanel();
-        //setupBackButton();
 
     }
-
-    /*
-    private void setupBackButton() {
-        Icon icon = new ImageIcon("src/main/images/back-2.png");
-        backButton = new JButton(icon);
-        settingsPanel.add(backButton);
-
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                videoBox.dismissVideo();
-                controller.goToStudentInsertCode();
-            }
-        });
-    }
-
-     */
 
 
     public void dismissVideo(){
         videoBox.dismissVideo();
     }
 
-    private void setupSettingsPanel() {
-        settingsPanel = new JPanel();
-        settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
-        settingsPanel.add(Box.createVerticalGlue());
-
-        settingsPanel.setBackground(Color.GRAY); //to remove
-        mainPanel.add(settingsPanel, BorderLayout.EAST);
-
-    }
 
     private void setupMainPanel() {
         mainPanel = new JPanel();
@@ -65,7 +37,7 @@ public class VideoPlayerAreaUI {
     }
 
     private void setupVideoBox() {
-        videoBox = new VideoBox(controller.getModel().getVideo());
+        videoBox = new VideoBox(controller, controller.getModel().getVideo(), controller.getModel().getUsername());
         mainPanel.add(videoBox.getUI().getMainPanel(), BorderLayout.CENTER);
 
     }

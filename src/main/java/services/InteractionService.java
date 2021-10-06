@@ -1,6 +1,7 @@
 package services;
 
 import entities.Interaction;
+import entities.Professor;
 import entities.Video;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -55,5 +56,13 @@ public class InteractionService {
         em.getTransaction().commit();
 
         return interaction;
+    }
+
+    public void updateInteraction(Interaction interaction, int timestamp){
+        interaction.setTimestamp(timestamp);
+
+        em.getTransaction().begin();
+        em.merge(interaction);
+        em.getTransaction().commit();
     }
 }

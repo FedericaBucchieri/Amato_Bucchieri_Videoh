@@ -18,4 +18,8 @@ public class VideoPlayerAreaModel {
     public Video getVideo() {
         return video;
     }
+
+    public String getUsername() {
+        return username;
+    }
 }
