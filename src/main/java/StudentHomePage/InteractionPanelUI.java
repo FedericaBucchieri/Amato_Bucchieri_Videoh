@@ -4,10 +4,8 @@ import entities.GenericInteraction;
 import sceneManager.Utils;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class InteractionPanelUI {
     private InteractionPanel controller;
@@ -61,13 +59,12 @@ public class InteractionPanelUI {
             }
         });
 
-
     }
 
     public void setupAnnotationDisplay() {
         interactionTimelinePanel = new JPanel(new BorderLayout());
         interactionList = new InteractionList(controller.getModel().getSliderMaximum(), controller);
-        interactionList.setBorder(new LineBorder(Color.black));
+
         interactionTimelinePanel.add(Box.createHorizontalStrut(Utils.TIMELINE_BOXES), BorderLayout.WEST);
         interactionTimelinePanel.add(interactionList, BorderLayout.CENTER);
         interactionTimelinePanel.add(Box.createHorizontalStrut(Utils.TIMELINE_BOXES), BorderLayout.EAST);
@@ -77,8 +74,6 @@ public class InteractionPanelUI {
     }
 
     public void printNewInteraction(GenericInteraction interaction){
-        //List<GenericInteraction> interactionList = controller.getModel().getInteractionList();
-        //interactionListComponent.setInteractionList(interactionList);
         interactionList.addInteractionToList(interaction);
         interactionList.repaint();
     }
@@ -88,6 +83,11 @@ public class InteractionPanelUI {
     }
 
     public void setupAnnotationButtons(){
+        JLabel title = new JLabel("Your annotation List");
+        title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.SUBTITLE_WIDTH));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(title);
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         mainPanel.add(buttonPanel);
@@ -112,6 +112,14 @@ public class InteractionPanelUI {
         questionButton.setOpaque(true);
         questionButton.setBorderPainted(false);
         buttonPanel.add(questionButton);
+
+        JLabel instructionsLine1 = new JLabel(Utils.LINE_1_INTERACTION);
+        instructionsLine1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel instructionsLine2 = new JLabel(Utils.LINE_2_INTERACTION);
+        instructionsLine2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(instructionsLine1);
+        mainPanel.add(instructionsLine2);
+        mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
     }
 
     public JPanel getMainPanel() {
@@ -127,8 +135,26 @@ public class InteractionPanelUI {
         questionField.setVisible(true);
         questionPanel.add(questionField);
 
+        questionField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                questionField.setText("");
+            }
+        });
+
+        questionField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER)
+                    controller.sendQuestion(questionField.getText());
+            }
+        });
+
         JButton sendButton = new JButton();
         sendButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/check.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        sendButton.setOpaque(true);
+        sendButton.setBorderPainted(false);
+
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -139,6 +165,9 @@ public class InteractionPanelUI {
 
         JButton cancelButton = new JButton();
         cancelButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/cancel.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        cancelButton.setOpaque(true);
+        cancelButton.setBorderPainted(false);
+
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

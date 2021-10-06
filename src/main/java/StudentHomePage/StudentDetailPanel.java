@@ -1,6 +1,5 @@
 package StudentHomePage;
 
-import EventManagement.Event;
 import EventManagement.Listener;
 import EventManagement.LogoutEvent;
 import entities.Question;
@@ -43,7 +42,7 @@ public class StudentDetailPanel extends JComponent{
 
     public void addQuestionToList(Question question){
         model.addQuestionToList(question);
-        ui.displayNewQuestion(question);
+        updateQuestionList();
     }
 
     public StudentDetailPanelModel getModel() {
@@ -51,6 +50,7 @@ public class StudentDetailPanel extends JComponent{
     }
 
     public void updateQuestionList(){
+        model.sortQuestionList();
         ui.repaintQuestionList();
     }
 

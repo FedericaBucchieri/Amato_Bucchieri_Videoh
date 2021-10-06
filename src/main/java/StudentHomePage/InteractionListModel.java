@@ -17,6 +17,7 @@ public class InteractionListModel {
     private List<InteractionDrawing> interactionDrawings = new ArrayList<>();
     private InteractionDrawing selectedInteractionDrawing;
     private boolean mousePressed;
+    private boolean shiftPressed;
 
     public InteractionListModel(int generalLenght, InteractionList controller) {
         this.generalLenght = generalLenght;
@@ -55,12 +56,36 @@ public class InteractionListModel {
         }
     }
 
+    public void deleteSelectedInteraction(){
+        GenericInteraction toBeDeleted = selectedInteractionDrawing.getInteraction();
+
+        interactionDrawings.remove(selectedInteractionDrawing);
+        interactionList.remove(toBeDeleted);
+
+        if(toBeDeleted instanceof Interaction){
+            InteractionService service = new InteractionService();
+            service.deleteInteraction(((Interaction) toBeDeleted).getId());
+        }
+        else if (toBeDeleted instanceof Question){
+            QuestionService service = new QuestionService();
+            service.deleteQuestion((Question) toBeDeleted);
+        }
+    }
+
     public boolean isMousePressed() {
         return mousePressed;
     }
 
     public void setMousePressed(boolean mousePressed) {
         this.mousePressed = mousePressed;
+    }
+
+    public boolean isShiftPressed() {
+        return shiftPressed;
+    }
+
+    public void setShiftPressed(boolean shiftPressed) {
+        this.shiftPressed = shiftPressed;
     }
 
     public List<GenericInteraction> getInteractionList() {

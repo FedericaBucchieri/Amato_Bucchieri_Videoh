@@ -36,9 +36,13 @@ public class Utils {
     public final static int TIMELINE_BOXES = 82;
     public final static int TAG_SIZE = 30;
     public final static int QUESTION_LIST_HEIGHT = 250;
+    public final static String LINE_1_INTERACTION = "Click on the buttons to interact with the video";
+    public final static String LINE_2_INTERACTION = "You can drag & drop every interaction to move it in time";
     public final static String WRITE_QUESTION_TEXT = "Write your question here";
     public static final String ERROR_EMPTY_LIST = "Your list is empty! Please add a new video to start your VIDEOH experience";
     public static final String ERROR_UPDATE_VIDEO = "Sorry, an error occured while updating your video details";
+    public static final String USERNAME_ERROR = "Please, type a valid username";
+    public static final String CODE_ERROR = "Please, type a valid numeric code";
 
 
     public JButton styleButtonOne(JButton button){

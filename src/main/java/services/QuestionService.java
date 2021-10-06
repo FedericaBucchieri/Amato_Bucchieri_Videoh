@@ -49,4 +49,14 @@ public class QuestionService {
         em.merge(question);
         em.getTransaction().commit();
     }
+
+    public void deleteQuestion(Question question){
+        Video video = question.getVideo();
+        video.removeQuestion(question);
+
+        em.getTransaction().begin();
+        em.remove(question);
+        em.getTransaction().commit();
+    }
+
 }

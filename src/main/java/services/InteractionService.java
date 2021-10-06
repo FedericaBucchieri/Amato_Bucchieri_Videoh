@@ -9,7 +9,6 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceContext;
 import sceneManager.Utils;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -65,4 +64,17 @@ public class InteractionService {
         em.merge(interaction);
         em.getTransaction().commit();
     }
+
+    public void deleteInteraction(int interactionId){
+        Interaction interaction = em.find(Interaction.class, interactionId);
+        Video video = interaction.getVideo();
+        video.removeInteraction(interaction);
+
+        em.getTransaction().begin();
+        em.remove(interaction);
+        em.getTransaction().commit();
+
+        System.out.println("deleted");
+    }
+
 }

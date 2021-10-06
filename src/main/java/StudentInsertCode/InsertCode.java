@@ -39,23 +39,16 @@ public class InsertCode extends JComponent {
         return model.getStudentUsername();
     }
 
-    public void goToStudentHomePage(String videoCode) {
-        Video video = model.searchVideoByCode(Integer.parseInt(videoCode));
-        dispatchGoToVideoEvent(video, getStudentUsername());
-    }
 
-    private void dispatchGoToVideoEvent(Video video, String username) {
-        for (Listener listener : listeners) {
-            listener.listen(new GoToVideoEvent(video, username));
-        }
-    }
-
-    public void goToStudentHomePageSeconda(String videoCode, String username) {//similar but different signature
-        //questa funzione prende tutte il video dal database
+    public void goToStudentHomePage(String videoCode, String username) {
         Video video = model.searchVideoByCode(Integer.parseInt(videoCode));
 
-        for (Listener listener : listeners){
-            listener.listen(new GoToVideoEvent(video, username));
+        if(video == null)
+            ui.displayError();
+        else {
+            for (Listener listener : listeners) {
+                listener.listen(new GoToVideoEvent(video, username));
+            }
         }
 
     }
