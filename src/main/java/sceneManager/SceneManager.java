@@ -101,6 +101,7 @@ public class SceneManager extends JFrame implements Listener {
         else if (event.getClass().equals(LogoutEvent.class)){
             goToGeneralLoginPage();
         }
+
     }
 
     private void goToVideoStudentPage(Video video, String username) {
@@ -162,5 +163,7 @@ public class SceneManager extends JFrame implements Listener {
         container.add(studentLoginScene.getMainPanel());
         cardLayout.next(container);
     }
+
+
 
 }

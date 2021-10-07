@@ -18,6 +18,11 @@ import java.awt.image.BufferedImage;
 public class VideoBoxUI {
     private VideoBox controller;
     private JPanel mainPanel;
+
+    public JPanel getVideoSurface() {
+        return videoSurface;
+    }
+
     private JPanel videoSurface;
     private JPanel controllButtonsPanel;
     private JButton pausePlayButton;
@@ -26,6 +31,11 @@ public class VideoBoxUI {
     private InteractionPanel interactionPanel;
     private boolean isPlaying = false;
     private boolean isTimeSetted = false;
+
+    public JPanel getSouthPanel() {
+        return southPanel;
+    }
+
     private JPanel southPanel;
 
     private BufferedImage image;
@@ -95,7 +105,7 @@ public class VideoBoxUI {
     private void setupTimeline(){
         MediaPlayer embededMediaPlayer = mediaPlayerComponent.getMediaPlayer();
         slider = new JSlider(0, (int)embededMediaPlayer.getLength(), 0);
-        slider.setPreferredSize(new Dimension(700, slider.getHeight()));
+        slider.setPreferredSize(new Dimension(controller.getModel().getWidth(), slider.getHeight()));
         JLabel currentTimeLabel = new JLabel();
         JLabel finalTimeLabel = new JLabel();
 
@@ -159,6 +169,7 @@ public class VideoBoxUI {
     private void setupMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
+        mainPanel.setPreferredSize(new Dimension(controller.getModel().getWidth(), controller.getModel().getHeight()));
         setupImage();
     }
 
@@ -196,7 +207,7 @@ public class VideoBoxUI {
         mediaPlayerComponent = new DirectMediaPlayerComponent(bufferFormatCallback) {
             @Override
             protected RenderCallback onGetRenderCallback() {
-                return new TutorialRenderCallbackAdapter();
+                return new VideoRenderCallbackAdapter();
             }
         };
 
@@ -212,18 +223,16 @@ public class VideoBoxUI {
         return slider;
     }
 
-    private class TutorialRenderCallbackAdapter extends RenderCallbackAdapter {
+    private class VideoRenderCallbackAdapter extends RenderCallbackAdapter {
 
-        private TutorialRenderCallbackAdapter() {
-            //TO-DO: remove magic number
-            super(new int[1200 * 800]);
+        private VideoRenderCallbackAdapter() {
+            super(new int[controller.getModel().getWidth() * controller.getModel().getHeight()]);
         }
 
         @Override
         protected void onDisplay(DirectMediaPlayer mediaPlayer, int[] rgbBuffer) {
             // Simply copy buffer to the image and repaint
-            //TO-DO: remove magic number
-            image.setRGB(0, 0, 1200, 800, rgbBuffer, 0, 1200);
+            image.setRGB(0, 0, controller.getModel().getWidth(), controller.getModel().getHeight(), rgbBuffer, 0, controller.getModel().getWidth());
             videoSurface.repaint();
         }
     }
@@ -231,11 +240,11 @@ public class VideoBoxUI {
     private class VideoSurfacePanel extends JPanel {
 
         private VideoSurfacePanel() {
-            setBackground(Color.black);
-            setOpaque(true);
-            setPreferredSize(new Dimension(1200, 800));
-            setMinimumSize(new Dimension(1200, 800));
-            setMaximumSize(new Dimension(1200, 800));
+            setBackground(Color.GREEN);
+            setOpaque(false);
+            setPreferredSize(new Dimension(controller.getModel().getWidth(), controller.getModel().getHeight()));
+            setMinimumSize(new Dimension(controller.getModel().getWidth(), controller.getModel().getHeight()));
+            setMaximumSize(new Dimension(controller.getModel().getWidth(), controller.getModel().getHeight()));
         }
 
         @Override

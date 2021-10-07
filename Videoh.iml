@@ -89,18 +89,37 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/vlcj-3.12.1/slf4j-api-1.7.25.jar!/" />
-          <root url="jar://$USER_HOME$/Downloads/vlcj-3.12.1/jna-platform-5.2.0.jar!/" />
-          <root url="jar://$USER_HOME$/Downloads/vlcj-3.12.1/jna-5.2.0.jar!/" />
           <root url="jar://$USER_HOME$/Downloads/vlcj-3.12.1/vlcj-3.12.1.jar!/" />
         </CLASSES>
-        <JAVADOC>
-          <root url="jar://$USER_HOME$/Downloads/vlcj-3.12.1/vlcj-3.12.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$USER_HOME$/Downloads/vlcj-3.12.1/vlcj-3.12.1-sources.jar!/" />
-          <root url="jar://$USER_HOME$/Downloads/vlcj-3.12.1/vlcj-3.12.1-test-sources.jar!/" />
-        </SOURCES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/vlcj-3.12.1/jna-platform-5.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/vlcj-3.12.1/jna-5.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/vlcj-3.12.1/slf4j-api-1.7.25.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
       </library>
     </orderEntry>
   </component>
