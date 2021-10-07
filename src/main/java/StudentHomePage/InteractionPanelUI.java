@@ -8,6 +8,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class InteractionPanelUI {
     private InteractionPanel controller;
@@ -21,6 +22,16 @@ public class InteractionPanelUI {
     private JPanel interactionTimelinePanel;
     private CardLayout cardLayout;
     private JPanel generalInteractionsPanel;
+
+
+    public JPanel getGeneralInteractionsPanel(int videoID) {
+//TODO: devi cercare qui di restituire un interaction panel già popolato.
+        controller.retrieveEntireInteractionList(videoID);
+        printInteractionList();
+        return generalInteractionsPanel;
+    }
+
+
 
     public InteractionPanelUI(InteractionPanel interactionTimelinePanel) {
         this.controller = interactionTimelinePanel;
@@ -156,5 +167,9 @@ public class InteractionPanelUI {
         generalInteractionsPanel.add(interactionTimelinePanel);
         cardLayout.next(generalInteractionsPanel);
         generalInteractionsPanel.repaint();
+    }
+
+    public void setInteractionList(List<GenericInteraction> allListPerVideo) {
+        this.interactionList.getModel().setInteractionList(allListPerVideo);
     }
 }

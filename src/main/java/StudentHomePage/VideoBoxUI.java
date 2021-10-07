@@ -18,11 +18,6 @@ import java.awt.image.BufferedImage;
 public class VideoBoxUI {
     private VideoBox controller;
     private JPanel mainPanel;
-
-    public JPanel getVideoSurface() {
-        return videoSurface;
-    }
-
     private JPanel videoSurface;
     private JPanel controllButtonsPanel;
     private JButton pausePlayButton;
@@ -31,16 +26,27 @@ public class VideoBoxUI {
     private InteractionPanel interactionPanel;
     private boolean isPlaying = false;
     private boolean isTimeSetted = false;
-
-    public JPanel getSouthPanel() {
-        return southPanel;
-    }
-
     private JPanel southPanel;
-
     private BufferedImage image;
     private DirectMediaPlayerComponent mediaPlayerComponent;
 
+    public VideoBoxUI(VideoBox controller, String unused) {//this constructor is used when the videobox is loaded by statistics pane
+        this.controller = controller;
+        this.mainPanel = new JPanel();
+
+//        interactionPanel = new InteractionPanel(controller);
+        setupMainPanel();
+        setupImage();
+        setupVideoSurface();
+
+        mediaPlayerComponent.getMediaPlayer().playMedia(this.controller.getModel().getVideo().getFile().getPath());
+        isPlaying = true;
+
+        setupSouthPanel();
+
+
+
+    }
 
     public VideoBoxUI(VideoBox controller) {
         this.controller = controller;
@@ -216,6 +222,7 @@ public class VideoBoxUI {
 
 
     public void dismissVideo(){
+
         this.mediaPlayerComponent.release();
     }
 
@@ -252,6 +259,23 @@ public class VideoBoxUI {
             Graphics2D g2 = (Graphics2D)g;
             g2.drawImage(image, null, 0, 0);
         }
+    }
+
+    public JPanel getVideoSurface() {
+        return videoSurface;
+    }
+
+    public JPanel getControllButtonsPanel() {
+        return controllButtonsPanel;
+    }
+
+
+    public JPanel getInteractionPanel() {
+        return interactionPanel.getUi().getGeneralInteractionsPanel(controller.getVideoId());
+    }
+
+    public JPanel getSouthPanel() {
+        return southPanel;
     }
 
 }

@@ -1,8 +1,10 @@
 package StudentHomePage;
 
 import EventManagement.*;
+import entities.GenericInteraction;
 import entities.Interaction;
 import entities.Question;
+import services.InteractionService;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -84,4 +86,15 @@ public class InteractionPanel implements Listener {
             dispatchUpdateQuestionEvent();
         }
     }
+    public InteractionPanelUI getUi() {
+        return ui;
+    }
+
+    public void retrieveEntireInteractionList(int videoID) {
+        System.out.println("retrieveEntireInteractionList per video: "+videoID);
+        List<GenericInteraction> allListPerVideo = model.getInteractionListPerVideo(videoID);
+        this.ui.setInteractionList(allListPerVideo);
+
+    }
+
 }

@@ -30,6 +30,7 @@ public class InteractionService {
     }
 
     public List<Interaction> findInteractionsByVideo(int videoId) {
+        System.out.println("service: findInteractionsByVideo for video "+videoId);
         Video video = em.find(Video.class, videoId);
         return video.getInteractionList();
     }

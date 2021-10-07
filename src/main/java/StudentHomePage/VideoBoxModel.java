@@ -13,7 +13,7 @@ public class VideoBoxModel {
         this.video = video;
         this.username = username;
     }
-    public VideoBoxModel (Video video){
+    public VideoBoxModel (Video video){ //this constructor is used when the videobox is loaded by statisticsPane
         this.video = video;
     }
 

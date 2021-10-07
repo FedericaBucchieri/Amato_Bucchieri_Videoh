@@ -110,6 +110,10 @@ public class ProfessorHomePage implements Listener, Scene {
     }
 
     public void dispatchLogoutEvent(LogoutEvent event){
+        if (statisticsPane != null){
+            statisticsPane.dismissVideo();
+        }
+
         for (Listener listener : listeners)
             listener.listen(event);
     }
