@@ -1,8 +1,6 @@
 package services;
 
-import entities.Interaction;
-import entities.Professor;
-import entities.Video;
+import entities.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -65,5 +63,10 @@ public class InteractionService {
         em.getTransaction().begin();
         em.merge(interaction);
         em.getTransaction().commit();
+    }
+
+    public List<Question> findQuestionByVideo(int videoId) {
+        Video video = em.find(Video.class, videoId);
+        return video.getQuestionList();
     }
 }

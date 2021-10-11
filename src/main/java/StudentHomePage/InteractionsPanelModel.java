@@ -67,16 +67,16 @@ public class InteractionsPanelModel {
     }
 
 
-    public List<GenericInteraction> getInteractionListPerVideo(int videoId) {
+    public void populateInteractionListPerVideo(int videoId) {
         InteractionService service = new InteractionService();
         List<Interaction> allInteractionPerVideo = service.findInteractionsByVideo(videoId);
         for (Interaction interaction: allInteractionPerVideo) {
-            interactionList.add((GenericInteraction) interaction);
+            interactionList.add(interaction);
         }
-        return interactionList;
-
-
-
+        List<Question> allQuestionPerVideo = service.findQuestionByVideo(videoId);
+        for (Question question: allQuestionPerVideo) {
+            interactionList.add(question);
+        }
 
     }
 }

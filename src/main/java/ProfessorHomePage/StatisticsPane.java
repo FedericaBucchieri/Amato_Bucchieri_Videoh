@@ -18,7 +18,7 @@ public class StatisticsPane extends JComponent {
     public StatisticsPane (Video video, ProfessorHomePage professorHomePage){
         model = new StatisticsPaneModel(this, video);
         UI = new StatisticsPaneUI(this);
-        UI.installUI();
+
 
         this.listeners.add(professorHomePage);
 
@@ -30,6 +30,10 @@ public class StatisticsPane extends JComponent {
 
     public JPanel getMainPanel() {
         return this.UI.getMainPanel();
+    }
+
+    public JScrollPane getScrollPane(){
+        return this.UI.getScrollPane();
     }
 
     public void dismissVideo() {
@@ -44,5 +48,9 @@ public class StatisticsPane extends JComponent {
     private void dispatchCancelEvent(){
         for (Listener listener : listeners)
             listener.listen(new CancelEvent());
+    }
+
+    public void getInteractions() {
+        model.getVideo().getInteractionList();
     }
 }

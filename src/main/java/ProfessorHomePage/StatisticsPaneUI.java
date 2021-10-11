@@ -1,6 +1,9 @@
 package ProfessorHomePage;
 
+import StudentHomePage.InteractionPanel;
 import StudentHomePage.VideoBox;
+import entities.GenericInteraction;
+import entities.Question;
 import sceneManager.Utils;
 
 import javax.swing.*;
@@ -10,6 +13,8 @@ import java.awt.event.ActionListener;
 
 public class StatisticsPaneUI {
     private StatisticsPane controller;
+    private JPanel viewPortView;
+    private JScrollPane scrollPane;
     private JPanel mainPanel;
     private JPanel centerPanel;
     private JPanel southPanel;
@@ -18,13 +23,11 @@ public class StatisticsPaneUI {
     private JButton showInteratcion;
     private JButton backButton;
     private JPanel northPanel;
-
-
-
     private JLabel totalInteraction;
     private JLabel totalNegativeInteraction;
     private JLabel totalPositiveInteraction;
     private JLabel totalQuestion;
+    private InteractionPanel interactionPanel;
 
     public StatisticsPaneUI (StatisticsPane controller){
         this.controller = controller;
@@ -32,8 +35,16 @@ public class StatisticsPaneUI {
         setupCenterPanel();
         setupSouthPanel();
         setupNorthPanel();
+        setupScrollPane();
 
 
+    }
+
+    private void setupScrollPane() {
+        viewPortView = new JPanel();
+        viewPortView.setLayout(new BoxLayout(viewPortView, BoxLayout.Y_AXIS));
+        viewPortView.add(mainPanel);
+        scrollPane = new JScrollPane(viewPortView);
     }
 
     private void setupNorthPanel() {
@@ -91,14 +102,30 @@ public class StatisticsPaneUI {
         southPanel = new JPanel();
         southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
         southPanel.add(videoBox.getUI().getControllButtonsPanel());
-//        installUI();
+        interactionPanel = retrieveInteractionPanel();
+        southPanel.add(interactionPanel.getUi().getGeneralInteractionsPanel_due());
 
-//        mainPanel.add(southPanel, BorderLayout.SOUTH);
+//        interactionPanel.repaint();
+//        interactionPanel.populateInteractionListByVideo(controller.getVideo().getId());
+//        southPanel.repaint();
+        /*TODO: remove this comment
+        * in questo punto provavo add aggiungere al southpanel un pannello delle interazioni già
+        * popolato ma purtroppo le interactions per qualche motivo non le carica subito.
+        * quindi l'unica soluzione è questa attuale. mi istanzio da subito un pannello di interazioni
+        * vuoto, poi col tasto show le recupero e le printo nel pannello delle interazioni
+        * */
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
     }
 
-    public void installUI() {
-        southPanel.add(videoBox.getUI().getInteractionPanel());
+    private InteractionPanel retrieveInteractionPanel() {
+        while (videoBox.getUI().getInteractionPanel() == null){
+            System.out.println("waiting for interaction panel to be created");
+        }
+        return videoBox.getUI().getInteractionPanel();
+
     }
+
+
 
     private void setupCenterPanel() {
         centerPanel = new JPanel();
@@ -180,10 +207,52 @@ public class StatisticsPaneUI {
     }
 
     private void displayInteractionPanel() {
-
-        southPanel.add(videoBox.getUI().getInteractionPanel());
-        mainPanel.repaint();
+//        interactionPanel = videoBox.getUI().getInteractionPanel();
+        interactionPanel.populateInteractionListByVideo(videoBox.getVideoId());
+//        southPanel.add(videoBox.getUI().getInteractionPanel());
+//        southPanel.add(interactionPanel.getUi().getGeneralInteractionsPanel_due(), BorderLayout.SOUTH);
+        southPanel.repaint();
+        createQuestionPanels();
     }
+
+    private void createQuestionPanels() {
+        for (GenericInteraction genericInteraction : interactionPanel.getModel().getInteractionList()) {
+            if (genericInteraction.getClass().equals(Question.class)){
+                Question question = (Question) genericInteraction;
+                displayQuestion(question);
+            }
+
+        }
+    }
+
+    public void displayQuestion(Question question){
+        JPanel questionPanel = new JPanel();
+        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.X_AXIS));
+
+        JLabel questionTime = new JLabel(String.valueOf(Utils.formatTime(question.getTimestamp())));
+        questionTime.setForeground(Color.decode("#F0A037"));
+        questionTime.setFont((new Font(Font.SANS_SERIF,  Font.ITALIC, Utils.DATE_FONT_WIDTH)));
+        questionTime.setAlignmentX(Component.LEFT_ALIGNMENT);
+        questionTime.setAlignmentY(Component.TOP_ALIGNMENT);
+        questionPanel.add(questionTime);
+
+        questionPanel.add(Box.createHorizontalStrut(Utils.STANDARD_BORDER));
+
+        JLabel questionBody = new JLabel(question.getText());
+        questionBody.setAlignmentX(Component.LEFT_ALIGNMENT);
+        questionBody.setAlignmentY(Component.TOP_ALIGNMENT);
+        questionPanel.add(questionBody);
+
+        questionPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+        questionPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        viewPortView.add(questionPanel);
+
+        questionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        questionPanel.setBackground(Color.ORANGE);
+        questionPanel.setPreferredSize(new Dimension(200, 100));
+
+    }
+
 
 
     private void setupVideoBox() {
@@ -197,6 +266,7 @@ public class StatisticsPaneUI {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(Color.GRAY);
+        mainPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
 
@@ -219,6 +289,10 @@ public class StatisticsPaneUI {
 
     public JPanel getMainPanel() {
         return mainPanel;
+    }
+
+    public JScrollPane getScrollPane(){
+        return scrollPane;
     }
 
     public void dismissVideo() {

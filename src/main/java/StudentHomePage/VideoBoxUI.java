@@ -40,6 +40,7 @@ public class VideoBoxUI {
         setupVideoSurface();
 
         mediaPlayerComponent.getMediaPlayer().playMedia(this.controller.getModel().getVideo().getFile().getPath());
+//        mediaPlayerComponent.getMediaPlayer().pause();
         isPlaying = true;
 
         setupSouthPanel();
@@ -270,8 +271,9 @@ public class VideoBoxUI {
     }
 
 
-    public JPanel getInteractionPanel() {
-        return interactionPanel.getUi().getGeneralInteractionsPanel(controller.getVideoId());
+    public InteractionPanel getInteractionPanel() {
+//        return interactionPanel.getUi().getGeneralInteractionsPanel(controller.getVideoId());
+        return interactionPanel;
     }
 
     public JPanel getSouthPanel() {

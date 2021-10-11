@@ -84,7 +84,7 @@ public class Video {
 
     public List<Interaction> getInteractionList() {
         for (Interaction interaction: interactionList) {
-            System.out.println("Interaction "+interaction.getId()+" with timestamp "+interaction.getTimestamp());
+            System.out.println("[VIDEO] Interaction "+interaction.getId()+" with timestamp "+interaction.getTimestamp());
         }
         return interactionList;
     }

@@ -1,6 +1,7 @@
 package StudentHomePage;
 
 import entities.GenericInteraction;
+import entities.Interaction;
 import sceneManager.Utils;
 
 import javax.swing.*;
@@ -26,8 +27,13 @@ public class InteractionPanelUI {
 
     public JPanel getGeneralInteractionsPanel(int videoID) {
 //TODO: devi cercare qui di restituire un interaction panel già popolato.
-        controller.retrieveEntireInteractionList(videoID);
+        controller.populateInteractionListByVideo(videoID);
         printInteractionList();
+        return generalInteractionsPanel;
+    }
+
+    public JPanel getGeneralInteractionsPanel_due() {
+//TODO: devi cercare qui di restituire un interaction panel già popolato.
         return generalInteractionsPanel;
     }
 
@@ -95,7 +101,10 @@ public class InteractionPanelUI {
     }
 
     public void printInteractionList(){
-        interactionList.repaint();
+        for (GenericInteraction interaction : interactionList.getModel().getInteractionList()){
+            interactionList.repaint();
+        }
+
     }
 
     public void setupAnnotationButtons(){
@@ -171,5 +180,10 @@ public class InteractionPanelUI {
 
     public void setInteractionList(List<GenericInteraction> allListPerVideo) {
         this.interactionList.getModel().setInteractionList(allListPerVideo);
+
+    }
+
+    public void repaint() {
+        this.interactionList.repaint();
     }
 }

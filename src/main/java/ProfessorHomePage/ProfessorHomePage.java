@@ -98,9 +98,10 @@ public class ProfessorHomePage implements Listener, Scene {
     }
 
     private void goToStatisticsPage(Video video) {
-            statisticsPane = new StatisticsPane(video, this);
-            centerPanel.add(statisticsPane.getMainPanel());
-            cardLayout.next(centerPanel);
+        statisticsPane = new StatisticsPane(video, this);
+//        centerPanel.add(statisticsPane.getMainPanel());
+        centerPanel.add(statisticsPane.getScrollPane());
+        cardLayout.next(centerPanel);
 
 
     }
