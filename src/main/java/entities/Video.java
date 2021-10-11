@@ -89,6 +89,7 @@ public class Video {
         return interactionList;
     }
 
+
     public void setInteractionList(List<Interaction> interactionList) {
         this.interactionList = interactionList;
     }

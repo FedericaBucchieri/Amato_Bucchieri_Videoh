@@ -294,9 +294,7 @@ public class VideoBoxUI {
         }
     }
 
-    public JPanel getVideoSurface() {
-        return videoSurface;
-    }
+
 
     public JPanel getControllButtonsPanel() {
         return controllButtonsPanel;
@@ -306,12 +304,12 @@ public class VideoBoxUI {
     }
 
 
-    public JPanel getInteractionPanel() {
-        return interactionPanel.getUi().getGeneralInteractionsPanel(controller.getVideoId());
-    }
+//    public JPanel getInteractionPanel() {
+//        return interactionPanel.getUi().getGeneralInteractionsPanel(controller.getVideoId());
+//    }
 
-    public JPanel getSouthPanel() {
-        return southPanel;
-    }
+//    public JPanel getSouthPanel() {
+//        return southPanel;
+//    }
 
 }

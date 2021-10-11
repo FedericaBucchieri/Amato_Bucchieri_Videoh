@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class StatisticsPaneUI {
     private StatisticsPane controller;
@@ -28,6 +29,7 @@ public class StatisticsPaneUI {
     private JLabel totalPositiveInteraction;
     private JLabel totalQuestion;
     private InteractionPanel interactionPanel;
+    private ArrayList<Question> displayedQuestions = new ArrayList<Question>();
 
     public StatisticsPaneUI (StatisticsPane controller){
         this.controller = controller;
@@ -45,6 +47,8 @@ public class StatisticsPaneUI {
         viewPortView.setLayout(new BoxLayout(viewPortView, BoxLayout.Y_AXIS));
         viewPortView.add(mainPanel);
         scrollPane = new JScrollPane(viewPortView);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(Utils.UNIT_SCROLLING_INCREMENT);
+
     }
 
     private void setupNorthPanel() {
@@ -95,7 +99,6 @@ public class StatisticsPaneUI {
                 controller.goToProfessorHomePage();
             }
         });
-        //TODO: add action listener, add icon
     }
 
     private void setupSouthPanel() {
@@ -148,17 +151,17 @@ public class StatisticsPaneUI {
         summaryPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
 
 
-        totalInteraction = new JLabel(String.valueOf(controller.getVideo().getInteractionList().size()));//TODO: remove number
+        totalInteraction = new JLabel(String.valueOf(controller.getTotalInteractions()));
         totalInteraction.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.STATS_LABEL_DIM));
         summaryPanel.add(totalInteraction);
         summaryPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
 
-        JLabel totalNegativeInteractionLabel = new JLabel("Total negative Interaction:");
+        JLabel totalNegativeInteractionLabel = new JLabel("Total negative Interactions:");
         summaryPanel.add(totalNegativeInteractionLabel);
         totalNegativeInteractionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         summaryPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
 
-        totalNegativeInteraction = new JLabel("120");//TODO: remove number
+        totalNegativeInteraction = new JLabel(String.valueOf(controller.getCountNegativeInteractions()));
         totalNegativeInteraction.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.STATS_LABEL_DIM));
         summaryPanel.add(totalNegativeInteraction);
         summaryPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
@@ -169,7 +172,7 @@ public class StatisticsPaneUI {
         totalPositiveInteractionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         summaryPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
 
-        totalPositiveInteraction = new JLabel("114");//TODO: remove number
+        totalPositiveInteraction = new JLabel(String.valueOf(controller.getCountPositiveInteractions()));
         totalPositiveInteraction.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.STATS_LABEL_DIM));
         summaryPanel.add(totalPositiveInteraction);
         summaryPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
@@ -180,11 +183,10 @@ public class StatisticsPaneUI {
         summaryPanel.add(totalQuestionLabel);
         summaryPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
 
-        totalQuestion = new JLabel(String.valueOf(controller.getVideo().getQuestionList().size()));//TODO: remove number
+        totalQuestion = new JLabel(String.valueOf(controller.getVideo().getQuestionList().size()));
         totalQuestion.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.STATS_LABEL_DIM));
         summaryPanel.add(totalQuestion);
         summaryPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
-
 
 
         centerPanel.add(Box.createRigidArea(Utils.HORIZONTAL_RIGID_AREA_DIM30));
@@ -207,27 +209,43 @@ public class StatisticsPaneUI {
     }
 
     private void displayInteractionPanel() {
-//        interactionPanel = videoBox.getUI().getInteractionPanel();
         interactionPanel.populateInteractionListByVideo(videoBox.getVideoId());
-//        southPanel.add(videoBox.getUI().getInteractionPanel());
-//        southPanel.add(interactionPanel.getUi().getGeneralInteractionsPanel_due(), BorderLayout.SOUTH);
         southPanel.repaint();
-        createQuestionPanels();
+        createQuestionsPanels();
     }
 
-    private void createQuestionPanels() {
+    private void createQuestionsPanels() {
+        System.out.println("********[createQuestionsPanels] DIMENSIONE INTERACTION LIST: "+interactionPanel.getModel().getInteractionList().size());
         for (GenericInteraction genericInteraction : interactionPanel.getModel().getInteractionList()) {
             if (genericInteraction.getClass().equals(Question.class)){
                 Question question = (Question) genericInteraction;
-                displayQuestion(question);
-            }
+                if (!hasBeenDisplayed(question)){
+                    JPanel toAdd = createQuestionPanel(question);
+                    displayedQuestions.add(question);
+                    viewPortView.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
+                    viewPortView.add(toAdd);
+                }
 
+            }
         }
     }
 
-    public void displayQuestion(Question question){
+    private boolean hasBeenDisplayed(Question question) {
+        if (displayedQuestions.isEmpty())
+            return false;
+        for (Question displayedQuestion :
+                this.displayedQuestions) {
+            if (displayedQuestion.getId() == question.getId())
+                return true;
+        }
+        return false;
+    }
+
+
+
+    public JPanel createQuestionPanel(Question question){
         JPanel questionPanel = new JPanel();
-        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.X_AXIS));
+        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
 
         JLabel questionTime = new JLabel(String.valueOf(Utils.formatTime(question.getTimestamp())));
         questionTime.setForeground(Color.decode("#F0A037"));
@@ -236,21 +254,30 @@ public class StatisticsPaneUI {
         questionTime.setAlignmentY(Component.TOP_ALIGNMENT);
         questionPanel.add(questionTime);
 
-        questionPanel.add(Box.createHorizontalStrut(Utils.STANDARD_BORDER));
+        questionPanel.add(Box.createRigidArea(new Dimension(Utils.VERTICAL_RIGID_AREA_DIM10)));
 
-        JLabel questionBody = new JLabel(question.getText());
+        JTextArea questionBody = new JTextArea(question.getText());
         questionBody.setAlignmentX(Component.LEFT_ALIGNMENT);
         questionBody.setAlignmentY(Component.TOP_ALIGNMENT);
+        questionBody.setEditable(false);
+        questionBody.setLineWrap(true);
         questionPanel.add(questionBody);
 
         questionPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         questionPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        viewPortView.add(questionPanel);
+
+//        viewPortView.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
+//        viewPortView.add(questionPanel);
 
         questionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        questionPanel.setBackground(Color.ORANGE);
-        questionPanel.setPreferredSize(new Dimension(200, 100));
+        questionPanel.setBackground(Color.WHITE);
+//        questionPanel.setPreferredSize(new Dimension(200, 100));
+        questionPanel.setBorder(BorderFactory.createLineBorder(Color.orange));
+        questionPanel.setMinimumSize(new Dimension(250, 50));
+//        questionPanel.setPreferredSize(questionPanel.getMinimumSize());
+        questionPanel.setMaximumSize(new Dimension(this.videoBox.getModel().getWidth(), this.videoBox.getModel().getHeight()));
 
+        return questionPanel;
     }
 
 
@@ -271,21 +298,7 @@ public class StatisticsPaneUI {
 
 
     }
-    public void setTotalInteraction(JLabel totalInteraction) {
-        this.totalInteraction = totalInteraction;
-    }
 
-    public void setTotalNegativeInteraction(JLabel totalNegativeInteraction) {
-        this.totalNegativeInteraction = totalNegativeInteraction;
-    }
-
-    public void setTotalPositiveInteraction(JLabel totalPositiveInteraction) {
-        this.totalPositiveInteraction = totalPositiveInteraction;
-    }
-
-    public void setTotalQuestion(JLabel totalQuestion) {
-        this.totalQuestion = totalQuestion;
-    }
 
     public JPanel getMainPanel() {
         return mainPanel;

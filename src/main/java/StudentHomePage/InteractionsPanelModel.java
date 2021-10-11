@@ -78,14 +78,52 @@ public class InteractionsPanelModel {
 
     public void populateInteractionListPerVideo(int videoId) {
         InteractionService service = new InteractionService();
-        List<Interaction> allInteractionPerVideo = service.findInteractionsByVideo(videoId);
-        for (Interaction interaction: allInteractionPerVideo) {
-            interactionList.add(interaction);
-        }
-        List<Question> allQuestionPerVideo = service.findQuestionByVideo(videoId);
-        for (Question question: allQuestionPerVideo) {
-            interactionList.add(question);
+        List<Interaction> allInteractionPerVideoToAdd = service.findInteractionsByVideo(videoId);
+        System.out.println("****[populateInteractionListPerVideo] all interaction per video are: "+allInteractionPerVideoToAdd.size());
+        updateInteractionList(allInteractionPerVideoToAdd);
+
+
+        List<Question> allQuestionPerVideoToAdd = service.findQuestionByVideo(videoId);
+        updateInteractionList_Question(allQuestionPerVideoToAdd);
+
+
+
+    }
+
+    private void updateInteractionList(List<Interaction> allInteractionPerVideoToAdd) {
+        for (Interaction interaction: allInteractionPerVideoToAdd){
+            if (!checkPresence(interaction.getId()))   {
+                System.out.println("intetraction not already present. adedd");
+                  interactionList.add(interaction);
+            }
+            else
+                System.out.println("intetraction  already present. NOT adedd");
         }
 
+
+    }
+
+   private void updateInteractionList_Question(List<Question> allInteractionPerVideoToAdd) {
+       for (Question question: allInteractionPerVideoToAdd){
+           if (!checkPresence(question.getId()))   {
+               System.out.println("question not already present. adedd");
+               interactionList.add(question);
+           }
+           else
+               System.out.println("question already present. NOT adedd");
+       }
+
+
+   }
+
+    private boolean checkPresence(int id){
+        if (interactionList.isEmpty())
+            return false;
+        for (GenericInteraction interaction :
+                this.interactionList) {
+            if (interaction.getId() == id)
+                return true;
+        }
+        return false;
     }
 }

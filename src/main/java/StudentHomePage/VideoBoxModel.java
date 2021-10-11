@@ -9,6 +9,11 @@ public class VideoBoxModel {
     private Video video;
     private String username;
 
+    /**
+     * dgdgfdgf
+     * @param video
+     * @param username
+     */
     public VideoBoxModel (Video video, String username){
         this.video = video;
         this.username = username;

@@ -30,7 +30,7 @@ public class InteractionListModel {
         for (GenericInteraction interaction: interactionList){
             InteractionDrawing drawing = new InteractionDrawing(interaction, getCorrectPosition(interaction.getTimestamp()));
             interactionDrawings.add(drawing);
-            System.out.println("inside set interaction, timestamp. ");
+            System.out.println("inside set interaction list, timestamp. ");
             System.out.println(interaction.getTimestamp());
         }
     }
