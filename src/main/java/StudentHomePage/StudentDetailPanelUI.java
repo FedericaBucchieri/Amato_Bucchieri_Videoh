@@ -15,7 +15,10 @@ public class StudentDetailPanelUI {
     private JLabel studentLogo;
     private StudentDetailPanel controller;
     private JButton logoutButton;
+    private JButton reviewButton;
     private JPanel questionPanel;
+    private JScrollPane scrollPane;
+    private JLabel listTitle;
 
     public StudentDetailPanelUI() {
         this.mainPanel = new JPanel();
@@ -52,14 +55,14 @@ public class StudentDetailPanelUI {
     }
 
     private void setupQuestionPanel(){
-        JLabel listTitle = new JLabel("Your Questions:");
+        listTitle = new JLabel("Your Questions:");
         listTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         listTitle.setForeground(Color.white);
         mainPanel.add(listTitle);
 
         questionPanel = new JPanel();
         questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
-        JScrollPane scrollPane = new JScrollPane(questionPanel);
+        scrollPane = new JScrollPane(questionPanel);
         mainPanel.add(scrollPane);
     }
 
@@ -71,6 +74,21 @@ public class StudentDetailPanelUI {
         for (Question question: questionList) {
             displayNewQuestion(question);
         }
+        questionPanel.repaint();
+    }
+
+    public void hideQuestionList(){
+        listTitle.setVisible(false);
+        scrollPane.setVisible(false);
+        reviewButton.setVisible(false);
+    }
+
+    public void showQuestionList(List<Question> questionList){
+        controller.getModel().setQuestionList(questionList);
+        listTitle.setVisible(true);
+        scrollPane.setVisible(true);
+        reviewButton.setVisible(true);
+        repaintQuestionList();
     }
 
     public void displayNewQuestion(Question question){
@@ -101,6 +119,13 @@ public class StudentDetailPanelUI {
         Utils utils = new Utils();
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
 
+        reviewButton = new JButton("Review Questions");
+        reviewButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        reviewButton = utils.styleButtonTwo(reviewButton);
+        mainPanel.add(reviewButton);
+
+        mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
+
         logoutButton = new JButton("Logout");
         logoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         logoutButton = utils.styleButtonThree(logoutButton);
@@ -124,6 +149,13 @@ public class StudentDetailPanelUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.handleLogout();
+            }
+        });
+
+        reviewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.handleReviewRequest();
             }
         });
     }

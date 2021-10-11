@@ -97,6 +97,7 @@ public class ProfessorLoginFormUI {
     private void setupErrorLabel(){
         errorLabel = new JLabel();
         errorLabel.setForeground(Color.decode("#DB2A58"));
+        errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(errorLabel);
     }
 

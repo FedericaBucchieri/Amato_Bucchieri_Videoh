@@ -1,5 +1,6 @@
 package StudentHomePage;
 
+import EventManagement.DeleteQuestionEvent;
 import EventManagement.Listener;
 import EventManagement.UpdateQuestionEvent;
 import entities.GenericInteraction;
@@ -87,6 +88,13 @@ public class InteractionList extends JComponent {
         //TODO FOCUS NOT WORKING
     }
 
+    public void activateDeleteMode(){
+        model.setShiftPressed(true);
+    }
+
+    public void deactivateDeleteMode(){
+        model.setShiftPressed(false);
+    }
 
     public InteractionListModel getModel() {
         return model;
@@ -119,5 +127,15 @@ public class InteractionList extends JComponent {
             for (Listener listener : listeners)
                 listener.listen(new UpdateQuestionEvent());
         }
+    }
+
+    public void deleteQuestionFromList(Question question){
+        model.deleteQuestion(question);
+        repaint();
+    }
+
+    public void deleteQuestion(Question question){
+        for (Listener listener : listeners)
+            listener.listen(new DeleteQuestionEvent(question));
     }
 }

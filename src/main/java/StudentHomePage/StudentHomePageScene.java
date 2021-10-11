@@ -2,19 +2,20 @@ package StudentHomePage;
 
 import EventManagement.*;
 import EventManagement.Event;
+import entities.Question;
 import entities.Video;
 import sceneManager.Scene;
 import sceneManager.SceneManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentHomePageScene implements Listener, Scene{
     private VideoPlayerArea videoPlayerArea;
     private StudentDetailPanel studentDetailPanel;
+    private QuestionReviewPanel questionReviewPanel;
     private String username;
     private JPanel mainPanel;
     private JPanel centerPanel;
@@ -30,7 +31,7 @@ public class StudentHomePageScene implements Listener, Scene{
         mainPanel.setLayout(new BorderLayout());
 
         setupCentralPanel(sceneManager, video);
-        setupLeftPanel(sceneManager);
+        setupRightPanel(sceneManager);
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         mainPanel.add(rightPanel, BorderLayout.EAST);
@@ -47,12 +48,38 @@ public class StudentHomePageScene implements Listener, Scene{
         cardLayout.next(centerPanel);
     }
 
-    //TODO: rename in setupRightPanel
-    public void setupLeftPanel(SceneManager sceneManager){
+    public void setupRightPanel(SceneManager sceneManager){
         this.rightPanel = new JPanel();
         studentDetailPanel = new StudentDetailPanel(username,this, sceneManager);
         rightPanel.add(studentDetailPanel.getMainPanel());
         rightPanel.setBackground(Color.decode("#42577F"));
+    }
+
+    private void switchToReviewMode(List<Question> questionList){
+        videoPlayerArea.stopVideoPlaying();
+        studentDetailPanel.hideQuestionList();
+
+        questionReviewPanel = new QuestionReviewPanel(this, questionList);
+        centerPanel.add(questionReviewPanel.getMainPanel());
+        cardLayout.next(centerPanel);
+    }
+
+    private void repaintReview(){
+        centerPanel.add(questionReviewPanel.getMainPanel());
+        cardLayout.next(centerPanel);
+    }
+
+    private  void switchToVideoPanel(){
+        videoPlayerArea.unlockVideoPlaying();
+        studentDetailPanel.showQuestionList(questionReviewPanel.getQuestionList());
+
+        centerPanel.add(videoPlayerArea.getMainPanel());
+        cardLayout.next(centerPanel);
+    }
+
+    private void dispatchEndReviewEvent(EndReviewEvent event){
+        for (Listener listener : listeners)
+            listener.listen(event);
     }
 
     public String getUsername(){return this.username;}
@@ -71,6 +98,20 @@ public class StudentHomePageScene implements Listener, Scene{
         }
         else if(event.getClass().equals(UpdateQuestionEvent.class)){
             studentDetailPanel.updateQuestionList();
+        }
+        else if(event.getClass().equals(DeleteQuestionEvent.class)){
+            studentDetailPanel.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
+            videoPlayerArea.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
+            repaintReview();
+        }
+        else if(event.getClass().equals(ReviewRequestEvent.class)){
+            switchToReviewMode(((ReviewRequestEvent) event).getQuestionList());
+        }
+        else if(event.getClass().equals(EndReviewEvent.class)){
+            dispatchEndReviewEvent((EndReviewEvent) event);
+        }
+        else if(event.getClass().equals(BackEvent.class)){
+            switchToVideoPanel();
         }
     }
 }

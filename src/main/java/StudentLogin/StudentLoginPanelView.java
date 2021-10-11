@@ -25,8 +25,8 @@ public class StudentLoginPanelView {
         setupTitleLabel();
         setupStudLogo();
         setupNameTextField();
-        setupLoginButt();
         setupErrorLabel();
+        setupLoginButt();
         setupBackButton();
 
     }

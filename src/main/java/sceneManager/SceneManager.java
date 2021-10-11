@@ -3,6 +3,7 @@ package sceneManager;
 import EventManagement.*;
 import EventManagement.Event;
 import GeneralLogin.GeneralLoginScene;
+import StudentEndVisionScene.StudentEndVisionScene;
 import StudentHomePage.StudentHomePageScene;
 import StudentInsertCode.InsertCodeScene;
 import StudentLogin.StudentLoginScene;
@@ -98,6 +99,9 @@ public class SceneManager extends JFrame implements Listener {
             GoToVideoEvent e = ((GoToVideoEvent) event);
             goToVideoStudentPage(e.getVideo(), e.getUsername());
         }
+        else if (event.getClass().equals(EndReviewEvent.class)){
+            goToStudentEndVisionScene();
+        }
         else if (event.getClass().equals(LogoutEvent.class)){
             goToGeneralLoginPage();
         }
@@ -143,6 +147,15 @@ public class SceneManager extends JFrame implements Listener {
         cardLayout.next(container);
     }
 
+    private void goToStudentEndVisionScene(){
+        StudentEndVisionScene studentEndVisionScene = new StudentEndVisionScene(this);
+        studentEndVisionScene.installUI();
+        currentScene = studentEndVisionScene;
+
+        container.add(studentEndVisionScene.getMainPanel());
+        cardLayout.next(container);
+    }
+
     private void handleBackEvent(){
         if(currentScene instanceof ProfessorLoginScene)
             goToGeneralLoginPage();
@@ -153,6 +166,9 @@ public class SceneManager extends JFrame implements Listener {
         else if (currentScene instanceof StudentHomePageScene){
             StudentHomePageScene instanceOfCurrentScene = (StudentHomePageScene) currentScene;
             goToInsertCodePage(instanceOfCurrentScene.getUsername());
+        }
+        else if (currentScene instanceof StudentEndVisionScene){
+            goToGeneralLoginPage();
         }
     }
 

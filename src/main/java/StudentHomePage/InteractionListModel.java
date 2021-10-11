@@ -52,7 +52,7 @@ public class InteractionListModel {
         }
         else if(interaction instanceof Question) {
             QuestionService service = new QuestionService();
-            service.updateQuestion((Question) interaction, newTimestamp);
+            service.updateQuestionTimestamp((Question) interaction, newTimestamp);
         }
     }
 
@@ -67,9 +67,16 @@ public class InteractionListModel {
             service.deleteInteraction(((Interaction) toBeDeleted).getId());
         }
         else if (toBeDeleted instanceof Question){
+            Question toDelete = (Question) toBeDeleted;
             QuestionService service = new QuestionService();
-            service.deleteQuestion((Question) toBeDeleted);
+            service.deleteQuestion(toDelete.getId());
+            controller.deleteQuestion(toDelete);
         }
+    }
+
+    public void deleteQuestion(Question question){
+        interactionDrawings.removeIf(draw -> draw.getInteraction() == question);
+        interactionList.removeIf(toDelete -> toDelete.getId() == question.getId());
     }
 
     public boolean isMousePressed() {

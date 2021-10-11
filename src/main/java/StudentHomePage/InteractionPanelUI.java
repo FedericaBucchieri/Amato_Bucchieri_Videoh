@@ -1,6 +1,7 @@
 package StudentHomePage;
 
 import entities.GenericInteraction;
+import entities.Question;
 import sceneManager.Utils;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ public class InteractionPanelUI {
     private JButton positiveInteractionButton;
     private JButton negativeInteractionButton;
     private JButton questionButton;
+    private JButton deleteButton;
     private InteractionList interactionList;
     private JTextField questionField;
     private JPanel mainPanel;
@@ -59,6 +61,27 @@ public class InteractionPanelUI {
             }
         });
 
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(model.isDeleteMode()) {
+                    enableInteractionButtons();
+                    controller.handleDeleteRequest(false);
+                    deleteButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/trash-bin.png").getImage().getScaledInstance(Utils.ANNOTATION_BUTTON_SIZE, Utils.ANNOTATION_BUTTON_SIZE, Image.SCALE_SMOOTH)));
+                }
+                else {
+                    disableInteractionButtons();
+                    controller.handleDeleteRequest(true);
+                    deleteButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/cancel.png").getImage().getScaledInstance(Utils.ANNOTATION_BUTTON_SIZE, Utils.ANNOTATION_BUTTON_SIZE, Image.SCALE_SMOOTH)));
+                }
+                model.setDeleteMode(!model.isDeleteMode());
+            }
+        });
+
+    }
+
+    public InteractionList getInteractionList() {
+        return interactionList;
     }
 
     public void setupAnnotationDisplay() {
@@ -76,6 +99,11 @@ public class InteractionPanelUI {
     public void printNewInteraction(GenericInteraction interaction){
         interactionList.addInteractionToList(interaction);
         interactionList.repaint();
+    }
+
+    public void deleteQuestionFromInteractionList(Question question){
+        interactionList.deleteQuestionFromList(question);
+        printInteractionList();
     }
 
     public void printInteractionList(){
@@ -112,6 +140,13 @@ public class InteractionPanelUI {
         questionButton.setOpaque(true);
         questionButton.setBorderPainted(false);
         buttonPanel.add(questionButton);
+
+        deleteButton = new JButton();
+        deleteButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/trash-bin.png").getImage().getScaledInstance(Utils.ANNOTATION_BUTTON_SIZE, Utils.ANNOTATION_BUTTON_SIZE, Image.SCALE_SMOOTH)));
+        deleteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        deleteButton.setOpaque(true);
+        deleteButton.setBorderPainted(false);
+        buttonPanel.add(deleteButton);
 
         JLabel instructionsLine1 = new JLabel(Utils.LINE_1_INTERACTION);
         instructionsLine1.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -185,5 +220,17 @@ public class InteractionPanelUI {
         generalInteractionsPanel.add(interactionTimelinePanel);
         cardLayout.next(generalInteractionsPanel);
         generalInteractionsPanel.repaint();
+    }
+
+    private void disableInteractionButtons(){
+        positiveInteractionButton.setEnabled(false);
+        negativeInteractionButton.setEnabled(false);
+        questionButton.setEnabled(false);
+    }
+
+    private void enableInteractionButtons(){
+        positiveInteractionButton.setEnabled(true);
+        negativeInteractionButton.setEnabled(true);
+        questionButton.setEnabled(true);
     }
 }

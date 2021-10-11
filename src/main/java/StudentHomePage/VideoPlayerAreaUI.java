@@ -11,10 +11,6 @@ public class VideoPlayerAreaUI {
     private VideoPlayerArea controller;
     private JPanel mainPanel;
     private VideoBox videoBox;
-    private JPanel settingsPanel;
-    private JPanel annotationsPanel;
-
-    private JButton backButton;
 
     public VideoPlayerAreaUI(VideoPlayerArea controller){
         this.controller = controller;
@@ -29,6 +25,13 @@ public class VideoPlayerAreaUI {
         videoBox.dismissVideo();
     }
 
+    public void stopVideoPlaying(){
+        videoBox.stopVideoPlaying();
+    }
+
+    public void unlockVideoPlaying(){
+        videoBox.unlockVideoPlaying();
+    }
 
     private void setupMainPanel() {
         mainPanel = new JPanel();
@@ -46,4 +49,7 @@ public class VideoPlayerAreaUI {
         return mainPanel;
     }
 
+    public VideoBox getVideoBox() {
+        return videoBox;
+    }
 }

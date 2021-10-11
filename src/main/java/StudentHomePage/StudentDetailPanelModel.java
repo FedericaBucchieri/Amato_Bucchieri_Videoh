@@ -23,6 +23,10 @@ public class StudentDetailPanelModel {
         return questionList;
     }
 
+    public void setQuestionList(List<Question> questionList) {
+        this.questionList = questionList;
+    }
+
     public void addQuestionToList(Question question){
         questionList.add(question);
     }
@@ -34,5 +38,9 @@ public class StudentDetailPanelModel {
             }
 
         });
+    }
+
+    public void removeQuestion(Question toRemove){
+        questionList.removeIf(question -> question.getId() == toRemove.getId() );
     }
 }

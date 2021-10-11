@@ -32,4 +32,12 @@ public class VideoBoxModel {
     public String getUsername() {
         return username;
     }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 }

@@ -1,6 +1,7 @@
 package StudentHomePage;
 
 import EventManagement.*;
+import entities.Question;
 import entities.Video;
 import sceneManager.SceneManager;
 
@@ -22,6 +23,13 @@ public class VideoPlayerArea extends JComponent implements Listener { //controle
         UI = new VideoPlayerAreaUI(this);
     }
 
+    public void stopVideoPlaying(){
+        UI.stopVideoPlaying();
+    }
+
+    public void unlockVideoPlaying(){
+        UI.unlockVideoPlaying();
+    }
 
     public VideoPlayerAreaUI getView () {
             return UI;
@@ -39,6 +47,12 @@ public class VideoPlayerArea extends JComponent implements Listener { //controle
         return model;
     }
 
+    public void deleteQuestion(Question question){
+        VideoBox videoBox = UI.getVideoBox();
+        InteractionPanel interactionPanel = videoBox.getInteractionPanel();
+        interactionPanel.deleteQuestion(question);
+    }
+
     @Override
     public void listen(Event event) {
         if(event.getClass().equals(NewQuestionEvent.class)){
@@ -46,6 +60,9 @@ public class VideoPlayerArea extends JComponent implements Listener { //controle
         }
         else if(event.getClass().equals(UpdateQuestionEvent.class)){
             dispatchUpdateQuestionEvent((UpdateQuestionEvent) event);
+        }
+        else if(event.getClass().equals(DeleteQuestionEvent.class)){
+            dispatchDeleteQuestionEvent((DeleteQuestionEvent) event);
         }
     }
 
@@ -55,6 +72,11 @@ public class VideoPlayerArea extends JComponent implements Listener { //controle
     }
 
     private void dispatchUpdateQuestionEvent(UpdateQuestionEvent event){
+        for (Listener listener : listeners)
+            listener.listen(event);
+    }
+
+    private void dispatchDeleteQuestionEvent(DeleteQuestionEvent event){
         for (Listener listener : listeners)
             listener.listen(event);
     }
