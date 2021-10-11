@@ -27,4 +27,6 @@ public class InteractionListUI {
             draw.paintComponent(g);
         }
     }
+
+
 }

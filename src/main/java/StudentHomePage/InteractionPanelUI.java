@@ -263,4 +263,8 @@ public class InteractionPanelUI {
     public void repaint() {
         this.interactionList.repaint();
     }
+
+    public void disableListeners() {
+        this.interactionList.disableListeners();
+    }
 }

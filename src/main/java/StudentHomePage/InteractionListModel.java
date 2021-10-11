@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InteractionListModel {
+    public boolean listenersActive = true;
     private InteractionList controller;
     private int generalLenght;
     private List<GenericInteraction> interactionList = new ArrayList<>();

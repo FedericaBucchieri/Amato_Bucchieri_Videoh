@@ -106,6 +106,7 @@ public class StatisticsPaneUI {
         southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
         southPanel.add(videoBox.getUI().getControllButtonsPanel());
         interactionPanel = retrieveInteractionPanel();
+        interactionPanel.disableListeners();
         southPanel.add(interactionPanel.getUi().getGeneralInteractionsPanel_due());
 
 //        interactionPanel.repaint();
