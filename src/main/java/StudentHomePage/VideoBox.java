@@ -1,6 +1,7 @@
 package StudentHomePage;
 
 import EventManagement.*;
+import entities.Interaction;
 import entities.Video;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
@@ -19,7 +20,6 @@ public class VideoBox implements Listener {//controller
         model = new VideoBoxModel(video);
         UI = new VideoBoxUI(this, "");
 
-//        UI.installUI();
     }
 
     public VideoBox(VideoPlayerArea videoPlayerArea ,Video video, String username){
@@ -28,6 +28,14 @@ public class VideoBox implements Listener {//controller
 
         model = new VideoBoxModel(video, username);
         UI = new VideoBoxUI(this);
+    }
+
+    public void stopVideoPlaying(){
+        UI.freezeVideo();
+    }
+
+    public void unlockVideoPlaying(){
+        UI.restartVideoAfterFreeze();
     }
 
     public JSlider getSlider(){
@@ -50,6 +58,10 @@ public class VideoBox implements Listener {//controller
         getUI().dismissVideo();
     }
 
+    public InteractionPanel getInteractionPanel(){
+        return UI.getInteractionPanel();
+    }
+
     @Override
     public void listen(Event event) {
         if (event.getClass().equals(FreezeEvent.class)){
@@ -65,6 +77,9 @@ public class VideoBox implements Listener {//controller
         else if (event.getClass().equals(UpdateQuestionEvent.class)){
             dispatchUpdateQuestionEvent((UpdateQuestionEvent) event);
         }
+        else if (event.getClass().equals(DeleteQuestionEvent.class)){
+            dispatchDeleteQuestionEvent((DeleteQuestionEvent) event);
+        }
     }
 
     private void dispatchNewQuestionEvent(NewQuestionEvent event){
@@ -73,6 +88,11 @@ public class VideoBox implements Listener {//controller
     }
 
     private void dispatchUpdateQuestionEvent(UpdateQuestionEvent event){
+        for (Listener listener : listeners)
+            listener.listen(event);
+    }
+
+    private void dispatchDeleteQuestionEvent(DeleteQuestionEvent event){
         for (Listener listener : listeners)
             listener.listen(event);
     }

@@ -1,6 +1,7 @@
 package StudentHomePage;
 
 import entities.GenericInteraction;
+import entities.Question;
 import entities.Interaction;
 import sceneManager.Utils;
 
@@ -16,6 +17,7 @@ public class InteractionPanelUI {
     private JButton positiveInteractionButton;
     private JButton negativeInteractionButton;
     private JButton questionButton;
+    private JButton deleteButton;
     private InteractionList interactionList;
     private JTextField questionField;
     private JPanel mainPanel;
@@ -78,7 +80,27 @@ public class InteractionPanelUI {
             }
         });
 
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(model.isDeleteMode()) {
+                    enableInteractionButtons();
+                    controller.handleDeleteRequest(false);
+                    deleteButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/trash-bin.png").getImage().getScaledInstance(Utils.ANNOTATION_BUTTON_SIZE, Utils.ANNOTATION_BUTTON_SIZE, Image.SCALE_SMOOTH)));
+                }
+                else {
+                    disableInteractionButtons();
+                    controller.handleDeleteRequest(true);
+                    deleteButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/cancel.png").getImage().getScaledInstance(Utils.ANNOTATION_BUTTON_SIZE, Utils.ANNOTATION_BUTTON_SIZE, Image.SCALE_SMOOTH)));
+                }
+                model.setDeleteMode(!model.isDeleteMode());
+            }
+        });
 
+    }
+
+    public InteractionList getInteractionList() {
+        return interactionList;
     }
 
     public void setupAnnotationDisplay() {
@@ -100,6 +122,11 @@ public class InteractionPanelUI {
         interactionList.repaint();
     }
 
+    public void deleteQuestionFromInteractionList(Question question){
+        interactionList.deleteQuestionFromList(question);
+        printInteractionList();
+    }
+
     public void printInteractionList(){
         for (GenericInteraction interaction : interactionList.getModel().getInteractionList()){
             interactionList.repaint();
@@ -108,6 +135,11 @@ public class InteractionPanelUI {
     }
 
     public void setupAnnotationButtons(){
+        JLabel title = new JLabel("Your annotation List");
+        title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.SUBTITLE_WIDTH));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(title);
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         mainPanel.add(buttonPanel);
@@ -132,6 +164,21 @@ public class InteractionPanelUI {
         questionButton.setOpaque(true);
         questionButton.setBorderPainted(false);
         buttonPanel.add(questionButton);
+
+        deleteButton = new JButton();
+        deleteButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/trash-bin.png").getImage().getScaledInstance(Utils.ANNOTATION_BUTTON_SIZE, Utils.ANNOTATION_BUTTON_SIZE, Image.SCALE_SMOOTH)));
+        deleteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        deleteButton.setOpaque(true);
+        deleteButton.setBorderPainted(false);
+        buttonPanel.add(deleteButton);
+
+        JLabel instructionsLine1 = new JLabel(Utils.LINE_1_INTERACTION);
+        instructionsLine1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel instructionsLine2 = new JLabel(Utils.LINE_2_INTERACTION);
+        instructionsLine2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(instructionsLine1);
+        mainPanel.add(instructionsLine2);
+        mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
     }
 
     public JPanel getMainPanel() {
@@ -147,8 +194,26 @@ public class InteractionPanelUI {
         questionField.setVisible(true);
         questionPanel.add(questionField);
 
+        questionField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                questionField.setText("");
+            }
+        });
+
+        questionField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER)
+                    controller.sendQuestion(questionField.getText());
+            }
+        });
+
         JButton sendButton = new JButton();
         sendButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/check.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        sendButton.setOpaque(true);
+        sendButton.setBorderPainted(false);
+
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -159,6 +224,9 @@ public class InteractionPanelUI {
 
         JButton cancelButton = new JButton();
         cancelButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/cancel.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        cancelButton.setOpaque(true);
+        cancelButton.setBorderPainted(false);
+
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -180,9 +248,19 @@ public class InteractionPanelUI {
 
     public void setInteractionList(List<GenericInteraction> allListPerVideo) {
         this.interactionList.getModel().setInteractionList(allListPerVideo);
-
     }
 
+    private void disableInteractionButtons(){
+        positiveInteractionButton.setEnabled(false);
+        negativeInteractionButton.setEnabled(false);
+        questionButton.setEnabled(false);
+    }
+
+    private void enableInteractionButtons(){
+        positiveInteractionButton.setEnabled(true);
+        negativeInteractionButton.setEnabled(true);
+        questionButton.setEnabled(true);
+    }
     public void repaint() {
         this.interactionList.repaint();
     }

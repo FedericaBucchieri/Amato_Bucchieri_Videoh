@@ -1,5 +1,6 @@
 package StudentHomePage;
 
+import Dialogues.InfoDialog;
 import sceneManager.Utils;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
@@ -26,6 +27,15 @@ public class VideoBoxUI {
     private InteractionPanel interactionPanel;
     private boolean isPlaying = false;
     private boolean isTimeSetted = false;
+
+    public JPanel getSouthPanel() {
+        return southPanel;
+    }
+    public JPanel getVideoSurface() {
+        return videoSurface;
+    }
+
+
     private JPanel southPanel;
     private BufferedImage image;
     private DirectMediaPlayerComponent mediaPlayerComponent;
@@ -40,7 +50,6 @@ public class VideoBoxUI {
         setupVideoSurface();
 
         mediaPlayerComponent.getMediaPlayer().playMedia(this.controller.getModel().getVideo().getFile().getPath());
-//        mediaPlayerComponent.getMediaPlayer().pause();
         isPlaying = true;
 
         setupSouthPanel();
@@ -55,6 +64,7 @@ public class VideoBoxUI {
 
         setupMainPanel();
         setupImage();
+        setupVideoTitle();
         setupVideoSurface();
 
         mediaPlayerComponent.getMediaPlayer().playMedia(this.controller.getModel().getVideo().getFile().getPath());
@@ -160,12 +170,34 @@ public class VideoBoxUI {
         infoButton.setBorderPainted(false);
         controllButtonsPanel.add(infoButton);
 
-        //TODO: action Listener
+        infoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    InfoDialog dialog = new InfoDialog(controller.getModel().getVideo());
+                    dialog.setLocation(300,100);
+                    dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+                    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                    dialog.setVisible(true);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
     private void setupAnnotationPanel(){
         interactionPanel = new InteractionPanel(controller);
         southPanel.add(interactionPanel.getMainPanel());
+    }
+
+    private void setupVideoTitle(){
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(Color.white);
+        JLabel title = new JLabel(controller.getModel().getVideo().getTitle());
+        title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.SUBTITLE_WIDTH));
+        titlePanel.add(title);
+        mainPanel.add(titlePanel, BorderLayout.NORTH);
     }
 
     private void setupVideoSurface() {
@@ -176,6 +208,7 @@ public class VideoBoxUI {
     private void setupMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBackground(Color.black);
         mainPanel.setPreferredSize(new Dimension(controller.getModel().getWidth(), controller.getModel().getHeight()));
         setupImage();
     }
@@ -223,7 +256,6 @@ public class VideoBoxUI {
 
 
     public void dismissVideo(){
-
         this.mediaPlayerComponent.release();
     }
 
@@ -269,11 +301,13 @@ public class VideoBoxUI {
     public JPanel getControllButtonsPanel() {
         return controllButtonsPanel;
     }
-
-
     public InteractionPanel getInteractionPanel() {
-//        return interactionPanel.getUi().getGeneralInteractionsPanel(controller.getVideoId());
         return interactionPanel;
+    }
+
+
+    public JPanel getInteractionPanel() {
+        return interactionPanel.getUi().getGeneralInteractionsPanel(controller.getVideoId());
     }
 
     public JPanel getSouthPanel() {

@@ -16,7 +16,6 @@ public class Utils {
     public static final int DATE_FONT_WIDTH = 10;
     public static final int TITLE_MARGIN= 80;
     public static final int SUBTITLE_WIDTH = 24;
-    public static final int STATS_LABEL_DIM = 20;
     public static final int BUTTON_LABEL_WIDTH = 16;
     public static final int SUBBUTTON_LABEL_WIDTH = 14;
     public static final int LOGOUT_BUTTON_WIDTH = 12;
@@ -37,14 +36,16 @@ public class Utils {
     public final static int TIMELINE_BOXES = 82;
     public final static int TAG_SIZE = 30;
     public final static int QUESTION_LIST_HEIGHT = 250;
+    public final static int INFO_DIALOG_WIDTH = 600;
+    public final static int INFO_DIALOG_HEIGHT = 400;
+    public final static String LINE_1_INTERACTION = "Click on the buttons to interact with the video";
+    public final static String LINE_2_INTERACTION = "You can drag & drop every interaction to move it in time";
     public final static String WRITE_QUESTION_TEXT = "Write your question here";
     public static final String ERROR_EMPTY_LIST = "Your list is empty! Please add a new video to start your VIDEOH experience";
-    public static final String ERROR_UPDATE_VIDEO = "Sorry, an error occured while updating your video details";
-    public static final Dimension VERTICAL_RIGID_AREA_DIM100 = new Dimension(0, 100);
-    public static final Dimension VERTICAL_RIGID_AREA_DIM10 = new Dimension(0, 10);
-    public static final Dimension VERTICAL_RIGID_AREA_DIM15 = new Dimension(0, 15);
-    public static final Dimension HORIZONTAL_RIGID_AREA_DIM30 = new Dimension(30, 0);
-
+    public static final String ERROR_UPDATE_VIDEO = "Sorry, an error occurred while updating your video details";
+    public static final String USERNAME_ERROR = "Please, type a valid username";
+    public static final String CODE_ERROR = "Please, type a valid numeric code";
+    public static final String GUIDE_TEXT = "Prova di guida";
 
     public JButton styleButtonOne(JButton button){
         button.setBackground(Color.decode("#314668"));
@@ -73,7 +74,7 @@ public class Utils {
         return button;
     }
 
-    public static JButton setUPBackButton(){
+    public JButton setUPBackButton(){
         Icon icon = new ImageIcon("src/main/images/back-2.png");
         JButton backButton = new JButton(icon);
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -81,9 +82,6 @@ public class Utils {
 
         return backButton;
     }
-
-
-
 
     public static String formatTime(long value) {
         value /= 1000;

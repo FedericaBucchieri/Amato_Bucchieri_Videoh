@@ -1,11 +1,11 @@
 package StudentLogin;
 
-import ProfessorLoginScene.ProfessorLoginForm;
 import sceneManager.Utils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Objects;
 
 public class StudentLoginPanelView {
     private StudentLoginPanel controller;
@@ -16,6 +16,7 @@ public class StudentLoginPanelView {
     private JTextField nameTextField;
     private JButton studLoginButt;
     private JButton backButton;
+    private JLabel errorLabel;
 
     public StudentLoginPanelView(StudentLoginPanel controller){
         this.controller = controller;
@@ -24,6 +25,7 @@ public class StudentLoginPanelView {
         setupTitleLabel();
         setupStudLogo();
         setupNameTextField();
+        setupErrorLabel();
         setupLoginButt();
         setupBackButton();
 
@@ -33,7 +35,11 @@ public class StudentLoginPanelView {
         studLoginButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.sendUsername(nameTextField.getText());
+                String username = nameTextField.getText();
+                if(username.equals("") || username.trim().length() == 0 )
+                    displayError();
+                else
+                    controller.sendUsername(nameTextField.getText());
             }
         });
 
@@ -49,6 +55,19 @@ public class StudentLoginPanelView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 nameTextField.setText("");
+            }
+        });
+
+        nameTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    String username = nameTextField.getText();
+                    if(username.equals("") || username.trim().length() == 0 )
+                        displayError();
+                    else
+                        controller.sendUsername(nameTextField.getText());
+                }
             }
         });
     }
@@ -122,6 +141,17 @@ public class StudentLoginPanelView {
     }
 
     public JPanel getMainPanel() {return mainPanel;}
+
+    private void setupErrorLabel(){
+        errorLabel = new JLabel();
+        errorLabel.setForeground(Color.red);
+        errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        formPanel.add(errorLabel);
+    }
+
+    private void displayError(){
+        errorLabel.setText(Utils.USERNAME_ERROR);
+    }
 
 
 }

@@ -59,6 +59,10 @@ public class InteractionPanel implements Listener {
         dispatchNewQuestionEvent(question);
     }
 
+    public void deleteQuestion(Question question){
+        ui.deleteQuestionFromInteractionList(question);
+    }
+
     public void cancelQuestionInsertion(){
         ui.hideQuestionTextField();
         ui.printInteractionList();
@@ -75,15 +79,35 @@ public class InteractionPanel implements Listener {
             listener.listen(new RestartAfterFreezeEvent());
     }
 
-    private void dispatchUpdateQuestionEvent(){
+    private void dispatchUpdateQuestionEvent(UpdateQuestionEvent event){
         for (Listener listener : listeners)
-            listener.listen(new UpdateQuestionEvent());
+            listener.listen(event);
+    }
+
+    public void handleDeleteRequest(boolean active){
+        if(active) {
+            dispatchFreezeEvent();
+            this.ui.getInteractionList().activateDeleteMode();
+        }
+        else {
+            dispatchRestartAfterFreezeEvent();
+            this.ui.getInteractionList().deactivateDeleteMode();
+        }
+    }
+
+
+    private void dispatchDeleteQuestionEvent(DeleteQuestionEvent event){
+        for (Listener listener : listeners)
+            listener.listen(event);
     }
 
     @Override
     public void listen(Event event) {
         if (event.getClass().equals(UpdateQuestionEvent.class)){
-            dispatchUpdateQuestionEvent();
+            dispatchUpdateQuestionEvent((UpdateQuestionEvent) event);
+        }
+        else if (event.getClass().equals(DeleteQuestionEvent.class)){
+            dispatchDeleteQuestionEvent((DeleteQuestionEvent) event);
         }
     }
     public InteractionPanelUI getUi() {

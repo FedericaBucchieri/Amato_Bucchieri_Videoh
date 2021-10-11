@@ -42,11 +42,31 @@ public class QuestionService {
     }
 
 
-    public void updateQuestion(Question question, int timestamp){
+    public void updateQuestionTimestamp(Question question, int timestamp){
         question.setTimestamp(timestamp);
 
         em.getTransaction().begin();
         em.merge(question);
         em.getTransaction().commit();
     }
+
+    public void updateQuestionBody(Question question, String text){
+        question.setText(text);
+
+        em.getTransaction().begin();
+        em.merge(question);
+        em.getTransaction().commit();
+    }
+
+    public void deleteQuestion(int questionId){
+        Question toBeDeleted = em.find(Question.class, questionId);
+
+        Video video = toBeDeleted.getVideo();
+        video.removeQuestion(toBeDeleted);
+
+        em.getTransaction().begin();
+        em.remove(toBeDeleted);
+        em.getTransaction().commit();
+    }
+
 }

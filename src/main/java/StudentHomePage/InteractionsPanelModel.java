@@ -15,11 +15,20 @@ public class InteractionsPanelModel {
     private List<GenericInteraction> interactionList;
     private int currentQuestionTimestamp;
     private String username;
+    private boolean deleteMode;
 
     public InteractionsPanelModel(VideoBox videoBox) {
         this.videoBox = videoBox;
         this.username = videoBox.getModel().getUsername();
         interactionList = new ArrayList<>();
+    }
+
+    public boolean isDeleteMode() {
+        return deleteMode;
+    }
+
+    public void setDeleteMode(boolean deleteMode) {
+        this.deleteMode = deleteMode;
     }
 
     public int getSliderWidth(){

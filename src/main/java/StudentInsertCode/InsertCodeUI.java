@@ -4,10 +4,7 @@ import sceneManager.Utils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class InsertCodeUI {
     private InsertCode controller;
@@ -15,6 +12,8 @@ public class InsertCodeUI {
     private JTextField codeField;
     private JButton sendButton;
     private JButton backButton;
+    private JLabel errorLabel;
+    private final static int CODE_LENGTH = 6;
 
     public InsertCodeUI(InsertCode controller) {
         this.controller = controller;
@@ -23,6 +22,7 @@ public class InsertCodeUI {
         setupCodeLogo();
         setupInsertCodeLabel();
         setupCodeTextField();
+        setupErrorLabel();
         setupButtons();
     }
 
@@ -37,10 +37,24 @@ public class InsertCodeUI {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: sostituire il path con quello che prende dal controller (dopo la retrieve from database)
-//                controller.go ToStudentHomePage("/Users/andrewamato/Downloads/video_test.mp4", controller.getStudentUsername());
+                String code = codeField.getText();
+                if( code.trim().length() == 0 || code.length() < CODE_LENGTH || !isNumeric(code) )
+                    displayError();
+                else
+                    controller.goToStudentHomePage(codeField.getText(), controller.getStudentUsername());
+            }
+        });
 
-                controller.goToStudentHomePageSeconda(codeField.getText(), controller.getStudentUsername());
+        codeField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String code = codeField.getText();
+                    if( code.trim().length() == 0 || code.length() < CODE_LENGTH || !isNumeric(code) )
+                        displayError();
+                    else
+                        controller.goToStudentHomePage(codeField.getText(), controller.getStudentUsername());
+                }
             }
         });
 
@@ -50,6 +64,15 @@ public class InsertCodeUI {
                 codeField.setText("");
             }
         });
+    }
+
+    public static boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
     }
 
     private void setupMainPanel() {
@@ -112,7 +135,16 @@ public class InsertCodeUI {
         mainPanel.add(backButton);
     }
 
+    private void setupErrorLabel(){
+        errorLabel = new JLabel();
+        errorLabel.setForeground(Color.red);
+        errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(errorLabel);
+    }
 
+    public void displayError(){
+        errorLabel.setText(Utils.CODE_ERROR);
+    }
 
     public JPanel getMainPanel() {
         return mainPanel;

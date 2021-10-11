@@ -1,8 +1,8 @@
 package StudentHomePage;
 
-import EventManagement.Event;
 import EventManagement.Listener;
 import EventManagement.LogoutEvent;
+import EventManagement.ReviewRequestEvent;
 import entities.Question;
 import sceneManager.SceneManager;
 import sceneManager.Utils;
@@ -43,7 +43,7 @@ public class StudentDetailPanel extends JComponent{
 
     public void addQuestionToList(Question question){
         model.addQuestionToList(question);
-        ui.displayNewQuestion(question);
+        updateQuestionList();
     }
 
     public StudentDetailPanelModel getModel() {
@@ -51,7 +51,29 @@ public class StudentDetailPanel extends JComponent{
     }
 
     public void updateQuestionList(){
+        model.sortQuestionList();
         ui.repaintQuestionList();
+        repaint();
+    }
+
+    public void deleteQuestion(Question question){
+        model.removeQuestion(question);
+        ui.repaintQuestionList();
+        repaint();
+    }
+
+    public void handleReviewRequest(){
+        for (Listener listener : listeners)
+            listener.listen(new ReviewRequestEvent(model.getQuestionList()));
+    }
+
+    public void hideQuestionList(){
+        this.ui.hideQuestionList();
+    }
+
+
+    public void showQuestionList(List<Question> questionList){
+        this.ui.showQuestionList(questionList);
     }
 
     @Override

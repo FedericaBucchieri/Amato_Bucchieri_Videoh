@@ -17,6 +17,7 @@ public class InteractionListModel {
     private List<InteractionDrawing> interactionDrawings = new ArrayList<>();
     private InteractionDrawing selectedInteractionDrawing;
     private boolean mousePressed;
+    private boolean shiftPressed;
 
 
     public InteractionListModel(int generalLenght, InteractionList controller) {
@@ -61,8 +62,31 @@ public class InteractionListModel {
         }
         else if(interaction instanceof Question) {
             QuestionService service = new QuestionService();
-            service.updateQuestion((Question) interaction, newTimestamp);
+            service.updateQuestionTimestamp((Question) interaction, newTimestamp);
         }
+    }
+
+    public void deleteSelectedInteraction(){
+        GenericInteraction toBeDeleted = selectedInteractionDrawing.getInteraction();
+
+        interactionDrawings.remove(selectedInteractionDrawing);
+        interactionList.remove(toBeDeleted);
+
+        if(toBeDeleted instanceof Interaction){
+            InteractionService service = new InteractionService();
+            service.deleteInteraction(((Interaction) toBeDeleted).getId());
+        }
+        else if (toBeDeleted instanceof Question){
+            Question toDelete = (Question) toBeDeleted;
+            QuestionService service = new QuestionService();
+            service.deleteQuestion(toDelete.getId());
+            controller.deleteQuestion(toDelete);
+        }
+    }
+
+    public void deleteQuestion(Question question){
+        interactionDrawings.removeIf(draw -> draw.getInteraction() == question);
+        interactionList.removeIf(toDelete -> toDelete.getId() == question.getId());
     }
 
     public boolean isMousePressed() {
@@ -71,6 +95,14 @@ public class InteractionListModel {
 
     public void setMousePressed(boolean mousePressed) {
         this.mousePressed = mousePressed;
+    }
+
+    public boolean isShiftPressed() {
+        return shiftPressed;
+    }
+
+    public void setShiftPressed(boolean shiftPressed) {
+        this.shiftPressed = shiftPressed;
     }
 
     public List<GenericInteraction> getInteractionList() {

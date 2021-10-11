@@ -30,9 +30,13 @@ public class VideoService {
     }
 
     public Video findVideoByCode(int videoCode) {
-       Video video = em.createNamedQuery("Video.findVideoByCode", Video.class).setParameter("code", videoCode)
-                .getSingleResult();
-        return video;
+        try {
+            Video video = em.createNamedQuery("Video.findVideoByCode", Video.class).setParameter("code", videoCode)
+                    .getSingleResult();
+            return video;
+        }catch (NoResultException e){
+            return null;
+        }
     }
 
     public List<Video> findVideosByProfessor(int professorId){

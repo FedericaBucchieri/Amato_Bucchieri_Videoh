@@ -128,4 +128,12 @@ public class Video {
     public File getFile() {
         return this.file;
     }
+
+    public void removeInteraction(Interaction toBeDeleted){
+        interactionList.removeIf(interaction -> interaction.getId() == toBeDeleted.getId());
+    }
+
+    public void removeQuestion(Question toBeDeleted){
+        questionList.removeIf(question -> question.getId() == toBeDeleted.getId());
+    }
 }

@@ -69,4 +69,17 @@ public class InteractionService {
         Video video = em.find(Video.class, videoId);
         return video.getQuestionList();
     }
+
+    public void deleteInteraction(int interactionId){
+        Interaction interaction = em.find(Interaction.class, interactionId);
+        Video video = interaction.getVideo();
+        video.removeInteraction(interaction);
+
+        em.getTransaction().begin();
+        em.remove(interaction);
+        em.getTransaction().commit();
+
+        System.out.println("deleted");
+    }
+
 }

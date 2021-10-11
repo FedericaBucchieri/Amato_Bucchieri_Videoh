@@ -1,5 +1,7 @@
 package GeneralLogin;
 
+import Dialogues.HelpDialogue;
+import Dialogues.InfoDialog;
 import sceneManager.Utils;
 
 import javax.swing.*;
@@ -40,6 +42,21 @@ public class MainLoginPanelView { //view
         helpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         Utils utils = new Utils();
         helpButton = utils.styleButtonTwo(helpButton);
+
+        helpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    HelpDialogue dialog = new HelpDialogue();
+                    dialog.setLocation(300,100);
+                    dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+                    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                    dialog.setVisible(true);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         //setupHelpButton
         problemPanel.add(helpButton);
