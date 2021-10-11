@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatisticsPane extends JComponent {
+    /*
     private StatisticsPaneModel model;
     private StatisticsPaneUI UI;
 
@@ -45,4 +46,6 @@ public class StatisticsPane extends JComponent {
         for (Listener listener : listeners)
             listener.listen(new CancelEvent());
     }
+    
+     */
 }

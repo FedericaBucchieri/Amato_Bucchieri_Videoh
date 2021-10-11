@@ -18,7 +18,7 @@ public class VideoBox implements Listener {//controller
     public VideoBox(Video video){//this constructor is used when the videobox is loaded by statisticsPage
         new NativeDiscovery().discover();
         model = new VideoBoxModel(video);
-        UI = new VideoBoxUI(this, "");
+        UI = new VideoBoxUI(this);
 
     }
     public VideoBox(VideoPlayerArea videoPlayerArea ,Video video, String username){

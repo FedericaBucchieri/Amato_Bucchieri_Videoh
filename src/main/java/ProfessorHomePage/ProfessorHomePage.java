@@ -98,9 +98,12 @@ public class ProfessorHomePage implements Listener, Scene {
     }
 
     private void goToStatisticsPage(Video video) {
+        /*
             statisticsPane = new StatisticsPane(video, this);
             centerPanel.add(statisticsPane.getMainPanel());
             cardLayout.next(centerPanel);
+
+         */
 
 
     }
@@ -111,7 +114,7 @@ public class ProfessorHomePage implements Listener, Scene {
 
     public void dispatchLogoutEvent(LogoutEvent event){
         if (statisticsPane != null){
-            statisticsPane.dismissVideo();
+            //statisticsPane.dismissVideo();
         }
 
         for (Listener listener : listeners)

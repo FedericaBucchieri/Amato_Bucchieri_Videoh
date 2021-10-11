@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StatisticsPaneUI {
+    /*
     private StatisticsPane controller;
     private JPanel mainPanel;
     private JPanel centerPanel;
@@ -224,4 +225,6 @@ public class StatisticsPaneUI {
     public void dismissVideo() {
         videoBox.dismissVideo();
     }
+
+     */
 }
