@@ -1,5 +1,6 @@
 package ProfessorHomePage;
 
+import EventManagement.CancelEvent;
 import EventManagement.Listener;
 import entities.Video;
 
@@ -17,6 +18,7 @@ public class StatisticsPane extends JComponent {
     public StatisticsPane (Video video, ProfessorHomePage professorHomePage){
         model = new StatisticsPaneModel(this, video);
         UI = new StatisticsPaneUI(this);
+        UI.installUI();
 
         this.listeners.add(professorHomePage);
 
@@ -25,7 +27,22 @@ public class StatisticsPane extends JComponent {
     public Video getVideo(){
         return model.getVideo();
     }
+
     public JPanel getMainPanel() {
         return this.UI.getMainPanel();
+    }
+
+    public void dismissVideo() {
+        UI.dismissVideo();
+    }
+
+    public void goToProfessorHomePage() {
+        dismissVideo();
+        dispatchCancelEvent();
+    }
+
+    private void dispatchCancelEvent(){
+        for (Listener listener : listeners)
+            listener.listen(new CancelEvent());
     }
 }

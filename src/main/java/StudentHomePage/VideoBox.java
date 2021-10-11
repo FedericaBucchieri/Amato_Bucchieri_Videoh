@@ -15,10 +15,10 @@ public class VideoBox implements Listener {//controller
     private VideoBoxUI UI;
     private List<Listener> listeners = new ArrayList<>();
 
-    public VideoBox(Video video){
+    public VideoBox(Video video){//this constructor is used when the videobox is loaded by statisticsPage
         new NativeDiscovery().discover();
         model = new VideoBoxModel(video);
-        UI = new VideoBoxUI(this);
+        UI = new VideoBoxUI(this, "");
 
     }
     public VideoBox(VideoPlayerArea videoPlayerArea ,Video video, String username){

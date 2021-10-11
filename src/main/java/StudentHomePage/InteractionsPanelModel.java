@@ -74,4 +74,18 @@ public class InteractionsPanelModel {
 
         return question;
     }
+
+
+    public List<GenericInteraction> getInteractionListPerVideo(int videoId) {
+        InteractionService service = new InteractionService();
+        List<Interaction> allInteractionPerVideo = service.findInteractionsByVideo(videoId);
+        for (Interaction interaction: allInteractionPerVideo) {
+            interactionList.add((GenericInteraction) interaction);
+        }
+        return interactionList;
+
+
+
+
+    }
 }

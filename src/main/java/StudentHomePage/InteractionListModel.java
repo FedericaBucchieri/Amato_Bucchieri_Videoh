@@ -19,11 +19,21 @@ public class InteractionListModel {
     private boolean mousePressed;
     private boolean shiftPressed;
 
+
     public InteractionListModel(int generalLenght, InteractionList controller) {
         this.generalLenght = generalLenght;
         this.controller = controller;
     }
 
+    public void setInteractionList(List<GenericInteraction> interactionList) {
+        this.interactionList = interactionList;
+        for (GenericInteraction interaction: interactionList){
+            InteractionDrawing drawing = new InteractionDrawing(interaction, getCorrectPosition(interaction.getTimestamp()));
+            interactionDrawings.add(drawing);
+            System.out.println("inside set interaction, timestamp. ");
+            System.out.println(interaction.getTimestamp());
+        }
+    }
 
     public void addInteractionToList(GenericInteraction interaction){
         this.interactionList.add(interaction);
