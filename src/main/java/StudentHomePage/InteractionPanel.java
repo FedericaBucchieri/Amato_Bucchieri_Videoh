@@ -125,4 +125,8 @@ public class InteractionPanel implements Listener {
     public void repaint() {
         this.ui.repaint();
     }
+
+    public void disableListeners() {
+        this.ui.disableListeners();
+    }
 }
