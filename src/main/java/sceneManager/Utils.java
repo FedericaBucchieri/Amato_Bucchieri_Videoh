@@ -46,6 +46,12 @@ public class Utils {
     public static final String USERNAME_ERROR = "Please, type a valid username";
     public static final String CODE_ERROR = "Please, type a valid numeric code";
     public static final String GUIDE_TEXT = "Prova di guida";
+    public static final Dimension VERTICAL_RIGID_AREA_DIM10 = new Dimension(0, 10);
+    public static final int STATS_LABEL_DIM = 25;
+    public static final Dimension VERTICAL_RIGID_AREA_DIM15 = new Dimension(0, 15);
+    public static final Dimension VERTICAL_RIGID_AREA_DIM100 = new Dimension(0, 100);
+    public static final Dimension HORIZONTAL_RIGID_AREA_DIM30 = new Dimension(30,0);
+    public static final int UNIT_SCROLLING_INCREMENT = 3;
 
     public JButton styleButtonOne(JButton button){
         button.setBackground(Color.decode("#314668"));
@@ -74,7 +80,7 @@ public class Utils {
         return button;
     }
 
-    public JButton setUPBackButton(){
+    public static JButton setUPBackButton(){
         Icon icon = new ImageIcon("src/main/images/back-2.png");
         JButton backButton = new JButton(icon);
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);

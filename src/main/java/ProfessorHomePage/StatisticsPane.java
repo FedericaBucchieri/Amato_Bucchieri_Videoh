@@ -2,7 +2,9 @@ package ProfessorHomePage;
 
 import EventManagement.CancelEvent;
 import EventManagement.Listener;
+import entities.Interaction;
 import entities.Video;
+import sceneManager.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatisticsPane extends JComponent {
-    /*
     private StatisticsPaneModel model;
     private StatisticsPaneUI UI;
 
@@ -33,6 +34,10 @@ public class StatisticsPane extends JComponent {
         return this.UI.getMainPanel();
     }
 
+    public JScrollPane getScrollPane(){
+        return this.UI.getScrollPane();
+    }
+
     public void dismissVideo() {
         UI.dismissVideo();
     }
@@ -46,6 +51,35 @@ public class StatisticsPane extends JComponent {
         for (Listener listener : listeners)
             listener.listen(new CancelEvent());
     }
-    
-     */
+
+    public void getInteractions() {
+        model.getVideo().getInteractionList();
+    }
+
+    public int getCountNegativeInteractions() {
+        List<Interaction> interactions = getVideo().getInteractionList();
+        int negativeCount = 0;
+        for (Interaction interaction: interactions) {
+            if (interaction.getType() == Utils.NEGATIVE_INTERACTION){
+                negativeCount++;
+            }
+        }
+        return negativeCount;
+    }
+
+    public  int getCountPositiveInteractions(){
+        List<Interaction> interactions = getVideo().getInteractionList();
+        int positiveCount = 0;
+        for (Interaction interaction: interactions) {
+            if (interaction.getType() == Utils.POSITIVE_INTERACTION){
+                positiveCount++;
+            }
+        }
+        return positiveCount;
+    }
+
+    public int getTotalInteractions(){
+        return getVideo().getInteractionList().size();
+
+    }
 }

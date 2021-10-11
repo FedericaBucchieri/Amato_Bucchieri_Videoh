@@ -21,6 +21,7 @@ public class VideoBox implements Listener {//controller
         UI = new VideoBoxUI(this);
 
     }
+
     public VideoBox(VideoPlayerArea videoPlayerArea ,Video video, String username){
         new NativeDiscovery().discover();
         this.listeners.add(videoPlayerArea);

@@ -2,11 +2,14 @@ package StudentHomePage;
 
 import entities.GenericInteraction;
 import entities.Question;
+import entities.Interaction;
 import sceneManager.Utils;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 public class InteractionPanelUI {
     private InteractionPanel controller;
@@ -21,6 +24,21 @@ public class InteractionPanelUI {
     private JPanel interactionTimelinePanel;
     private CardLayout cardLayout;
     private JPanel generalInteractionsPanel;
+
+
+    public JPanel getGeneralInteractionsPanel(int videoID) {
+//TODO: devi cercare qui di restituire un interaction panel già popolato.
+        controller.populateInteractionListByVideo(videoID);
+        printInteractionList();
+        return generalInteractionsPanel;
+    }
+
+    public JPanel getGeneralInteractionsPanel_due() {
+//TODO: devi cercare qui di restituire un interaction panel già popolato.
+        return generalInteractionsPanel;
+    }
+
+
 
     public InteractionPanelUI(InteractionPanel interactionTimelinePanel) {
         this.controller = interactionTimelinePanel;
@@ -87,7 +105,7 @@ public class InteractionPanelUI {
     public void setupAnnotationDisplay() {
         interactionTimelinePanel = new JPanel(new BorderLayout());
         interactionList = new InteractionList(controller.getModel().getSliderMaximum(), controller);
-
+        interactionList.setBorder(new LineBorder(Color.black));
         interactionTimelinePanel.add(Box.createHorizontalStrut(Utils.TIMELINE_BOXES), BorderLayout.WEST);
         interactionTimelinePanel.add(interactionList, BorderLayout.CENTER);
         interactionTimelinePanel.add(Box.createHorizontalStrut(Utils.TIMELINE_BOXES), BorderLayout.EAST);
@@ -97,6 +115,8 @@ public class InteractionPanelUI {
     }
 
     public void printNewInteraction(GenericInteraction interaction){
+        //List<GenericInteraction> interactionList = controller.getModel().getInteractionList();
+        //interactionListComponent.setInteractionList(interactionList);
         interactionList.addInteractionToList(interaction);
         interactionList.repaint();
     }
@@ -107,7 +127,10 @@ public class InteractionPanelUI {
     }
 
     public void printInteractionList(){
-        interactionList.repaint();
+        for (GenericInteraction interaction : interactionList.getModel().getInteractionList()){
+            interactionList.repaint();
+        }
+
     }
 
     public void setupAnnotationButtons(){
@@ -222,6 +245,10 @@ public class InteractionPanelUI {
         generalInteractionsPanel.repaint();
     }
 
+    public void setInteractionList(List<GenericInteraction> allListPerVideo) {
+        this.interactionList.getModel().setInteractionList(allListPerVideo);
+    }
+
     private void disableInteractionButtons(){
         positiveInteractionButton.setEnabled(false);
         negativeInteractionButton.setEnabled(false);
@@ -232,5 +259,8 @@ public class InteractionPanelUI {
         positiveInteractionButton.setEnabled(true);
         negativeInteractionButton.setEnabled(true);
         questionButton.setEnabled(true);
+    }
+    public void repaint() {
+        this.interactionList.repaint();
     }
 }

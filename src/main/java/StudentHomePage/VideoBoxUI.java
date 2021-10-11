@@ -37,10 +37,26 @@ public class VideoBoxUI {
 
 
     private JPanel southPanel;
-
     private BufferedImage image;
     private DirectMediaPlayerComponent mediaPlayerComponent;
 
+    public VideoBoxUI(VideoBox controller, String unused) {//this constructor is used when the videobox is loaded by statistics pane
+        this.controller = controller;
+        this.mainPanel = new JPanel();
+
+//        interactionPanel = new InteractionPanel(controller);
+        setupMainPanel();
+        setupImage();
+        setupVideoSurface();
+
+        mediaPlayerComponent.getMediaPlayer().playMedia(this.controller.getModel().getVideo().getFile().getPath());
+        isPlaying = true;
+
+        setupSouthPanel();
+
+
+
+    }
 
     public VideoBoxUI(VideoBox controller) {
         this.controller = controller;
@@ -194,6 +210,7 @@ public class VideoBoxUI {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(Color.black);
         mainPanel.setPreferredSize(new Dimension(controller.getModel().getWidth(), controller.getModel().getHeight()));
+        setupImage();
     }
 
     public void freezeVideo(){
@@ -277,7 +294,22 @@ public class VideoBoxUI {
         }
     }
 
+
+
+    public JPanel getControllButtonsPanel() {
+        return controllButtonsPanel;
+    }
     public InteractionPanel getInteractionPanel() {
         return interactionPanel;
     }
+
+
+//    public JPanel getInteractionPanel() {
+//        return interactionPanel.getUi().getGeneralInteractionsPanel(controller.getVideoId());
+//    }
+
+//    public JPanel getSouthPanel() {
+//        return southPanel;
+//    }
+
 }

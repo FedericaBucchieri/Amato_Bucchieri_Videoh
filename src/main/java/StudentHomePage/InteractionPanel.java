@@ -114,10 +114,15 @@ public class InteractionPanel implements Listener {
         return ui;
     }
 
-    public void retrieveEntireInteractionList(int videoID) {
-        System.out.println("retrieveEntireInteractionList per video: "+videoID);
-        List<GenericInteraction> allListPerVideo = model.getInteractionListPerVideo(videoID);
-        //this.ui.setInteractionList(allListPerVideo);
+    public void populateInteractionListByVideo(int videoID) {
+        System.out.println("[interaction panel] populateInteractionListByVideo: "+videoID);
+        model.populateInteractionListPerVideo(videoID);
+        List<GenericInteraction> allListPerVideo = model.getInteractionList();
+        this.ui.setInteractionList(allListPerVideo);
+
     }
 
+    public void repaint() {
+        this.ui.repaint();
+    }
 }
