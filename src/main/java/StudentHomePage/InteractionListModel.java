@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InteractionListModel {
-    public boolean listenersActive = true;
+    private boolean listenersActive = true;
     private InteractionList controller;
     private int generalLenght;
     private List<GenericInteraction> interactionList = new ArrayList<>();
@@ -88,6 +88,14 @@ public class InteractionListModel {
     public void deleteQuestion(Question question){
         interactionDrawings.removeIf(draw -> draw.getInteraction() == question);
         interactionList.removeIf(toDelete -> toDelete.getId() == question.getId());
+    }
+
+    public boolean isListenersActive() {
+        return listenersActive;
+    }
+
+    public void setListenersActive(boolean listenersActive) {
+        this.listenersActive = listenersActive;
     }
 
     public boolean isMousePressed() {

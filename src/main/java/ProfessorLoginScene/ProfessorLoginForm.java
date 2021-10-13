@@ -27,7 +27,10 @@ public class ProfessorLoginForm extends JComponent implements Listener {
 
         this.ui = new ProfessorLoginFormUI();
         this.ui.installUI(this);
+
     }
+
+
 
     public ProfessorLoginFormModel getModel() {
         return model;

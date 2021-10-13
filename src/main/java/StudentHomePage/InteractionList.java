@@ -29,7 +29,7 @@ public class InteractionList extends JComponent {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (model.listenersActive){
+                if (model.isListenersActive()){
                     if(!model.isShiftPressed()) {
                         ui.selectInteractionDrawing(e.getPoint());
                         model.setMousePressed(true);
@@ -47,7 +47,7 @@ public class InteractionList extends JComponent {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (model.listenersActive){
+                if (model.isListenersActive()){
                     if(model.isMousePressed() && model.getSelectedInteractionDrawing() != null){
                         model.getSelectedInteractionDrawing().setX(e.getX());
                         repaint();
@@ -61,7 +61,7 @@ public class InteractionList extends JComponent {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (model.listenersActive){
+                if (model.isListenersActive()){
                     model.setMousePressed(false);
                     if(model.getSelectedInteractionDrawing() != null) {
                         model.getSelectedInteractionDrawing().setSelected(false);
@@ -77,7 +77,7 @@ public class InteractionList extends JComponent {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (model.listenersActive){
+                if (model.isListenersActive()){
                     System.out.println("working");
 
                     if(e.getKeyCode() == KeyEvent.VK_SHIFT)
@@ -91,7 +91,7 @@ public class InteractionList extends JComponent {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (model.listenersActive){
+                if (model.isListenersActive()){
                     if(e.getKeyCode() == KeyEvent.VK_SHIFT)
                         model.setShiftPressed(false);
                 }
@@ -157,6 +157,6 @@ public class InteractionList extends JComponent {
 //        this.removeMouseMotionListener(this.getMouseMotionListeners()[0]);
 //        this.removeMouseListener(this.getMouseListeners()[0]);
 //        this.removeKeyListener(this.getKeyListeners()[0]);
-        model.listenersActive = false;
+        model.setListenersActive(false);
     }
 }
