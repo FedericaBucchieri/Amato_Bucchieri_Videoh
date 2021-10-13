@@ -1,13 +1,9 @@
 package services;
 
-import entities.Interaction;
 import entities.Professor;
-import entities.Video;
 import exceptions.CredentialsException;
-import exceptions.UpdateVideoException;
 import exceptions.UserNotRegisteredException;
 import jakarta.persistence.*;
-import sceneManager.Utils;
 
 import java.util.List;
 

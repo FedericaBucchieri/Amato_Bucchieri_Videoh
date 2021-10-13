@@ -1,6 +1,6 @@
 package ProfessorHomePage;
 
-import sceneManager.Utils;
+import Utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;

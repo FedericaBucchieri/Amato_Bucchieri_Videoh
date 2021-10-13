@@ -5,7 +5,7 @@ import EventManagement.LogoutEvent;
 import EventManagement.NewVideoRequestEvent;
 import EventManagement.UpdateProfileRequestEvent;
 import entities.Professor;
-import sceneManager.Utils;
+import Utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;

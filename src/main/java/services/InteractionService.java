@@ -5,9 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceContext;
-import sceneManager.Utils;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -27,22 +25,18 @@ public class InteractionService {
         return interaction;
     }
 
+    /*
     public List<Interaction> findInteractionsByVideo(int videoId) {
         System.out.println("service: findInteractionsByVideo for video "+videoId);
         Video video = em.find(Video.class, videoId);
         return video.getInteractionList();
     }
 
-    public List<Interaction> findPositiveInteractionsByVideo(int videoId) {
-        List<Interaction> interactions = em
-                .createQuery("Select interaction from Interaction interaction where interaction.video.id = :videoId AND interaction.type =" + Utils.POSITIVE_INTERACTION + "", Interaction.class)
-                .setParameter("videoId", videoId).getResultList();
-        return interactions;
-    }
+     */
 
-    public List<Interaction> findNegativeInteractionsByVideo(int videoId) {
+    public List<Interaction> findInteractionsByVideo(int videoId) {
         List<Interaction> interactions = em
-                .createQuery("Select interaction from Interaction interaction where interaction.video.id = :videoId AND interaction.type =" + Utils.NEGATIVE_INTERACTION + "", Interaction.class)
+                .createQuery("Select interaction from Interaction interaction where interaction.video.id = :videoId", Interaction.class)
                 .setParameter("videoId", videoId).getResultList();
         return interactions;
     }

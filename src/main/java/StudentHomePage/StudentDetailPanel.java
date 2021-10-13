@@ -5,7 +5,7 @@ import EventManagement.LogoutEvent;
 import EventManagement.ReviewRequestEvent;
 import entities.Question;
 import sceneManager.SceneManager;
-import sceneManager.Utils;
+import Utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;

@@ -3,6 +3,7 @@ package ProfessorHomePage;
 import EventManagement.DeleteVideoEvent;
 import EventManagement.GoToStatisticsEvent;
 import EventManagement.Listener;
+import EventManagement.ModifyVideoEvent;
 import entities.Video;
 
 import javax.swing.*;
@@ -33,19 +34,20 @@ public class VideoListElement extends JPanel{
     }
 
     public void deleteVideo(){
-        dispatchDeleteVideoEvent(this.ui.getMainPanel(), this.getVideo());
         model.deleteVideo();
+        dispatchDeleteVideoEvent(this.getVideo());
     }
 
-    private void dispatchDeleteVideoEvent(JPanel videoPanel, Video video){
+    private void dispatchDeleteVideoEvent(Video video){
         for (Listener listener : listeners)
-            listener.listen(new DeleteVideoEvent(videoPanel, video));
+            listener.listen(new DeleteVideoEvent(video));
     }
 
 
     public void handleModifyRequest(){
-        //@TODO
-        System.out.println("Modify Request");
+        for (Listener listener : listeners){
+            listener.listen(new ModifyVideoEvent(video));
+        }
     }
 
     public void handleStatisticRequest(){

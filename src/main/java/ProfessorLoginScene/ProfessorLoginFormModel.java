@@ -12,17 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfessorLoginFormModel {
+    // The controller of the component
+    private ProfessorLoginForm controller;
+    // The Professor instance to be retrieved from the DataBase
     private Professor professor;
+    // The list of listeners for event handling
     private List<Listener> listeners = new ArrayList<>();
 
-
-    public ProfessorLoginFormModel() {
+    public ProfessorLoginFormModel(ProfessorLoginForm controller) {
+        this.controller = controller;
     }
 
-    public void addlisteners(Listener listener){
+    public void addListeners(Listener listener){
         listeners.add(listener);
     }
 
+    /**
+     * This method checks the user credential to validate a professor login
+     * @param usr The string containing the username of the professor
+     * @param pwd The string containing the password of the professor
+     */
     public void checkCredential(String usr, String pwd){
         ProfessorService service = new ProfessorService();
 
@@ -30,24 +39,14 @@ public class ProfessorLoginFormModel {
             Professor professor = service.checkCredentials(usr, pwd);
             if(professor != null) {
                 this.professor = professor;
-                dispatchLoginEvent(professor);
+                controller.dispatchLoginEvent(professor);
             }
         } catch (CredentialsException e) {
-            dispatchErrorEvent(e.getMessage());
+            controller.dispatchErrorEvent(e.getMessage());
         } catch (UserNotRegisteredException e){
-            dispatchErrorEvent(e.getMessage());
+            controller.dispatchErrorEvent(e.getMessage());
         }
     }
 
-
-    private void dispatchErrorEvent(String error){
-        for (Listener listener : listeners)
-            listener.listen(new ErrorEvent(error));
-    }
-
-    private void dispatchLoginEvent(Professor professor){
-        for (Listener listener : listeners)
-            listener.listen(new ProfessorLoginEvent(professor));
-    }
 
 }

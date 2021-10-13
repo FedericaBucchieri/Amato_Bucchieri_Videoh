@@ -1,11 +1,8 @@
 package ProfessorHomePage;
 
-import EventManagement.*;
 import entities.Video;
 import services.VideoService;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class VideoListElementModel {
     private Video video;
@@ -17,6 +14,7 @@ public class VideoListElementModel {
     public void deleteVideo(){
         VideoService videoService = new VideoService();
         videoService.deleteVideo(video.getId());
+        System.out.println("delete");
     }
 
     /*

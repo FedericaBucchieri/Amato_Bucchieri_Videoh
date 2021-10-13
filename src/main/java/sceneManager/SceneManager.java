@@ -7,6 +7,7 @@ import StudentEndVisionScene.StudentEndVisionScene;
 import StudentHomePage.StudentHomePageScene;
 import StudentInsertCode.InsertCodeScene;
 import StudentLogin.StudentLoginScene;
+import Utils.Utils;
 import entities.Professor;
 import ProfessorHomePage.ProfessorHomePage;
 import ProfessorLoginScene.ProfessorLoginScene;
@@ -14,7 +15,6 @@ import entities.Video;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 
 public class SceneManager extends JFrame implements Listener {

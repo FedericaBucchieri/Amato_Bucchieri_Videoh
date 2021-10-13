@@ -18,6 +18,7 @@ public class ProfessorHomePage implements Listener, Scene {
     private AddVideoForm addVideoForm;
     private UpdateProfile updateProfile;
     private StatisticsPane statisticsPane;
+    private ModifyVideoForm modifyVideoForm;
     private Professor professor;
     private JPanel mainPanel;
     private JPanel centerPanel;
@@ -81,12 +82,11 @@ public class ProfessorHomePage implements Listener, Scene {
         else if(event.getClass().equals(UpdateProfileRequestEvent.class)) {
             openUpdateProfileForm();
         }
+        else if(event.getClass().equals(ModifyVideoEvent.class)) {
+            openModifyVideoForm(((ModifyVideoEvent) event).getVideo());
+        }
         else if(event.getClass().equals(UpdateProfileEvent.class)) {
-            professor = ((UpdateProfileEvent) event).getProfessor();
-            detailPanel = new DetailPanel(professor, this);
-            rightPanel.removeAll();
-            rightPanel.add(detailPanel.getMainPanel());
-            openVideoList();
+            updateProfile(((UpdateProfileEvent) event).getProfessor());
         }
         else if(event.getClass().equals(LogoutEvent.class)){
             dispatchLogoutEvent((LogoutEvent) event);
@@ -99,11 +99,8 @@ public class ProfessorHomePage implements Listener, Scene {
 
     private void goToStatisticsPage(Video video) {
         statisticsPane = new StatisticsPane(video, this);
-//        centerPanel.add(statisticsPane.getMainPanel());
         centerPanel.add(statisticsPane.getScrollPane());
         cardLayout.next(centerPanel);
-
-
     }
 
     public Professor getProfessor() {
@@ -142,10 +139,23 @@ public class ProfessorHomePage implements Listener, Scene {
     }
 
     public void removeVideoFromList(Video video){
-        professor.removeVideo(video);
+        videoList.removeVideo(video);
         videoList = new VideoList(professor, this);
 
         centerPanel.add(videoList.getMainPanel());
+        cardLayout.next(centerPanel);
+    }
+
+    public void updateProfile(Professor professor){
+        detailPanel = new DetailPanel(professor, this);
+        rightPanel.removeAll();
+        rightPanel.add(detailPanel.getMainPanel());
+        openVideoList();
+    }
+
+    public void openModifyVideoForm(Video video){
+        modifyVideoForm = new ModifyVideoForm(this, video);
+        centerPanel.add(modifyVideoForm.getMainPanel());
         cardLayout.next(centerPanel);
     }
 

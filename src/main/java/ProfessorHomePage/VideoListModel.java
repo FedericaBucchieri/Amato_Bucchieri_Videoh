@@ -8,16 +8,16 @@ import java.util.List;
 
 public class VideoListModel {
     private Professor professor;
+    private List<Video> videoList;
 
     public VideoListModel(Professor professor) {
         this.professor = professor;
     }
 
-
     public List<Video> getVideoList() {
         VideoService service = new VideoService();
-        //return service.findVideosByProfessor(professor.getId());
-        return service.findVideoListByProfessor(professor.getId());
+        videoList = service.findVideoListByProfessor(professor.getId());
+        return videoList;
     }
 
     public Professor getProfessor() {
@@ -25,11 +25,8 @@ public class VideoListModel {
     }
 
     public void removeVideo(Video video){
-        int videoId = video.getId();
-        List<Video> videoList = professor.getVideoList();
-
-        videoList.removeIf(v -> v.getId() == videoId);
-
+        videoList.removeIf(v -> v.getId() == video.getId());
+        professor.setVideoList(videoList);
     }
 
 }

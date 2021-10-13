@@ -2,6 +2,7 @@ package StudentHomePage;
 
 import EventManagement.*;
 import EventManagement.Event;
+import VideoPlayer.VideoPlayerArea;
 import entities.Question;
 import entities.Video;
 import sceneManager.Scene;
@@ -102,7 +103,8 @@ public class StudentHomePageScene implements Listener, Scene{
         else if(event.getClass().equals(DeleteQuestionEvent.class)){
             studentDetailPanel.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
             videoPlayerArea.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
-            repaintReview();
+            if(questionReviewPanel != null)
+                repaintReview();
         }
         else if(event.getClass().equals(ReviewRequestEvent.class)){
             switchToReviewMode(((ReviewRequestEvent) event).getQuestionList());

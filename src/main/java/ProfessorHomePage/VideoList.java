@@ -2,7 +2,7 @@ package ProfessorHomePage;
 
 import entities.Professor;
 import entities.Video;
-import sceneManager.Utils;
+import Utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,11 +34,15 @@ public class VideoList extends JComponent  {
         return model.getVideoList();
     }
 
+    public void removeVideo(Video video){
+        model.removeVideo(video);
+        this.ui.paint();
+    }
+
 
     @Override
     public void paintComponent(Graphics pen) {
         this.ui.paint();
-        add(this.ui.getMainPanel(), BorderLayout.CENTER);
     }
 
 

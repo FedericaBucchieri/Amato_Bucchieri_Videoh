@@ -4,10 +4,9 @@ import EventManagement.CancelEvent;
 import EventManagement.Listener;
 import entities.Interaction;
 import entities.Video;
-import sceneManager.Utils;
+import Utils.Utils;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class StatisticsPane extends JComponent {
     public StatisticsPane (Video video, ProfessorHomePage professorHomePage){
         model = new StatisticsPaneModel(this, video);
         UI = new StatisticsPaneUI(this);
-
+        //UI.installUI();
 
         this.listeners.add(professorHomePage);
 
