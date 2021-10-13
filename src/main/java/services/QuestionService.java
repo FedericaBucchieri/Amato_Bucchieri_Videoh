@@ -27,8 +27,10 @@ public class QuestionService {
     }
 
     public List<Question> findQuestionsByVideo(int videoId) {
-        Video video = em.find(Video.class, videoId);
-        return video.getQuestionList();
+        List<Question> questions = em
+                .createQuery("Select question from Question question where question.video.id = :videoId", Question.class)
+                .setParameter("videoId", videoId).getResultList();
+        return questions;
     }
 
     public Question createQuestion(String text, String student, int videoId, int timestamp){

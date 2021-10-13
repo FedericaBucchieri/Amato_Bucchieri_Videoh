@@ -1,7 +1,10 @@
 package ProfessorHomePage;
 
-import sceneManager.Utils;
+import Utils.Utils;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,15 +12,17 @@ import java.io.File;
 
 public class AddVideoFormUI {
     private JPanel mainPanel;
-    private JTextField previewImageField;
-    private JTextField descriptionField;
+    private JTextArea descriptionField;
     private JTextField titleField;
     private JButton uploadVideoButton;
+    private JButton uploadImageButton;
     private JLabel uploadVideoName;
+    private JLabel uploadImageName;
     private JButton addVideoButton;
     private JButton backButton;
     private JLabel errorLabel;
     private File newVideoFile;
+    private File newImageFile;
     private AddVideoForm controller;
 
     public AddVideoFormUI(AddVideoForm controller) {
@@ -29,6 +34,10 @@ public class AddVideoFormUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
+                
+                FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Video files", "mp4");
+                fileChooser.setFileFilter(imageFilter);
+
                 fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
                 int result = fileChooser.showOpenDialog(mainPanel);
                 if (result == JFileChooser.APPROVE_OPTION) {
@@ -38,12 +47,30 @@ public class AddVideoFormUI {
             }
         });
 
+        uploadImageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+
+                FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+                fileChooser.setFileFilter(imageFilter);
+
+                fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+                int result = fileChooser.showOpenDialog(mainPanel);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    newImageFile = fileChooser.getSelectedFile();
+                    uploadImageName.setText("File Selected: " + newImageFile.getName());
+                }
+            }
+        });
+
         addVideoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.handleNewVideoRequest(titleField.getText(), descriptionField.getText(), previewImageField.getText(), newVideoFile);
+                controller.handleNewVideoRequest(titleField.getText(), descriptionField.getText(), newImageFile, newVideoFile);
             }
         });
+
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -59,11 +86,14 @@ public class AddVideoFormUI {
 
         setupTitle();
         setupForm();
+        mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
+        setupImageUpload();
+        mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
         setupVideoUpload();
+        setupErrorLabel();
         setupButtons();
 
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
-
     }
 
     private void setupTitle(){
@@ -74,7 +104,6 @@ public class AddVideoFormUI {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(title);
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
-
     }
 
     private void setupButtons(){
@@ -104,19 +133,27 @@ public class AddVideoFormUI {
 
         JLabel description = new JLabel("Description");
         description.setAlignmentX(Component.CENTER_ALIGNMENT);
-        descriptionField = new JTextField();
-        descriptionField.setMaximumSize(new Dimension(Utils.STANDARD_SMALL_TEXT_FIELD_WIDTH, Utils.STANDARD_TEXT_FIELD_HEIGHT));
+        descriptionField = new JTextArea();
+        descriptionField.setWrapStyleWord(true);
+        descriptionField.setLineWrap(true);
+        descriptionField.setMaximumSize(new Dimension(Utils.STANDARD_SMALL_TEXT_FIELD_WIDTH, Utils.STANDARD_TEXTAREA_FIELD_HEIGHT));
         descriptionField.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(description);
         mainPanel.add(descriptionField);
 
-        JLabel preview = new JLabel("Preview Image");
-        preview.setAlignmentX(Component.CENTER_ALIGNMENT);
-        previewImageField = new JTextField();
-        previewImageField.setMaximumSize(new Dimension(Utils.STANDARD_SMALL_TEXT_FIELD_WIDTH, Utils.STANDARD_TEXT_FIELD_HEIGHT));
-        previewImageField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(preview);
-        mainPanel.add(previewImageField);
+    }
+
+    private void setupImageUpload(){
+        Utils utils = new Utils();
+        uploadImageButton = new JButton("Browse Preview Image");
+        uploadImageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        uploadImageButton = utils.styleButtonTwo(uploadImageButton);
+        mainPanel.add(uploadImageButton);
+
+        uploadImageName = new JLabel();
+        uploadImageName.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(uploadImageName);
+        mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
     }
 
     private void setupVideoUpload(){
@@ -134,5 +171,22 @@ public class AddVideoFormUI {
 
     public JPanel getMainPanel() {
         return mainPanel;
+    }
+
+    /**
+     * This method updates the text of the errorLabel to display the student login error message
+     */
+    public void displayError(String error){
+        errorLabel.setText(error);
+    }
+
+    /**
+     * This method sets up the Error label with an empty text
+     */
+    private void setupErrorLabel(){
+        errorLabel = new JLabel();
+        errorLabel.setForeground(Color.decode("#DB2A58"));
+        errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(errorLabel);
     }
 }

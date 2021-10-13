@@ -16,7 +16,9 @@ public class Video {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String title;
-    private String previewImage;
+    @Lob
+    private File previewImage;
+
     private String description;
     private int videoCode;
     @Lob
@@ -40,7 +42,7 @@ public class Video {
     public Video() {
     }
 
-    public Video(String title, String description, String previewImage, int videoCode, File file, Professor professor) {
+    public Video(String title, String description, File previewImage, int videoCode, File file, Professor professor) {
         this.title = title;
         this.description = description;
         this.previewImage = previewImage;
@@ -102,11 +104,11 @@ public class Video {
         this.questionList = questionList;
     }
 
-    public String getPreviewImage() {
+    public File getPreviewImage() {
         return previewImage;
     }
 
-    public void setPreviewImage(String previewImage) {
+    public void setPreviewImage(File previewImage) {
         this.previewImage = previewImage;
     }
 
@@ -128,6 +130,10 @@ public class Video {
 
     public File getFile() {
         return this.file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 
     public void removeInteraction(Interaction toBeDeleted){

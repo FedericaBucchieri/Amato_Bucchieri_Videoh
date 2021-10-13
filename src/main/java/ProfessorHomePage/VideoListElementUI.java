@@ -1,7 +1,7 @@
 package ProfessorHomePage;
 
 import entities.Video;
-import sceneManager.Utils;
+import Utils.Utils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -118,10 +118,9 @@ public class VideoListElementUI {
         videoTitle.setText(video.getTitle());
         videoDescription.setText(video.getDescription());
         videoCode.setText("Code:" + String.valueOf(video.getCode()));
-        videoPreview.setIcon(new ImageIcon(new ImageIcon("src/main/images/" + video.getPreviewImage()).getImage().getScaledInstance(200, 113, Image.SCALE_SMOOTH)));
-
-        //videoPreview.setIcon(new ImageIcon(new ImageIcon("src/main/images/" +  video.getPreviewImage()).getImage().getScaledInstance(Utils.BIG_LOGO_SIZE, Utils.BIG_LOGO_SIZE, Image.SCALE_SMOOTH)));
+        videoPreview.setIcon(new ImageIcon(new ImageIcon(video.getPreviewImage().getPath()).getImage().getScaledInstance(200, 113, Image.SCALE_SMOOTH)));
     }
+
 
     public JPanel getMainPanel() {
         return mainPanel;

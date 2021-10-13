@@ -1,14 +1,18 @@
 package Dialogues;
 
-import entities.Video;
-import sceneManager.Utils;
+import Utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
 
+// This class implement a dialog used to open the Application guide after a help request
 public class HelpDialogue extends JDialog {
+    // The main panel of the scene
     private JPanel mainPanel;
 
+    /**
+     * This constructor creates an instance of HelpDialogue, adding all the UI element required to the mainPanel and setting the dialog dimensions
+     */
     public HelpDialogue() {
         setupMainPanel();
 
@@ -17,6 +21,9 @@ public class HelpDialogue extends JDialog {
         setMinimumSize(getPreferredSize());
     }
 
+    /**
+     * This method sets up the main panel and all the required element of the panel: a title and a guide body text
+     */
     private void setupMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -26,6 +33,9 @@ public class HelpDialogue extends JDialog {
         setupGuide();
     }
 
+    /**
+     * This method adds a title to the mainPanel
+     */
     private void setupTitle() {
         JLabel title = new JLabel("VIDEOH - User guide");
         title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.SUBTITLE_WIDTH));
@@ -34,6 +44,9 @@ public class HelpDialogue extends JDialog {
         mainPanel.add(title);
     }
 
+    /**
+     * This method adds a textArea displaying the application guide text
+     */
     private void setupGuide() {
         JTextArea guide = new JTextArea(Utils.GUIDE_TEXT);
         guide.setWrapStyleWord(true);

@@ -1,6 +1,7 @@
 package ProfessorHomePage;
 
 import EventManagement.CancelEvent;
+import EventManagement.ErrorEvent;
 import EventManagement.Listener;
 import EventManagement.NewVideoEvent;
 import entities.Video;
@@ -21,7 +22,7 @@ public class AddVideoForm extends JComponent {
         this.listeners.add(professorHomePage);
         this.setLayout(new BorderLayout());
 
-        this.model = new AddVideoFormModel(professorHomePage.getProfessor());
+        this.model = new AddVideoFormModel(this, professorHomePage.getProfessor());
         this.ui = new AddVideoFormUI(this);
     }
 
@@ -29,9 +30,10 @@ public class AddVideoForm extends JComponent {
         return this.ui.getMainPanel();
     }
 
-    public void handleNewVideoRequest(String title, String description, String previewImage, File file){
+    public void handleNewVideoRequest(String title, String description, File previewImage, File file){
         Video newVideo = model.createNewVideo(title, description, previewImage, file);
-        dispatchNewVideoEvent(newVideo);
+        if(newVideo != null)
+            dispatchNewVideoEvent(newVideo);
     }
 
     private void dispatchNewVideoEvent(Video video){
@@ -46,5 +48,9 @@ public class AddVideoForm extends JComponent {
     private void dispatchCancelEvent(){
         for (Listener listener : listeners)
             listener.listen(new CancelEvent());
+    }
+
+    public void reportError(String error){
+        ui.displayError(error);
     }
 }

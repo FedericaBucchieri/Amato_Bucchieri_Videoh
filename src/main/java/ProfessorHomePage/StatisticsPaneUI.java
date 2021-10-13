@@ -1,10 +1,10 @@
 package ProfessorHomePage;
 
-import StudentHomePage.InteractionPanel;
-import StudentHomePage.VideoBox;
+import InteractionList.InteractionPanel;
+import VideoPlayer.VideoBox;
 import entities.GenericInteraction;
 import entities.Question;
-import sceneManager.Utils;
+import Utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class StatisticsPaneUI {
-    /*
     private StatisticsPane controller;
     private JPanel viewPortView;
     private JScrollPane scrollPane;
@@ -39,7 +38,6 @@ public class StatisticsPaneUI {
         setupSouthPanel();
         setupNorthPanel();
         setupScrollPane();
-
 
     }
 
@@ -114,11 +112,11 @@ public class StatisticsPaneUI {
 //        interactionPanel.populateInteractionListByVideo(controller.getVideo().getId());
 //        southPanel.repaint();
         /*TODO: remove this comment
-        * in questo punto provavo add aggiungere al southpanel un pannello delle interazioni già
-        * popolato ma purtroppo le interactions per qualche motivo non le carica subito.
-        * quindi l'unica soluzione è questa attuale. mi istanzio da subito un pannello di interazioni
-        * vuoto, poi col tasto show le recupero e le printo nel pannello delle interazioni
-        * */
+         * in questo punto provavo add aggiungere al southpanel un pannello delle interazioni già
+         * popolato ma purtroppo le interactions per qualche motivo non le carica subito.
+         * quindi l'unica soluzione è questa attuale. mi istanzio da subito un pannello di interazioni
+         * vuoto, poi col tasto show le recupero e le printo nel pannello delle interazioni
+         * */
         mainPanel.add(southPanel, BorderLayout.SOUTH);
     }
 
@@ -301,7 +299,6 @@ public class StatisticsPaneUI {
 
     }
 
-
     public JPanel getMainPanel() {
         return mainPanel;
     }
@@ -313,6 +310,5 @@ public class StatisticsPaneUI {
     public void dismissVideo() {
         videoBox.dismissVideo();
     }
-
-     */
 }
+

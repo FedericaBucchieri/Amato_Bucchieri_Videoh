@@ -3,10 +3,8 @@ package services;
 import entities.Professor;
 import entities.Video;
 import exceptions.UpdateVideoException;
-import exceptions.UserNotRegisteredException;
 import jakarta.persistence.*;
-import sceneManager.Utils;
-import uk.co.caprica.vlcj.player.media.Media;
+import Utils.Utils;
 
 import java.io.File;
 import java.util.List;
@@ -50,7 +48,7 @@ public class VideoService {
             return videoList;
     }
 
-    public Video createVideo(String title, String description, String previewImage, File file, Professor professor){
+    public Video createVideo(String title, String description, File previewImage, File file, Professor professor){
         Random random = new Random();
         int videoCode = random.nextInt(Utils.VIDEO_CODE_BOUND);
 
@@ -71,20 +69,25 @@ public class VideoService {
         Video video = em.find(Video.class, videoId);
         Professor professor = video.getProfessor();
         professor.removeVideo(video);
+        System.out.println("delete video inside database");
+
         em.getTransaction().begin();
         em.remove(video);
         em.getTransaction().commit();
     }
 
-    public void updateVideo(Video video, String title, String description, String preview) throws UpdateVideoException {
+    public void updateVideo(Video video, String title, String description, File previewImage, File videoFile) throws UpdateVideoException {
         if(title != null)
             video.setTitle(title);
 
         if(description != null)
             video.setDescription(description);
 
-        if(preview != null)
-            video.setPreviewImage(preview);
+        if(previewImage != null)
+            video.setPreviewImage(previewImage);
+
+        if(videoFile != null)
+            video.setFile(videoFile);
 
         try {
             em.merge(video);

@@ -1,15 +1,22 @@
 package Dialogues;
 
 import entities.Video;
-import sceneManager.Utils;
+import Utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
 
+// This class implement a dialog used to display the video information and details
 public class InfoDialog extends JDialog {
+    // The video to display the info about
     private Video video;
+    // the main panel of the scene
     private JPanel mainPanel;
 
+    /**
+     * This constructor creates an instance of InfoDialog adding the relevant element to the UI and setting the dialog dimensions
+     * @param video The video to display the info about
+     */
     public InfoDialog(Video video) {
         this.video = video;
         setupMainPanel();
@@ -19,6 +26,9 @@ public class InfoDialog extends JDialog {
         setMinimumSize(getPreferredSize());
     }
 
+    /**
+     * This method sets up the main panel and all the required element of the panel
+     */
     private void setupMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -29,6 +39,9 @@ public class InfoDialog extends JDialog {
         setupCode();
     }
 
+    /**
+     * This method adds the video title to the mainPanel
+     */
     private void setupTitle() {
         JLabel title = new JLabel(video.getTitle());
         title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.SUBTITLE_WIDTH));
@@ -37,12 +50,18 @@ public class InfoDialog extends JDialog {
     }
 
 
+    /**
+     * This method adds the video description to the mainPanel
+     */
     private void setupDescription() {
         JLabel description = new JLabel(video.getDescription());
         description.setForeground(Color.white);
         mainPanel.add(description);
     }
 
+    /**
+     * This method adds the video code to the main panel
+     */
     private void setupCode() {
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
 

@@ -1,7 +1,7 @@
 package ProfessorHomePage;
 
 import entities.Video;
-import sceneManager.Utils;
+import Utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;

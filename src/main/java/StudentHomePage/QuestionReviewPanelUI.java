@@ -1,7 +1,7 @@
 package StudentHomePage;
 
 import entities.Question;
-import sceneManager.Utils;
+import Utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
