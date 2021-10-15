@@ -56,12 +56,16 @@ public class Utils {
     public static final String EMPTY_VIDEO_ERROR = "Please, type a valid video file";
     public static final String UPDATE_VIDEO_ERROR = "Sorry, an error occured while updating the video";
     public static final String GUIDE_TEXT = "Prova di guida";
-    public static final Dimension VERTICAL_RIGID_AREA_DIM10 = new Dimension(0, 10);
+
     public static final int STATS_LABEL_DIM = 25;
+    public static final Dimension VERTICAL_RIGID_AREA_DIM10 = new Dimension(0, 10);
     public static final Dimension VERTICAL_RIGID_AREA_DIM15 = new Dimension(0, 15);
+    public static final Dimension VERTICAL_RIGID_AREA_DIM30 = new Dimension(0, 30);
     public static final Dimension VERTICAL_RIGID_AREA_DIM100 = new Dimension(0, 100);
+
     public static final Dimension HORIZONTAL_RIGID_AREA_DIM30 = new Dimension(30,0);
     public static final int UNIT_SCROLLING_INCREMENT = 3;
+
 
     public JButton styleButtonOne(JButton button){
         button.setBackground(Color.decode("#314668"));
