@@ -154,7 +154,7 @@ public class InteractionList extends JComponent {
      * This method disables all the model listeners
      */
     public void disableListeners() {
-        model.listenersActive = false;
+        model.setListenersActive(false);
     }
 
     /**
