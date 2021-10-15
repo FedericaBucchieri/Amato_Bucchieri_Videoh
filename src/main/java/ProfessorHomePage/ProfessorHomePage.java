@@ -76,6 +76,9 @@ public class ProfessorHomePage implements Listener, Scene {
         else if(event.getClass().equals(CancelEvent.class)){
             openVideoList();
         }
+        else if(event.getClass().equals(BackEvent.class)){
+            openVideoList();
+        }
         else if(event.getClass().equals(DeleteVideoEvent.class)) {
             removeVideoFromList(((DeleteVideoEvent) event).getVideo());
         }

@@ -13,28 +13,43 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// this class represent the list of interaction to be displayed inside the InteractionPanel
 public class InteractionList extends JComponent {
+    // The model of the component
     private InteractionListModel model;
-    private InteractionListUI ui;
+    // the view of the component
+    private InteractionListView view;
+    // the list of listeners for event handling
     private List<Listener> listeners = new ArrayList<>();
 
+    /**
+     * This constructor creates an instance of InteractionList assigning a InteractionPanel to its listeners
+     * @param generalLength the lenght of the list Panel to be displayed
+     * @param interactionPanel the interaction panel that contains the list
+     */
     public InteractionList(int generalLength, InteractionPanel interactionPanel) {
         this.listeners.add(interactionPanel);
 
         this.model = new InteractionListModel(generalLength, this);
-        this.ui = new InteractionListUI(this);
+        this.view = new InteractionListView(this);
 
+    }
 
+    /**
+     * this method install all the eventListeners required by the UI to make the component work
+     * Allowing drag and drop of interaction drawing in the timeline
+     */
+    public void installUI(){
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (model.isListenersActive()){
-                    if(!model.isShiftPressed()) {
-                        ui.selectInteractionDrawing(e.getPoint());
+                    if(!model.isDeleteMode()) {
+                        view.selectInteractionDrawing(e.getPoint());
                         model.setMousePressed(true);
                     }
                     else { // Shift pressed: Delete mode
-                        ui.selectInteractionDrawing(e.getPoint());
+                        view.selectInteractionDrawing(e.getPoint());
                         model.deleteSelectedInteraction();
                         repaint();
                     }
@@ -71,42 +86,6 @@ public class InteractionList extends JComponent {
 
             }
         });
-
-
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (model.isListenersActive()){
-                    System.out.println("working");
-
-                    if(e.getKeyCode() == KeyEvent.VK_SHIFT)
-                        System.out.println("shift pressed");
-                    model.setShiftPressed(true);
-                }
-
-            }
-        });
-
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (model.isListenersActive()){
-                    if(e.getKeyCode() == KeyEvent.VK_SHIFT)
-                        model.setShiftPressed(false);
-                }
-
-            }
-        });
-
-        //TODO FOCUS NOT WORKING
-    }
-
-    public void activateDeleteMode(){
-        model.setShiftPressed(true);
-    }
-
-    public void deactivateDeleteMode(){
-        model.setShiftPressed(false);
     }
 
     public InteractionListModel getModel() {
@@ -119,7 +98,7 @@ public class InteractionList extends JComponent {
 
     @Override
     protected void paintComponent(Graphics g) {
-        ui.paint(g);
+        view.paint(g);
     }
 
     @Override
@@ -132,30 +111,56 @@ public class InteractionList extends JComponent {
         return getPreferredSize();
     }
 
+    /**
+     * This method updates an instance of generic interaction updating its position
+     * @param interaction the interaction to update
+     * @param newPosition the new position value
+     */
     public void updateInteraction(GenericInteraction interaction, int newPosition){
         model.updateInteractionTimestamp(interaction, newPosition);
 
         if(interaction instanceof Question) {
-            //dispatch UpdateQuestionEvent
-            for (Listener listener : listeners)
-                listener.listen(new UpdateQuestionEvent());
+            dispatchUpdateQuestionEvent();
         }
     }
 
+    /**
+     * This method dispatches a new UpdateQuestionEvent
+     */
+    public void dispatchUpdateQuestionEvent(){
+        for (Listener listener : listeners)
+            listener.listen(new UpdateQuestionEvent());
+    }
+
+    /**
+     * This method allow to delete a question from the db
+     * @param question the question instance to delete
+     */
     public void deleteQuestionFromList(Question question){
         model.deleteQuestion(question);
         repaint();
     }
 
-    public void deleteQuestion(Question question){
+    /**
+     * This method dispatches a new DeleteQuestionEvent
+     * @param question the question to be dispatched in the event
+     */
+    public void dispatchDeleteQuestionEvent(Question question){
         for (Listener listener : listeners)
             listener.listen(new DeleteQuestionEvent(question));
     }
 
+    /**
+     * This method disables all the model listeners
+     */
     public void disableListeners() {
-//        this.removeMouseMotionListener(this.getMouseMotionListeners()[0]);
-//        this.removeMouseListener(this.getMouseListeners()[0]);
-//        this.removeKeyListener(this.getKeyListeners()[0]);
         model.setListenersActive(false);
+    }
+
+    /**
+     * This method toggles the state of the deleteMode boolean of the component state
+     */
+    public void toggleDeleteMode(){
+        model.setDeleteMode(!model.isDeleteMode());
     }
 }
