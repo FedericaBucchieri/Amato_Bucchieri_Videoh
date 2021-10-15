@@ -14,10 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentEndVisionScene implements Scene {
+    // the panel that container every element of the component view
     private JPanel mainPanel;
+    // the back Button
     private JButton backButton;
+    // a list of listeners for event handling
     private List<Listener> listeners = new ArrayList<>();
 
+    /**
+     * This constructor creates an instance of StudentEndVisionScene adding a SceneManager to its listeners list and creating the ui elements of the scene
+     * @param sceneManager the SceneManager instance to add to the listeners list
+     */
     public StudentEndVisionScene(SceneManager sceneManager) {
         this.listeners.add(sceneManager);
 
@@ -31,12 +38,18 @@ public class StudentEndVisionScene implements Scene {
         return mainPanel;
     }
 
+    /**
+     * this method sets up the main panel of the scene
+     */
     private void setupMainPanel(){
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.setBackground(Color.decode("#42577F"));
     }
 
+    /**
+     * This method creates a JLabel for the title of the scene
+     */
     private void setupTitleLabel() {
         mainPanel.add(Box.createVerticalStrut(Utils.TITLE_MARGIN));
         JLabel titleLabel = new JLabel("Well done!");
@@ -47,6 +60,9 @@ public class StudentEndVisionScene implements Scene {
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
     }
 
+    /**
+     * This method creates a JLabel for the logo of the scene
+     */
     private void setupTrophyLogo() {
         JLabel trophyLogo = new JLabel();
         trophyLogo.setIcon(new ImageIcon(new ImageIcon("src/main/images/trophy.png").getImage().getScaledInstance(Utils.BIG_LOGO_SIZE, Utils.BIG_LOGO_SIZE, Image.SCALE_SMOOTH)));
@@ -54,6 +70,9 @@ public class StudentEndVisionScene implements Scene {
         mainPanel.add(trophyLogo);
     }
 
+    /**
+     * This method creates a JButton for the backButton instance
+     */
     private void setupBackButton(){
         Utils utils = new Utils();
         backButton = new JButton("Back To Login");
@@ -63,6 +82,9 @@ public class StudentEndVisionScene implements Scene {
         mainPanel.add(backButton);
     }
 
+    /**
+     * This method installs the UI, setting up all the required actionListeners for each element of the UI
+     */
     public void installUI(){
         backButton.addActionListener(new ActionListener() {
             @Override

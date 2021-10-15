@@ -106,7 +106,7 @@ public class StatisticsPaneUI {
         southPanel.add(videoBox.getUI().getControllButtonsPanel());
         interactionPanel = retrieveInteractionPanel();
         interactionPanel.disableListeners();
-        southPanel.add(interactionPanel.getUi().getGeneralInteractionsPanel_due());
+        southPanel.add(interactionPanel.getView().getGeneralInteractionsPanel_due());
 
 //        interactionPanel.repaint();
 //        interactionPanel.populateInteractionListByVideo(controller.getVideo().getId());

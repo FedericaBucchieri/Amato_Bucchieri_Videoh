@@ -25,14 +25,6 @@ public class InteractionService {
         return interaction;
     }
 
-    /*
-    public List<Interaction> findInteractionsByVideo(int videoId) {
-        System.out.println("service: findInteractionsByVideo for video "+videoId);
-        Video video = em.find(Video.class, videoId);
-        return video.getInteractionList();
-    }
-
-     */
 
     public List<Interaction> findInteractionsByVideo(int videoId) {
         List<Interaction> interactions = em

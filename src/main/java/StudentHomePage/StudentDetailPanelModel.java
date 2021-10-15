@@ -8,7 +8,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class StudentDetailPanelModel {
+    // the username of the logged student
     private String username;
+    // the list of questions made by the student
     private List<Question> questionList = new ArrayList<>();
 
     public StudentDetailPanelModel(String username) {
@@ -31,6 +33,9 @@ public class StudentDetailPanelModel {
         questionList.add(question);
     }
 
+    /**
+     * This method sorts the questionList according to descent order of the date
+     */
     public void sortQuestionList(){
         Collections.sort(questionList, new Comparator<Question>() {
             @Override public int compare(Question q1, Question q2) {

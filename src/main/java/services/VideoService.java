@@ -90,7 +90,9 @@ public class VideoService {
             video.setFile(videoFile);
 
         try {
+            em.getTransaction().begin();
             em.merge(video);
+            em.getTransaction().commit();
         } catch (PersistenceException e){
             throw new UpdateVideoException(Utils.ERROR_UPDATE_VIDEO);
         }

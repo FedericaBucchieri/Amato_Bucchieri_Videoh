@@ -14,16 +14,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentHomePageScene implements Listener, Scene{
+    // A component of the Scene: a videoPlayerArea to display the Video
     private VideoPlayerArea videoPlayerArea;
+    // A component of the Scene: the student detail panel to be displayed on the right
     private StudentDetailPanel studentDetailPanel;
+    // A componet of the Scene: a panel to review all student questions
     private QuestionReviewPanel questionReviewPanel;
+    // The logged student username
     private String username;
+    // the main panel of the scene
     private JPanel mainPanel;
+    // The center panel of the scene, on the left part
     private JPanel centerPanel;
+    // the right panel of the scene, on the right part
     private JPanel rightPanel;
+    // A card layout to switch panel in the centerPanel
     private CardLayout cardLayout;
+    // A list of Listeners for event handling
     private List<Listener> listeners = new ArrayList<>();
 
+    /**
+     * This constructor creates an instance of StudentHomePageScene, adding the main sceneManager as listener, creating the mainPanels of the scene
+     * @param sceneManager The main SceneManager to add to the listeners list
+     * @param video The video to be shown to the student
+     * @param username The string containing the logged in student
+     */
     public StudentHomePageScene(SceneManager sceneManager, Video video, String username) {
         this.username = username;
         this.listeners.add(sceneManager);
@@ -39,6 +54,11 @@ public class StudentHomePageScene implements Listener, Scene{
 
     }
 
+    /**
+     * This method sets up the CenterPanel creating a cardLayout to display panels when needed
+     * @param sceneManager the sceneManager instance to pass to the VideoPlayerArea component
+     * @param video the Video instance do be displayed to the student
+     */
     public void setupCentralPanel(SceneManager sceneManager, Video video){
         cardLayout = new CardLayout();
         this.centerPanel = new JPanel();
@@ -49,6 +69,10 @@ public class StudentHomePageScene implements Listener, Scene{
         cardLayout.next(centerPanel);
     }
 
+    /**
+     * This method sets up the RightPanel
+     * @param sceneManager the sceneManager instance to pass to the StudentDetailPanel component
+     */
     public void setupRightPanel(SceneManager sceneManager){
         this.rightPanel = new JPanel();
         studentDetailPanel = new StudentDetailPanel(username,this, sceneManager);
@@ -56,6 +80,10 @@ public class StudentHomePageScene implements Listener, Scene{
         rightPanel.setBackground(Color.decode("#42577F"));
     }
 
+    /**
+     * This method allows to display the questionReviewPanel in the centerPanel
+     * @param questionList the list of questions to be displayed for review
+     */
     private void switchToReviewMode(List<Question> questionList){
         videoPlayerArea.stopVideoPlaying();
         studentDetailPanel.hideQuestionList();
@@ -65,11 +93,17 @@ public class StudentHomePageScene implements Listener, Scene{
         cardLayout.next(centerPanel);
     }
 
+    /**
+     * This method repaint the question list in the questionReviewPanel
+     */
     private void repaintReview(){
         centerPanel.add(questionReviewPanel.getMainPanel());
         cardLayout.next(centerPanel);
     }
 
+    /**
+     * This method allows to display the VideoPlayerArea in the centerPanel
+     */
     private  void switchToVideoPanel(){
         videoPlayerArea.unlockVideoPlaying();
         studentDetailPanel.showQuestionList(questionReviewPanel.getQuestionList());
@@ -78,10 +112,15 @@ public class StudentHomePageScene implements Listener, Scene{
         cardLayout.next(centerPanel);
     }
 
+    /**
+     * This method dispatches an EndReviewEvent event
+     * @param event the event to be dispatched
+     */
     private void dispatchEndReviewEvent(EndReviewEvent event){
         for (Listener listener : listeners)
             listener.listen(event);
     }
+
 
     public String getUsername(){return this.username;}
 
