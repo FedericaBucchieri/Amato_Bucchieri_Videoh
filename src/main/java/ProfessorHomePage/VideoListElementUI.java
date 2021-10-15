@@ -4,7 +4,9 @@ import entities.Video;
 import Utils.Utils;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,39 +16,55 @@ public class VideoListElementUI {
     private JLabel videoTitle;
     private JLabel videoPreview;
     private JTextArea videoDescription;
-    private JLabel videoCode;
+    private JTextPane videoCode;
     private JButton seeStatisticsButton;
     private JButton modifyButton;
     private JButton deleteButton;
     private VideoListElement controller;
 
     public VideoListElementUI() {
-        mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(Color.white);
-
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBackground(Color.WHITE);
         setupTitle();
-        setupLeftPanel();
-        setupRightPanel();
+        previewDescriptionButtonsPanel();
 
     }
 
     private void setupTitle(){
         videoTitle = new JLabel();
         videoTitle.setFont(new Font(Font.SANS_SERIF,  Font.BOLD, Utils.SUBTITLE_WIDTH));
-        mainPanel.add(videoTitle, BorderLayout.NORTH);
+        videoTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mainPanel.add(videoTitle);
+        mainPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
+
     }
 
-    private void setupLeftPanel(){
-        JPanel leftPanel = new JPanel();
+    private void previewDescriptionButtonsPanel(){//contains video preview, video description and all buttons
+        JPanel previewDescriptionButtonsPanel = new JPanel();
+        previewDescriptionButtonsPanel.setLayout(new BoxLayout(previewDescriptionButtonsPanel, BoxLayout.X_AXIS));
+        previewDescriptionButtonsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mainPanel.add(previewDescriptionButtonsPanel);
+
+        setupLeftPanel(previewDescriptionButtonsPanel);
+
+        setupRightPanel(previewDescriptionButtonsPanel);
+
+    }
+
+    private void setupLeftPanel(JPanel previewDescriptionButtonsPanel) {
+        JPanel leftPanel = new JPanel(); //contains video preview and video description.
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.X_AXIS));
-        leftPanel.setBorder(new EmptyBorder(new Insets(Utils.STANDARD_BORDER, Utils.STANDARD_BORDER, Utils.STANDARD_BORDER, Utils.STANDARD_BORDER)));
-        leftPanel.setBackground(Color.white);
-        mainPanel.add(leftPanel, BorderLayout.CENTER);
+        leftPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+        leftPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        leftPanel.setBackground(Color.WHITE);
+        previewDescriptionButtonsPanel.add(leftPanel);
 
         videoPreview = new JLabel();
         videoPreview.setAlignmentY(Component.TOP_ALIGNMENT);
+        videoPreview.setAlignmentX(Component.LEFT_ALIGNMENT);
         leftPanel.add(videoPreview);
-        leftPanel.add(Box.createHorizontalStrut(Utils.STANDARD_BORDER));
+        leftPanel.add(Box.createRigidArea(new Dimension(Utils.HORIZONTAL_RIGID_AREA_DIM30)));
 
         videoDescription = new JTextArea();
         videoDescription.setEditable(false);
@@ -57,34 +75,42 @@ public class VideoListElementUI {
         leftPanel.add(videoDescription);
     }
 
-    public void setupRightPanel(){
+    public void setupRightPanel(JPanel previewDescriptionButtonsPanel){//it contains all the buttons and the video code
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
-        rightPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
         rightPanel.setBackground(Color.white);
-        mainPanel.add(rightPanel, BorderLayout.EAST);
+        rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+        previewDescriptionButtonsPanel.add(rightPanel);
 
         Utils utils = new Utils();
 
         seeStatisticsButton = new JButton("See statistics");
         seeStatisticsButton = utils.styleButtonOne(seeStatisticsButton);
+        seeStatisticsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         rightPanel.add(seeStatisticsButton);
-        rightPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER/2));
+        rightPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
 
         modifyButton = new JButton("Modify");
         modifyButton = utils.styleButtonOne(modifyButton);
+        modifyButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         rightPanel.add(modifyButton);
-        rightPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER/2));
+        rightPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
 
         deleteButton = new JButton("Delete");
         deleteButton = utils.styleButtonTwo(deleteButton);
+        deleteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         rightPanel.add(deleteButton);
-        rightPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER/2));
+        rightPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
 
-        rightPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
 
-        videoCode = new JLabel();
+        videoCode = new JTextPane();
+        videoCode.setAlignmentX(Component.CENTER_ALIGNMENT);
+        StyledDocument doc = videoCode.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
         rightPanel.add(videoCode);
+        rightPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
     }
 
     public void installUI(VideoListElement controller) {

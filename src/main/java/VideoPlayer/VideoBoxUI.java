@@ -15,6 +15,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 public class VideoBoxUI {
@@ -106,16 +108,7 @@ public class VideoBoxUI {
         pausePlayButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(isPlaying){
-                    mediaPlayerComponent.getMediaPlayer().pause();
-                    isPlaying = false;
-                    pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/play.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
-                }else{
-                    pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/pause.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
-                    mediaPlayerComponent.getMediaPlayer().play();
-                    isPlaying = true;
-                }
-
+                togglePausePlayButton();
             }
         });
     }
@@ -203,7 +196,33 @@ public class VideoBoxUI {
 
     private void setupVideoSurface() {
         videoSurface = new VideoSurfacePanel();
+        setupVideoListeners();
         mainPanel.add(videoSurface, BorderLayout.CENTER);
+    }
+
+    private void setupVideoListeners() {
+        videoSurface.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                togglePausePlayButton();
+                super.mouseClicked(e);
+            }
+        });
+    }
+
+    private void togglePausePlayButton() {
+        if (isPlaying){
+            mediaPlayerComponent.getMediaPlayer().pause();
+            isPlaying = false;
+            pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/play.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+
+        }
+        else{
+            mediaPlayerComponent.getMediaPlayer().play();
+            isPlaying = true;
+            pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/pause.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        }
+
     }
 
     private void setupMainPanel() {
@@ -215,17 +234,16 @@ public class VideoBoxUI {
     }
 
     public void freezeVideo(){
-        if(isPlaying)
-            mediaPlayerComponent.getMediaPlayer().pause();
-        isPlaying = false;
-        pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/play.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        togglePausePlayButton();
+//        if(isPlaying)
+//            mediaPlayerComponent.getMediaPlayer().pause();
+//        isPlaying = false;
+//        pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/play.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
         pausePlayButton.setEnabled(false);
     }
 
     public void restartVideoAfterFreeze(){
-        mediaPlayerComponent.getMediaPlayer().play();
-        isPlaying = true;
-        pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/pause.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
+        togglePausePlayButton();
         pausePlayButton.setEnabled(true);
     }
 
@@ -286,13 +304,18 @@ public class VideoBoxUI {
             setPreferredSize(new Dimension(controller.getModel().getWidth(), controller.getModel().getHeight()));
             setMinimumSize(new Dimension(controller.getModel().getWidth(), controller.getModel().getHeight()));
             setMaximumSize(new Dimension(controller.getModel().getWidth(), controller.getModel().getHeight()));
+
         }
+
+
 
         @Override
         protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D)g;
             g2.drawImage(image, null, 0, 0);
         }
+
+
     }
 
 

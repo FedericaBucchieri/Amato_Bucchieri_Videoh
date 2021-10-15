@@ -43,7 +43,7 @@ public class InteractionList extends JComponent {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (model.listenersActive){
+                if (model.isListenersActive()){
                     if(!model.isDeleteMode()) {
                         view.selectInteractionDrawing(e.getPoint());
                         model.setMousePressed(true);
@@ -61,7 +61,7 @@ public class InteractionList extends JComponent {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (model.listenersActive){
+                if (model.isListenersActive()){
                     if(model.isMousePressed() && model.getSelectedInteractionDrawing() != null){
                         model.getSelectedInteractionDrawing().setX(e.getX());
                         repaint();
@@ -75,7 +75,7 @@ public class InteractionList extends JComponent {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (model.listenersActive){
+                if (model.isListenersActive()){
                     model.setMousePressed(false);
                     if(model.getSelectedInteractionDrawing() != null) {
                         model.getSelectedInteractionDrawing().setSelected(false);

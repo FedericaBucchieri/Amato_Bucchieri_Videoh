@@ -12,7 +12,7 @@ import java.util.List;
 
 public class InteractionListModel {
     // a boolean to indicate whether listeners are active or not
-    public boolean listenersActive = true;
+    private boolean listenersActive = true;
     // the component Controller
     private InteractionList controller;
     // the lenght of the all panel, proportioned to the video timeline
@@ -63,6 +63,7 @@ public class InteractionListModel {
      */
     private int getCorrectPosition(int timestamp){
         int correctValue = (timestamp * controller.getWidth())/generalLenght;
+        //TODO nel resize delle finestre questo Utils.TAG_SIZE non basta più
         int correction = correctValue / Utils.TAG_SIZE;
         correction = correction % Utils.TAG_SIZE;
         return correctValue - correction;
@@ -123,6 +124,14 @@ public class InteractionListModel {
     public void deleteQuestion(Question question){
         interactionDrawings.removeIf(draw -> draw.getInteraction() == question);
         interactionList.removeIf(toDelete -> toDelete.getId() == question.getId());
+    }
+
+    public boolean isListenersActive() {
+        return listenersActive;
+    }
+
+    public void setListenersActive(boolean listenersActive) {
+        this.listenersActive = listenersActive;
     }
 
     public boolean isMousePressed() {
