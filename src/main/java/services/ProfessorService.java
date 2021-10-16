@@ -17,6 +17,14 @@ public class ProfessorService {
         this.em = entityManagerFactory.createEntityManager();
     }
 
+    /**
+     * This method checks the credential of a professor that wants to log in
+     * @param usrn the username of the professor
+     * @param pwd the password of the professor
+     * @return the professor instance in case of correct login, null otherwise
+     * @throws CredentialsException when the password is incorrect
+     * @throws UserNotRegisteredException when the user is not registered yet so the username is not present in the database
+     */
     public Professor checkCredentials(String usrn, String pwd) throws CredentialsException, UserNotRegisteredException {
         List<Professor> professorList = null;
 
@@ -34,13 +42,12 @@ public class ProfessorService {
         return null;
     }
 
-    public void createProfessor(String username, String password){
-        Professor professor = new Professor(username, password);
-        em.getTransaction().begin();
-        em.persist(professor);
-        em.getTransaction().commit();
-    }
-
+    /**
+     * This method retrieves an instance of Professor from the database
+     * @param username the username of the professor to be found
+     * @return true if the professor exists, false otherwise
+     * @throws UserNotRegisteredException when the user is not registered yet so the username is not present in the database
+     */
     public boolean findProfessorByUsername(String username) throws UserNotRegisteredException {
         try {
             Professor p = em.createNamedQuery("Professor.findProfessorByUserame", Professor.class).setParameter("username", username)
@@ -51,6 +58,12 @@ public class ProfessorService {
         }
     }
 
+    /**
+     * This method updates the information related to a Professor instance inside the database
+     * @param professor the professor instance to be updated
+     * @param username the username to be updated
+     * @param password the password to be updated
+     */
     public void updateProfessor(Professor professor, String username, String password){
         if(username != null)
             professor.setUsername(username);
