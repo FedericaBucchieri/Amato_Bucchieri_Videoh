@@ -15,10 +15,18 @@ import Utils.Utils;
 import javax.swing.*;
 
 public class ModifyVideoForm {
+    //The model of the ModifyVideoForm component
     private ModifyVideoFormModel model;
+    //The view of the ModifyVideoForm component
     private ModifyVideoFormView view;
+    //The list of listeners that will handle the event dispatched by this Component
     private List<Listener> listeners = new ArrayList<>();
 
+    /**
+     * Creates a new ModifyVideoForm. It's the scene that is shown in the
+     * @param professorHomePage: the parent component that will handle the  event dispatched by this Component
+     * @param video the video to modify
+     */
     public ModifyVideoForm(ProfessorHomePage professorHomePage, Video video) {
         this.listeners.add(professorHomePage);
 
@@ -35,6 +43,13 @@ public class ModifyVideoForm {
         return model;
     }
 
+    /**
+     * Handle the request to modify the selected video
+     * @param title the new title of the video
+     * @param description the new description of the video
+     * @param previewImage the new preview image of the video
+     * @param videoFile the new file of the video
+     */
     public void handleModifyRequest(String title, String description, File previewImage, File videoFile){
         try {
             model.modifyVideo(title, description, previewImage, videoFile);
@@ -44,20 +59,33 @@ public class ModifyVideoForm {
         }
     }
 
+    /**
+     * Handle a new request to cancel the changes to the video.
+     */
     public void handleCancelRequest(){
         dispatchCancelEvent();
     }
 
+    /**
+     * Dispatch a new CancelEvent to the above listeners
+     */
     private void dispatchCancelEvent(){
         for (Listener listener : listeners)
             listener.listen(new CancelEvent());
     }
 
+
+    /**
+     * Dispatch a new BackEvent to the above listeners
+     */
     private void dispatchBackEvent(){
         for (Listener listener : listeners)
             listener.listen(new BackEvent());
     }
 
+    /**
+     * Dispatch a new ErrorEvent to the above listeners
+     */
     private void dispatchErrorEvent(){
         for (Listener listener : listeners)
             listener.listen(new ErrorEvent(Utils.UPDATE_VIDEO_ERROR));

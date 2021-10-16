@@ -45,6 +45,7 @@ public class VideoService {
     public List<Video> findVideoListByProfessor(int professorId){
             List<Video> videoList = em.createNamedQuery("Video.findVideoListByProfessor", Video.class).setParameter("id", professorId)
                     .getResultList();
+
             return videoList;
     }
 
@@ -65,6 +66,10 @@ public class VideoService {
         return video;
     }
 
+    /**
+     * Delete the video with the given id from the database
+     * @param videoId the ID of the video to eliminate from the DB
+     */
     public void deleteVideo(int videoId){
         Video video = em.find(Video.class, videoId);
         Professor professor = video.getProfessor();

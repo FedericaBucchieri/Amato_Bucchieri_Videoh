@@ -16,6 +16,13 @@ public class VideoPlayerArea extends JComponent implements Listener { //controle
     private VideoPlayerAreaView view;
     private List<Listener> listeners = new ArrayList<>();
 
+    /**
+     * A VideoPlayerArea element that will hold the video videoBox.
+     * @param sceneManager: the SceneManager to be added to list of listeners of this VideoPlayerArea component.
+     * @param studentHomePageScene: the studentHomePageScene to be added to list of listeners of this VideoPlayerArea component.
+     * @param video: the video to play
+     * @param username: the username of the student that is watching the video.
+     */
     public VideoPlayerArea(SceneManager sceneManager, StudentHomePageScene studentHomePageScene, Video video, String username) {
         this.listeners.add(sceneManager);
         this.listeners.add(studentHomePageScene);
@@ -25,14 +32,14 @@ public class VideoPlayerArea extends JComponent implements Listener { //controle
     }
 
     /**
-     * The VideoPlayerArea will ask the VideoBox to stop the video.
+     * Ask the VideoBox to stop the video.
      */
     public void stopVideoPlaying(){
         view.stopVideoPlaying();
     }
 
     /**
-     * The VideoPlayerArea will ask the VideoBox to play the video after it's been frozen (paused).
+     * Asks the VideoBox to play the video after it's been frozen (paused).
      */
     public void unlockVideoPlaying(){
         view.unlockVideoPlaying();
@@ -47,7 +54,7 @@ public class VideoPlayerArea extends JComponent implements Listener { //controle
         }
 
     /**
-     * This method asks the view to dismiss the video.
+     * Asks the view to dismiss the video.
       */
     public void dismissVideo(){
         view.dismissVideo();

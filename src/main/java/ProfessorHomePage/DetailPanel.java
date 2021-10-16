@@ -13,17 +13,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetailPanel extends JComponent {
+    //The model of the DetailPanel component
     private DetailPanelModel model;
-    private DetailUI ui;
+    //The view of the DetailPanel component
+    private DetailPanelView view;
+    //The list of listeners that will handle the event dispatched by this component
     private List<Listener> listeners = new ArrayList<>();
 
 
+    /**
+     * Creates a new DetailPanel component. It is the right blue panel where all the info of the professor are displayed
+     * and whete these can be managed
+     * @param professor the logged in professor
+     * @param professorHomePage the parnet component that creates the DetailPanel. it is a listener for this DetailPanel component
+     */
     public DetailPanel(Professor professor, ProfessorHomePage professorHomePage) {
         this.listeners.add(professorHomePage);
 
         this.model = new DetailPanelModel(professor);
-        this.ui = new DetailUI();
-        this.ui.installUI(this);
+        this.view = new DetailPanelView();
+        this.view.installUI(this);
         this.setLayout(new BorderLayout());
     }
 
@@ -32,28 +41,42 @@ public class DetailPanel extends JComponent {
     }
 
     public JPanel getMainPanel(){
-        return ui.getMainPanel();
+        return view.getMainPanel();
     }
 
+    /**
+     * Handles the request to create a new video.
+     */
     public void handleNewVideoRequest(){
         dispatchNewVideoRequestEvent();
     }
 
+    /**
+     * Dispatches a new NewVideoRequestEvent to the above listeners
+     */
     private void dispatchNewVideoRequestEvent(){
         for (Listener listener : listeners)
             listener.listen(new NewVideoRequestEvent());
     }
 
-
+    /**
+     * Handle the request to Update the Profile
+     */
     public void handleUpdateProfileRequest(){
         dispatchUpdateProfileRequestEvent();
     }
 
+    /**
+     * Dispatches a new UpdateProfileRequestEvent to the above listeners
+     */
     private void dispatchUpdateProfileRequestEvent(){
         for (Listener listener : listeners)
             listener.listen(new UpdateProfileRequestEvent());
     }
 
+    /**
+     * Handles the request of log out dispatching a new LogoutEvent to the above listeners
+     */
     public void handleLogout(){
         for (Listener listener : listeners)
             listener.listen(new LogoutEvent());
@@ -61,7 +84,7 @@ public class DetailPanel extends JComponent {
 
     @Override
     protected void paintComponent(Graphics g) {
-        add(this.ui.getMainPanel());
+        add(this.view.getMainPanel());
     }
 
 

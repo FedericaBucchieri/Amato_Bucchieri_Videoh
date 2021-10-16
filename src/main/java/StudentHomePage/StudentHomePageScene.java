@@ -117,6 +117,7 @@ public class StudentHomePageScene implements Listener, Scene{
      * @param event the event to be dispatched
      */
     private void dispatchEndReviewEvent(EndReviewEvent event){
+        videoPlayerArea.dismissVideo();
         for (Listener listener : listeners)
             listener.listen(event);
     }

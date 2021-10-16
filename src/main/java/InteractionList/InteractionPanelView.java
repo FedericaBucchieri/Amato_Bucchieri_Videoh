@@ -27,19 +27,6 @@ public class InteractionPanelView {
     private JLabel instructionsLine2;
 
 
-    public JPanel getGeneralInteractionsPanel(int videoID) {
-//TODO: devi cercare qui di restituire un interaction panel già popolato.
-        controller.populateInteractionListByVideo(videoID);
-        printInteractionList();
-        return generalInteractionsPanel;
-    }
-
-    public JPanel getGeneralInteractionsPanel_due() {
-//TODO: devi cercare qui di restituire un interaction panel già popolato.
-        return generalInteractionsPanel;
-    }
-
-
 
     public InteractionPanelView(InteractionPanel interactionTimelinePanel) {
         this.controller = interactionTimelinePanel;
@@ -269,7 +256,18 @@ public class InteractionPanelView {
         this.interactionList.repaint();
     }
 
+    /**
+     * Forces the interaction list to disable all the listeners for the interaction,
+     */
     public void disableListeners() {
         this.interactionList.disableListeners();
     }
+
+
+    public JPanel getGeneralInteractionsPanel() {
+        return generalInteractionsPanel;
+    }
+
+
+
 }

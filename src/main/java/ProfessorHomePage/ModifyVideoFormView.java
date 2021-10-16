@@ -11,25 +11,45 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class ModifyVideoFormView {
+    //The ModifyVideoForm component
     private ModifyVideoForm controller;
+    //The main panel that will contain all the elements of this scene
     private JPanel mainPanel;
+    //The text field to set the new title
     private JTextField titleField;
+    //The text field to set the new description
     private JTextArea descriptionField;
+    //The button to open a file chooser to choose a new video
     private JButton uploadVideoButton;
+    //The button to open a file chooser to choose a new previewimage
     private JButton uploadImageButton;
+    //The label that shows the name of the new videofile  uploaded
     private JLabel uploadVideoName;
+    //The label that shows the name of the new previewImageFile  uploaded
     private JLabel uploadImageName;
+    //The button to confirm the changes
     private JButton modifyButton;
+    //The button to go back cancelling the changes
     private JButton backButton;
+    //The label that shows error messages when these occur
     private JLabel errorLabel;
+    //The  file containing the new video
     private File newVideoFile;
+    //The  file containing the new previewImage
     private File newImageFile;
 
+    /**
+     * Creates a new view for the ModifyVideoForm component
+     * @param controller the ModifyVideoForm component
+     */
     public ModifyVideoFormView(ModifyVideoForm controller) {
         this.controller = controller;
         setupUI();
     }
 
+    /**
+     * Sets the action listener of the uploadVideoButton, uploadImageButton, modifyButton and backButton.
+     */
     public void installUI(){
         uploadVideoButton.addActionListener(new ActionListener() {
             @Override
@@ -82,6 +102,9 @@ public class ModifyVideoFormView {
 
     }
 
+    /**
+     * Creates a new mainPanel with all the element to show in screen
+     */
     private void setupUI(){
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -98,6 +121,9 @@ public class ModifyVideoFormView {
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
     }
 
+    /**
+     * Sets the title of the video in its label and add it to the main panel
+     */
     private void setupTitle(){
         mainPanel.add(Box.createVerticalStrut(Utils.TITLE_MARGIN));
         JLabel title = new JLabel("Modify video '" + controller.getModel().getVideo().getTitle() + "'");
@@ -108,6 +134,10 @@ public class ModifyVideoFormView {
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
     }
 
+    /**
+     * Sets the text field to modify the description and the title of the video and add them to the main panel. Sets the
+     * Title label and the Description label
+     */
     private void setupForm(){
 
         JLabel title = new JLabel("Title");
@@ -130,6 +160,9 @@ public class ModifyVideoFormView {
 
     }
 
+    /**
+     * Sets the aspect of the uploadImageButton and the uploadImageName label and add them to the main panel
+     */
     private void setupImageUpload(){
         Utils utils = new Utils();
         uploadImageButton = new JButton("Browse Preview Image");
@@ -143,6 +176,9 @@ public class ModifyVideoFormView {
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
     }
 
+    /**
+     * Sets the aspect of the uploadVideoButton and the uploadVideoName label and add them to the main panel
+     */
     private void setupVideoUpload(){
         Utils utils = new Utils();
         uploadVideoButton = new JButton("Browse Video");
@@ -160,6 +196,9 @@ public class ModifyVideoFormView {
         return mainPanel;
     }
 
+    /**
+     * Sets the aspect of the modifyButton and backButton and add them to the main panel
+     */
     private void setupButtons(){
         Utils utils = new Utils();
 

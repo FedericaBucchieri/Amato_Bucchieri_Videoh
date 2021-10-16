@@ -5,33 +5,28 @@ import services.VideoService;
 
 
 public class VideoListElementModel {
+
     private Video video;
 
+    /**
+     * Creates the model for the VideoListElement
+     * @param video the video of the VideoListElement
+     */
     public VideoListElementModel(Video video) {
         this.video = video;
     }
 
+
+    public Video getVideo() {
+        return video;
+    }
+
+    /**
+     * Delete the video from the database
+     */
     public void deleteVideo(){
         VideoService videoService = new VideoService();
         videoService.deleteVideo(video.getId());
         System.out.println("delete");
     }
-
-    /*
-    TODO Non va qui
-    public void updateVideo(String title, String description, String preview){
-        VideoService videoService = new VideoService();
-
-        try {
-            videoService.updateVideo(video, title, description, preview);
-            dispatchUpdateVideoEvent(video);
-        } catch (UpdateVideoException e) {
-            dispatchErrorEvent(e.getMessage());
-        }
-
-    }
-
-     */
-
-
 }

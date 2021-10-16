@@ -9,15 +9,23 @@ import java.awt.*;
 import java.util.List;
 
 public class VideoList extends JComponent  {
+    //The model of a VideoList element
     private VideoListModel model;
-    private VideoListUI ui;
+    //The view of a VideoList element
+    private VideoListView view;
+    //The component that controlls the VideoList
     private ProfessorHomePage parentComponent;
 
+    /**
+     * Creates a new VideoList for the givenProfessor: it containts all the video that this professor have uploaded.
+     * @param professor: the logged in professor
+     * @param professorHomePage: the component that controls the VideoList
+     */
     public VideoList(Professor professor, ProfessorHomePage professorHomePage) {
         this.parentComponent = professorHomePage;
         this.model = new VideoListModel(professor);
-        this.ui = new VideoListUI();
-        this.ui.installUI(this);
+        this.view = new VideoListView();
+        this.view.installUI(this);
 
         this.setLayout(new BorderLayout());
     }
@@ -27,22 +35,26 @@ public class VideoList extends JComponent  {
     }
 
     public JPanel getMainPanel(){
-        return ui.getMainPanel();
+        return view.getMainPanel();
     }
 
     public List<Video> getVideoList(){
         return model.getVideoList();
     }
 
+    /**
+     * Remove the given video from the videoList
+     * @param video the video to be removed
+     */
     public void removeVideo(Video video){
         model.removeVideo(video);
-        this.ui.paint();
+        this.view.paint();
     }
 
 
     @Override
     public void paintComponent(Graphics pen) {
-        this.ui.paint();
+        this.view.paint();
     }
 
 

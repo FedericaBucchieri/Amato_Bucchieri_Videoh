@@ -17,29 +17,49 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class StatisticsPaneView implements Listener {
+    //The StatisticsPane component
     private StatisticsPane controller;
+    //The panel that contains all the element ot the scrollPane
     private JPanel viewPortView;
+    //The scroll pane to host all the widgets of the statisticsPane
     private JScrollPane scrollPane;
+    //The panel that contains the Video player, the summary panel, the controlls panel for the video and the interaction panel.
     private JPanel mainPanel;
+    //The panel that contains the video player and the summary panel
     private JPanel centerPanel;
+    //The panel that contains the control buttons of the video, the slider and the interactionPanel.
     private JPanel southPanel;
+    //The panel that contains the summary of the interactions and question attached to the video.
     private JPanel summaryPanel;
+    //The videoPLayer that plays the video.
     private VideoBox videoBox;
+    //The button that will show all the interactions and question in the interaction panel.
     private JButton showInteratcionButton;
+    //The button to go back to the ProfessorHomePage
     private JButton backButton;
+    //The panel that contains the backButton and Title, Date and Description of the video
     private JPanel northPanel;
+    //The label that displays the total number of  interactions attached to the video
     private JLabel totalInteraction;
+    //The label that displays the  number of  negative interactions attached to the video
     private JLabel totalNegativeInteraction;
+    //The label that displays the  number of  positive interactions attached to the video
     private JLabel totalPositiveInteraction;
+    //The label that displays the total number of  questions attached to the video
     private JLabel totalQuestion;
+    //The panel that shows the interactions as pins under the timeline
     private InteractionPanel interactionPanel;
+    //Thelist of all question displayed under the interaction panel
     private ArrayList<Question> displayedQuestions = new ArrayList<Question>();
 
+    /**
+     * Creates the view for the given StatisticsPaneComponent.
+     * @param controller: the statisticsPaneController
+     */
     public StatisticsPaneView(StatisticsPane controller){
         this.controller = controller;
         setupMainPanel();
         setupCenterPanel();
-//        setupSouthPanel();
         setupNorthPanel();
         setupScrollPane();
 
@@ -54,6 +74,9 @@ public class StatisticsPaneView implements Listener {
 
     }
 
+    /**
+     * Creates the northPanel, that is the panel that contains the backButton and Title, Date and Description of the video
+     */
     private void setupNorthPanel() {
         northPanel = new JPanel();
         northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.X_AXIS));
@@ -65,12 +88,16 @@ public class StatisticsPaneView implements Listener {
         videoDetailPanel_TitleDate.setLayout(new BoxLayout(videoDetailPanel_TitleDate, BoxLayout.X_AXIS));
 
 
-        JLabel videoTitleLabel = new JLabel(videoBox.getModel().getVideo().getTitle());
+        /*
+        videoTitleLabel, dateLabel and videoDescriptionLabel have been created locally in this method since no other
+        objects will interact or modify them.
+        * */
+        JLabel videoTitleLabel = new JLabel(videoBox.getModel().getVideo().getTitle());//Shows on screen the title of the video
         videoTitleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         videoTitleLabel.setForeground(Color.BLACK);
         videoTitleLabel.setFont(new Font(Font.SANS_SERIF,  Font.BOLD, Utils.SUBTITLE_WIDTH));
 
-        JLabel dateLabel = new JLabel(videoBox.getModel().getVideo().getDate().toString());
+        JLabel dateLabel = new JLabel(videoBox.getModel().getVideo().getDate().toString());//Shows on screen the date of creation of the video
         dateLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, Utils.SUBTITLE_WIDTH/2));
 
         videoDetailPanel_TitleDate.add(videoTitleLabel);
@@ -79,7 +106,7 @@ public class StatisticsPaneView implements Listener {
         videoDetailPanel_TitleDate.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 
-        JLabel videoDescriptionLabel = new JLabel(videoBox.getModel().getVideo().getDescription());
+        JLabel videoDescriptionLabel = new JLabel(videoBox.getModel().getVideo().getDescription()); //Shows on screen the descriptiion of the video
         videoDescriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         videoDetailPanel.add(videoDetailPanel_TitleDate);
@@ -92,6 +119,9 @@ public class StatisticsPaneView implements Listener {
     }
 
 
+    /**
+     * Creates the backButton (taking the aspects from the Utils module) and sets it up with the actionListener.
+     */
     private void setupBackButton() {
         backButton = Utils.setUPBackButton();
         northPanel.add(backButton);
@@ -104,52 +134,51 @@ public class StatisticsPaneView implements Listener {
         });
     }
 
+    /**
+     * Creates the south panel, that is the panel that contains the control buttons of the video, the slider and the interactionPanel.
+     */
     private void setupSouthPanel() {
         southPanel = new JPanel();
         southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
         southPanel.add(videoBox.getView().getControllButtonsPanel());
         interactionPanel = retrieveInteractionPanel();
         interactionPanel.disableListeners();
-        southPanel.add(interactionPanel.getView().getGeneralInteractionsPanel_due());
-
-//        interactionPanel.repaint();
-//        interactionPanel.populateInteractionListByVideo(controller.getVideo().getId());
-//        southPanel.repaint();
-        /*TODO: remove this comment
-         * in questo punto provavo add aggiungere al southpanel un pannello delle interazioni già
-         * popolato ma purtroppo le interactions per qualche motivo non le carica subito.
-         * quindi l'unica soluzione è questa attuale. mi istanzio da subito un pannello di interazioni
-         * vuoto, poi col tasto show le recupero e le printo nel pannello delle interazioni
-         * */
+        southPanel.add(interactionPanel.getView().getGeneralInteractionsPanel());
         mainPanel.add(southPanel, BorderLayout.SOUTH);
-//        displayInteractionPanel();
     }
 
+    /**
+     * Asks the VideoBox to return, from its view, the interaction Panel
+     * @return the interaction panel of the videoBox
+     */
     private InteractionPanel retrieveInteractionPanel() {
-//        while (videoBox.getView().getInteractionPanel() == null){
-//            System.out.println("waiting for interaction panel to be created");
-//        }
         return videoBox.getView().getInteractionPanel();
 
     }
 
 
-
+    /**
+     * Sets up the Center Panel, that is the panel that contains the video player and the summary panel
+     */
     private void setupCenterPanel() {
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.X_AXIS));
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-
         setupVideoBox();
-//        setupSummaryPanel();
 
     }
 
+    /**
+     * Creates the summary panel, that is the panel that contains the summary of the interactions and question attached to the video.
+     */
     private void setupSummaryPanel() {
         summaryPanel = new JPanel();
-//        summaryPanel.setBackground(Color.RED);
         summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.Y_AXIS));
 
+        /*
+        * totalInteractionLabel, totalNegativeInteractionLabel, totalPositiveInteractionLabel and totalQuestionLabel
+        * have been created locally in this method since no other widget will interact and modify them.
+        * */
         JLabel totalInteractionLabel = new JLabel("Total Interaction:");
         totalInteractionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         summaryPanel.add(totalInteractionLabel);
@@ -200,25 +229,36 @@ public class StatisticsPaneView implements Listener {
 
     }
 
+    /**
+     * Sets up the showInteratcionButton, that is the button that will show all the interactions and question in the interaction panel.
+     */
     private void setupShowInteractionButton() {
         showInteratcionButton = new JButton("Show interactions and Questions");
         summaryPanel.add(showInteratcionButton);
         showInteratcionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                showInteratcionButton.setEnabled(false);
                 displayInteractionPanel();
-
-
             }
         });
     }
 
+    /**
+     * This method forces the interactionPanel to populate its interactionList for the video that this StatisticsPane is handling.
+     * It then displays all the interactions in the interaction panel and creates the questionPanel that shows the questions that have
+     * been posted by students for the current video.
+     */
     private void displayInteractionPanel() {
         interactionPanel.populateInteractionListByVideo(videoBox.getVideoId());
         createQuestionsPanels();
         southPanel.repaint();
     }
 
+    /**
+     * Creates a questionPanel for each question attached to The Video. Each question panel is then added to the viewPortView
+     * in order to be displayed in the scroll view
+     */
     private void createQuestionsPanels() {
         System.out.println("********[createQuestionsPanels] DIMENSIONE INTERACTION LIST: "+interactionPanel.getModel().getInteractionList().size());
         for (GenericInteraction genericInteraction : interactionPanel.getModel().getInteractionList()) {
@@ -247,7 +287,11 @@ public class StatisticsPaneView implements Listener {
     }
 
 
-
+    /**
+     * Creates a questionPanel for the givenQuestion
+     * @param question the question to create a panel for.
+     * @return the questionPanel to be displayed in the scrollView
+     */
     public JPanel createQuestionPanel(Question question){
         JPanel questionPanel = new JPanel();
         questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
@@ -271,22 +315,20 @@ public class StatisticsPaneView implements Listener {
         questionPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         questionPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-//        viewPortView.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
-//        viewPortView.add(questionPanel);
 
         questionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         questionPanel.setBackground(Color.WHITE);
-//        questionPanel.setPreferredSize(new Dimension(200, 100));
         questionPanel.setBorder(BorderFactory.createLineBorder(Color.orange));
         questionPanel.setMinimumSize(new Dimension(250, 50));
-//        questionPanel.setPreferredSize(questionPanel.getMinimumSize());
         questionPanel.setMaximumSize(new Dimension(this.videoBox.getModel().getWidth(), this.videoBox.getModel().getHeight()));
 
         return questionPanel;
     }
 
 
-
+    /**
+     * Creates a new instance of videoBox and adds it to the center Panel
+     */
     private void setupVideoBox() {
         videoBox = new VideoBox(controller.getVideo(), this);
         centerPanel.add(videoBox.getView().getVideoSurface());
@@ -294,6 +336,9 @@ public class StatisticsPaneView implements Listener {
 
     }
 
+    /**
+     * Setup the main panel, that is the panel that contains the Video player, the summary panel, the controls panel for the video and the interaction panel.
+     */
     private void setupMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -312,6 +357,9 @@ public class StatisticsPaneView implements Listener {
         return scrollPane;
     }
 
+    /**
+     * Ask the videoBox to dismiss the video.
+     */
     public void dismissVideo() {
         videoBox.dismissVideo();
     }

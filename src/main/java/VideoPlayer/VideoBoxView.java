@@ -160,10 +160,11 @@ public class VideoBoxView {
                 int time = (int)mediaPlayerComponent.getMediaPlayer().getTime();
 
                 if(!isTimeSetted) {
+                    isTimeSetted = true;
                     slider.setMaximum((int) mediaPlayerComponent.getMediaPlayer().getLength());
                     finalTimeLabel.setText(Utils.formatTime(mediaPlayerComponent.getMediaPlayer().getLength()));
                     setupInteractionPanel();
-                    isTimeSetted = true;
+
                 }
 
                 if (!slider.getValueIsAdjusting()) {
@@ -221,9 +222,12 @@ public class VideoBoxView {
      * This method creates the panel with all the interaction. After the creation, it'll dispatch an InteractionPanelCreatedEvent to the above listeners.
      */
     private void setupInteractionPanel(){
-        interactionPanel = new InteractionPanel(controller);
-        southPanel.add(interactionPanel.getMainPanel());
-        dispatchInteractionPanelCreated();
+        if(isTimeSetted){
+            interactionPanel = new InteractionPanel(controller);
+            southPanel.add(interactionPanel.getMainPanel());
+            dispatchInteractionPanelCreated();
+        }
+
     }
 
     /**
@@ -394,12 +398,14 @@ public class VideoBoxView {
     }
 
     /**
-     * Implementation of a JPanel with specific caracteristics taken from the videoBoxModel.
+     * Implementation of a JPanel with specific characteristics taken from the videoBoxModel.
      */
     private class VideoSurfacePanel extends JPanel {
 
+        /**
+         * Creates an instance of a JPanel with some specific characteristics, taken from the videoBoxModel, regarding its Dimension
+         */
         private VideoSurfacePanel() {
-//            setBackground(Color.GREEN);
             setOpaque(false);
             setPreferredSize(new Dimension(controller.getModel().getWidth(), controller.getModel().getHeight()));
             setMinimumSize(new Dimension(controller.getModel().getWidth(), controller.getModel().getHeight()));

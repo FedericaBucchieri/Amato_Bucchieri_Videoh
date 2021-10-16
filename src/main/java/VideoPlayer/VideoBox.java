@@ -81,7 +81,7 @@ public class VideoBox implements Listener {//controller
     }
 
     /**
-     * This method will ask the mediaplayer of the video to cleanly dispose of the media player instance itself and any associated native resources.
+     * Asks the mediaplayer of the video to cleanly dispose of the media player instance itself and any associated native resources.
      */
     public void dismissVideo() {
         getView().dismissVideo();

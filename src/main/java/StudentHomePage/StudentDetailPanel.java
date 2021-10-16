@@ -22,7 +22,7 @@ public class StudentDetailPanel extends JComponent{
     private List<Listener> listeners = new ArrayList<>();
 
     /**
-     * This constructor creates an instance of StudentDetailPanel adding a SceneManager instance to the listeners list, creating a new model and a view
+     * Creates an instance of StudentDetailPanel adding a SceneManager instance to the listeners list, creating a new model and a view
      * @param sceneManager the SceneManager instance to add to the listeners list
      */
     public StudentDetailPanel(String username, StudentHomePageScene studentHomePageScene, SceneManager sceneManager) {
