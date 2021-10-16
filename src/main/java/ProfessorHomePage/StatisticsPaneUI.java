@@ -53,6 +53,7 @@ public class StatisticsPaneUI {
     private void setupNorthPanel() {
         northPanel = new JPanel();
         northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.X_AXIS));
+        northPanel.setBackground(Color.white);
         setupBackButton();
         JPanel videoDetailPanel = new JPanel();//contains Title, Date, Description
         videoDetailPanel.setLayout(new BoxLayout(videoDetailPanel, BoxLayout.Y_AXIS));
@@ -64,6 +65,7 @@ public class StatisticsPaneUI {
         JLabel videoTitleLabel = new JLabel(videoBox.getModel().getVideo().getTitle());
         videoTitleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         videoTitleLabel.setForeground(Color.BLACK);
+        videoTitleLabel.setBackground(Color.white);
         videoTitleLabel.setFont(new Font(Font.SANS_SERIF,  Font.BOLD, Utils.SUBTITLE_WIDTH));
 
         JLabel dateLabel = new JLabel(videoBox.getModel().getVideo().getDate().toString());
@@ -72,14 +74,19 @@ public class StatisticsPaneUI {
         videoDetailPanel_TitleDate.add(videoTitleLabel);
         videoDetailPanel_TitleDate.add(Box.createHorizontalGlue());
         videoDetailPanel_TitleDate.add(dateLabel);
+        videoDetailPanel_TitleDate.setBackground(Color.white);
         videoDetailPanel_TitleDate.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+        northPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
 
-        JLabel videoDescriptionLabel = new JLabel(videoBox.getModel().getVideo().getDescription());
-        videoDescriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JTextArea videoDescriptionTextArea = new JTextArea(videoBox.getModel().getVideo().getDescription());
+        videoDescriptionTextArea.setWrapStyleWord(true);
+        videoDescriptionTextArea.setLineWrap(true);
+        videoDescriptionTextArea.setBackground(Color.white);
+        videoDescriptionTextArea.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         videoDetailPanel.add(videoDetailPanel_TitleDate);
-        videoDetailPanel.add(videoDescriptionLabel);
+        videoDetailPanel.add(videoDescriptionTextArea);
 
         northPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM100));
         northPanel.add(videoDetailPanel);

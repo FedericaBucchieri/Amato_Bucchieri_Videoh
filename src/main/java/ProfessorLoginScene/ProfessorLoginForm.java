@@ -50,12 +50,11 @@ public class ProfessorLoginForm extends JComponent implements Listener {
 
 
     /**
-     * This method dispatches an errorEvent event
-     * @param error the error String to pass inside the event
+     * This method tells the view to display an error message
+     * @param error the error String to display
      */
-    public void dispatchErrorEvent(String error){
-        for (Listener listener : listeners)
-            listener.listen(new ErrorEvent(error));
+    public void displayErrorMessage(String error){
+        this.view.displayError(error);
     }
 
     /**

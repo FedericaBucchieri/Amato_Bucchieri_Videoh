@@ -83,8 +83,9 @@ public class InteractionsPanelModel {
         System.out.println("****[populateInteractionListPerVideo] all interaction per video are: "+allInteractionPerVideoToAdd.size());
         updateInteractionList(allInteractionPerVideoToAdd);
 
-
-        List<Question> allQuestionPerVideoToAdd = service.findQuestionByVideo(videoId);
+        QuestionService questService = new QuestionService();
+        List<Question> allQuestionPerVideoToAdd = questService.findQuestionsByVideo(videoId);
+        //List<Question> allQuestionPerVideoToAdd = service.findQuestionsByVideo(videoId);
         updateInteractionList_Question(allQuestionPerVideoToAdd);
 
 

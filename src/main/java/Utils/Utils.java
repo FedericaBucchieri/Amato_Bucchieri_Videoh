@@ -2,7 +2,12 @@ package Utils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Utils {
     public static final int JFRAME_WIDTH = 1200;
@@ -20,7 +25,6 @@ public class Utils {
     public static final int SUBBUTTON_LABEL_WIDTH = 14;
     public static final int LOGOUT_BUTTON_WIDTH = 12;
     public static final int STANDARD_BORDER = 20;
-    public static final int STANDARD_TEXT_FIELD_WIDTH = 300;
     public static final int STANDARD_SMALL_TEXT_FIELD_WIDTH = 300;
     public static final int STANDARD_TEXTAREA_FIELD_HEIGHT = 400;
     public static final int STANDARD_TEXT_FIELD_HEIGHT = 40;
@@ -36,7 +40,6 @@ public class Utils {
     public final static int POSITIVE_INTERACTION = 1;
     public final static int TIMELINE_BOXES = 82;
     public final static int TAG_SIZE = 30;
-    public final static int QUESTION_LIST_HEIGHT = 250;
     public final static int INFO_DIALOG_WIDTH = 600;
     public final static int INFO_DIALOG_HEIGHT = 400;
     public final static int STUDENT_VIDEO_FRAME_WIDTH = 960;
@@ -73,6 +76,29 @@ public class Utils {
         button.setBorderPainted(false);
         button.setForeground(Color.white);
         button.setFont((new Font(Font.SANS_SERIF,  Font.BOLD, BUTTON_LABEL_WIDTH)));
+
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                button.setBackground(Color.decode("#223047"));
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(Color.decode("#223047"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(Color.decode("#314668"));
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                button.setBackground(Color.decode("#314668"));
+            }
+        });
+
         return button;
     }
 
@@ -82,6 +108,29 @@ public class Utils {
         button.setBorderPainted(false);
         button.setForeground(Color.white);
         button.setFont((new Font(Font.SANS_SERIF,  Font.BOLD, SUBBUTTON_LABEL_WIDTH)));
+
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                button.setBackground(Color.decode("#b8234b"));
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(Color.decode("#b8234b"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(Color.decode("#DB2A58"));
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                button.setBackground(Color.decode("#DB2A58"));
+            }
+        });
+
         return button;
     }
 
@@ -91,14 +140,83 @@ public class Utils {
         button.setBorderPainted(false);
         button.setForeground(Color.white);
         button.setFont((new Font(Font.SANS_SERIF,  Font.BOLD, LOGOUT_BUTTON_WIDTH)));
+
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                button.setBackground(Color.decode("#807e7e"));
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(Color.decode("#807e7e"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(Color.decode("#999999"));
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                button.setBackground(Color.decode("#999999"));
+            }
+        });
+
         return button;
     }
 
     public static JButton setUPBackButton(){
-        Icon icon = new ImageIcon("src/main/images/back-2.png");
-        JButton backButton = new JButton(icon);
+        ImageIcon imageIcon = new ImageIcon("src/main/images/back-2.png"); // load the image to a imageIcon
+        Image image = imageIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageIcon = new ImageIcon(newimg);
+
+        JButton backButton = new JButton(imageIcon);
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backButton.setBorderPainted(false);
+
+        backButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                ImageIcon imageIcon = new ImageIcon("src/main/images/back.png"); // load the image to a imageIcon
+                Image image = imageIcon.getImage(); // transform it
+                Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                imageIcon = new ImageIcon(newimg);
+
+                backButton.setIcon(imageIcon);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ImageIcon imageIcon = new ImageIcon("src/main/images/back.png"); // load the image to a imageIcon
+                Image image = imageIcon.getImage(); // transform it
+                Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                imageIcon = new ImageIcon(newimg);
+
+                backButton.setIcon(imageIcon);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ImageIcon imageIcon = new ImageIcon("src/main/images/back-2.png"); // load the image to a imageIcon
+                Image image = imageIcon.getImage(); // transform it
+                Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                imageIcon = new ImageIcon(newimg);
+
+                backButton.setIcon(imageIcon);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                ImageIcon imageIcon = new ImageIcon("src/main/images/back-2.png"); // load the image to a imageIcon
+                Image image = imageIcon.getImage(); // transform it
+                Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                imageIcon = new ImageIcon(newimg);
+
+                backButton.setIcon(imageIcon);
+            }
+        });
 
         return backButton;
     }

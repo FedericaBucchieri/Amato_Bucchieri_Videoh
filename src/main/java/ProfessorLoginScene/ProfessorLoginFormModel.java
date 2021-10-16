@@ -1,8 +1,6 @@
 package ProfessorLoginScene;
 
-import EventManagement.ErrorEvent;
 import EventManagement.Listener;
-import EventManagement.ProfessorLoginEvent;
 import entities.Professor;
 import exceptions.CredentialsException;
 import exceptions.UserNotRegisteredException;
@@ -42,9 +40,9 @@ public class ProfessorLoginFormModel {
                 controller.dispatchLoginEvent(professor);
             }
         } catch (CredentialsException e) {
-            controller.dispatchErrorEvent(e.getMessage());
+            controller.displayErrorMessage(e.getMessage());
         } catch (UserNotRegisteredException e){
-            controller.dispatchErrorEvent(e.getMessage());
+            controller.displayErrorMessage(e.getMessage());
         }
     }
 
