@@ -13,7 +13,7 @@ import java.util.List;
 
 public class VideoPlayerArea extends JComponent implements Listener { //controler
     private VideoPlayerAreaModel model;
-    private VideoPlayerAreaUI UI;
+    private VideoPlayerAreaView view;
     private List<Listener> listeners = new ArrayList<>();
 
     public VideoPlayerArea(SceneManager sceneManager, StudentHomePageScene studentHomePageScene, Video video, String username) {
@@ -21,35 +21,48 @@ public class VideoPlayerArea extends JComponent implements Listener { //controle
         this.listeners.add(studentHomePageScene);
 
         model = new VideoPlayerAreaModel(this, video, username);
-        UI = new VideoPlayerAreaUI(this);
+        view = new VideoPlayerAreaView(this);
     }
 
+    /**
+     * The VideoPlayerArea will ask the VideoBox to stop the video.
+     */
     public void stopVideoPlaying(){
-        UI.stopVideoPlaying();
+        view.stopVideoPlaying();
     }
 
+    /**
+     * The VideoPlayerArea will ask the VideoBox to play the video after it's been frozen (paused).
+     */
     public void unlockVideoPlaying(){
-        UI.unlockVideoPlaying();
+        view.unlockVideoPlaying();
     }
 
-    public VideoPlayerAreaUI getView () {
-            return UI;
+    public VideoPlayerAreaView getView () {
+            return view;
     }
 
     public JPanel getMainPanel () {
-            return UI.getMainPanel();
+            return view.getMainPanel();
         }
 
+    /**
+     * This method asks the view to dismiss the video.
+      */
     public void dismissVideo(){
-        UI.dismissVideo();
+        view.dismissVideo();
     }
 
     public VideoPlayerAreaModel getModel() {
         return model;
     }
 
+    /**
+     * Delete the question from the interaction panel of the view.
+     * @param question: question to be deleted
+     */
     public void deleteQuestion(Question question){
-        VideoBox videoBox = UI.getVideoBox();
+        VideoBox videoBox = view.getVideoBox();
         InteractionPanel interactionPanel = videoBox.getInteractionPanel();
         interactionPanel.deleteQuestion(question);
     }
@@ -67,16 +80,28 @@ public class VideoPlayerArea extends JComponent implements Listener { //controle
         }
     }
 
+    /**
+     * This method dispatch NewQuestionEvent to above listeners.
+     * @param event: a  NewQuestionEvent to be dispatched
+     */
     private void dispatchNewQuestionEvent(NewQuestionEvent event){
         for (Listener listener : listeners)
             listener.listen(event);
     }
 
+    /**
+     * This method dispatch UpdateQuestionEvent to above listeners.
+     * @param event: a  UpdateQuestionEvent to be dispatched
+     */
     private void dispatchUpdateQuestionEvent(UpdateQuestionEvent event){
         for (Listener listener : listeners)
             listener.listen(event);
     }
 
+    /**
+     * This method dispatch DeleteQuestionEvent to above listeners.
+     * @param event: a  DeleteQuestionEvent to be dispatched
+     */
     private void dispatchDeleteQuestionEvent(DeleteQuestionEvent event){
         for (Listener listener : listeners)
             listener.listen(event);

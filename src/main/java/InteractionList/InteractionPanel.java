@@ -159,7 +159,11 @@ public class InteractionPanel implements Listener {
         else if (event.getClass().equals(DeleteQuestionEvent.class)){
             dispatchDeleteQuestionEvent((DeleteQuestionEvent) event);
         }
+
     }
+
+
+
     public InteractionPanelView getView() {
         return view;
     }
@@ -170,8 +174,12 @@ public class InteractionPanel implements Listener {
      */
     public void populateInteractionListByVideo(int videoID) {
         model.populateInteractionListPerVideo(videoID);
+
         List<GenericInteraction> allListPerVideo = model.getInteractionList();
         this.view.setInteractionList(allListPerVideo);
+        for (Listener listener: listeners){
+            listener.listen(new InteractionListPopulatedEvent());
+        }
 
     }
 
