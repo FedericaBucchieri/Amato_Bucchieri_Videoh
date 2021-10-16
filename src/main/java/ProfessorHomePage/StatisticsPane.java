@@ -12,13 +12,13 @@ import java.util.List;
 
 public class StatisticsPane extends JComponent {
     private StatisticsPaneModel model;
-    private StatisticsPaneUI UI;
+    private StatisticsPaneView UI;
 
     private List<Listener> listeners = new ArrayList<>();
 
     public StatisticsPane (Video video, ProfessorHomePage professorHomePage){
         model = new StatisticsPaneModel(this, video);
-        UI = new StatisticsPaneUI(this);
+        UI = new StatisticsPaneView(this);
         //UI.installUI();
 
         this.listeners.add(professorHomePage);

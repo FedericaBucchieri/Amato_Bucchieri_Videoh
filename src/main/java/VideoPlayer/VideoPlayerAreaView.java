@@ -3,12 +3,15 @@ package VideoPlayer;
 import javax.swing.*;
 import java.awt.*;
 
-public class VideoPlayerAreaUI {
+public class VideoPlayerAreaView {
+    //The VideoPlayerArea element
     private VideoPlayerArea controller;
+    //The main panel in which the videoBox is set.
     private JPanel mainPanel;
+    //The video box that will show the the video and its related controller
     private VideoBox videoBox;
 
-    public VideoPlayerAreaUI(VideoPlayerArea controller){
+    public VideoPlayerAreaView(VideoPlayerArea controller){
         this.controller = controller;
 
         setupMainPanel();
@@ -17,10 +20,16 @@ public class VideoPlayerAreaUI {
     }
 
 
+    /**
+     *This method will ask the videoBox of the video to dismiss the video.
+     */
     public void dismissVideo(){
         videoBox.dismissVideo();
     }
 
+    /**
+     * This method will ask the videoBox to stop the video.
+     */
     public void stopVideoPlaying(){
         videoBox.stopVideoPlaying();
     }
@@ -32,12 +41,11 @@ public class VideoPlayerAreaUI {
     private void setupMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.setBackground(Color.blue); //to remove
     }
 
     private void setupVideoBox() {
         videoBox = new VideoBox(controller, controller.getModel().getVideo(), controller.getModel().getUsername());
-        mainPanel.add(videoBox.getUI().getMainPanel(), BorderLayout.CENTER);
+        mainPanel.add(videoBox.getView().getMainPanel(), BorderLayout.CENTER);
 
     }
 

@@ -1,5 +1,9 @@
 package ProfessorHomePage;
 
+import EventManagement.Event;
+import EventManagement.InteractionListPopulatedEvent;
+import EventManagement.InteractionPanelCreatedEvent;
+import EventManagement.Listener;
 import InteractionList.InteractionPanel;
 import VideoPlayer.VideoBox;
 import entities.GenericInteraction;
@@ -12,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class StatisticsPaneUI {
+public class StatisticsPaneView implements Listener {
     private StatisticsPane controller;
     private JPanel viewPortView;
     private JScrollPane scrollPane;
@@ -21,7 +25,7 @@ public class StatisticsPaneUI {
     private JPanel southPanel;
     private JPanel summaryPanel;
     private VideoBox videoBox;
-    private JButton showInteratcion;
+    private JButton showInteratcionButton;
     private JButton backButton;
     private JPanel northPanel;
     private JLabel totalInteraction;
@@ -31,11 +35,11 @@ public class StatisticsPaneUI {
     private InteractionPanel interactionPanel;
     private ArrayList<Question> displayedQuestions = new ArrayList<Question>();
 
-    public StatisticsPaneUI (StatisticsPane controller){
+    public StatisticsPaneView(StatisticsPane controller){
         this.controller = controller;
         setupMainPanel();
         setupCenterPanel();
-        setupSouthPanel();
+//        setupSouthPanel();
         setupNorthPanel();
         setupScrollPane();
 
@@ -110,7 +114,7 @@ public class StatisticsPaneUI {
     private void setupSouthPanel() {
         southPanel = new JPanel();
         southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
-        southPanel.add(videoBox.getUI().getControllButtonsPanel());
+        southPanel.add(videoBox.getView().getControllButtonsPanel());
         interactionPanel = retrieveInteractionPanel();
         interactionPanel.disableListeners();
         southPanel.add(interactionPanel.getView().getGeneralInteractionsPanel_due());
@@ -125,13 +129,14 @@ public class StatisticsPaneUI {
          * vuoto, poi col tasto show le recupero e le printo nel pannello delle interazioni
          * */
         mainPanel.add(southPanel, BorderLayout.SOUTH);
+//        displayInteractionPanel();
     }
 
     private InteractionPanel retrieveInteractionPanel() {
-        while (videoBox.getUI().getInteractionPanel() == null){
-            System.out.println("waiting for interaction panel to be created");
-        }
-        return videoBox.getUI().getInteractionPanel();
+//        while (videoBox.getView().getInteractionPanel() == null){
+//            System.out.println("waiting for interaction panel to be created");
+//        }
+        return videoBox.getView().getInteractionPanel();
 
     }
 
@@ -143,7 +148,7 @@ public class StatisticsPaneUI {
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         setupVideoBox();
-        setupSummaryPanel();
+//        setupSummaryPanel();
 
     }
 
@@ -203,9 +208,9 @@ public class StatisticsPaneUI {
     }
 
     private void setupShowInteractionButton() {
-        showInteratcion = new JButton("show");
-        summaryPanel.add(showInteratcion);
-        showInteratcion.addActionListener(new ActionListener() {
+        showInteratcionButton = new JButton("Show interactions and Questions");
+        summaryPanel.add(showInteratcionButton);
+        showInteratcionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 displayInteractionPanel();
@@ -217,8 +222,8 @@ public class StatisticsPaneUI {
 
     private void displayInteractionPanel() {
         interactionPanel.populateInteractionListByVideo(videoBox.getVideoId());
-        southPanel.repaint();
         createQuestionsPanels();
+        southPanel.repaint();
     }
 
     private void createQuestionsPanels() {
@@ -290,8 +295,8 @@ public class StatisticsPaneUI {
 
 
     private void setupVideoBox() {
-        videoBox = new VideoBox(controller.getVideo());
-        centerPanel.add(videoBox.getUI().getVideoSurface());
+        videoBox = new VideoBox(controller.getVideo(), this);
+        centerPanel.add(videoBox.getView().getVideoSurface());
 
 
     }
@@ -317,5 +322,22 @@ public class StatisticsPaneUI {
     public void dismissVideo() {
         videoBox.dismissVideo();
     }
+
+    @Override
+    public void listen(Event event) {
+        if (event.getClass().equals(InteractionPanelCreatedEvent.class)){
+            setupSouthPanel();
+            setupSummaryPanel();
+        }
+        else if (event.getClass().equals(InteractionListPopulatedEvent.class)){
+            System.out.println("Statistics pane ui ha ricevuto l'evento InteractionListPopulatedEvent ");
+//            createQuestionsPanels();
+//            interactionPanel.repaint();
+            //TODO: ho fatto questo con l'obiettivo di disegnare le interaction dopo che sono state raccolte. ma evidentemente ci mette tempo a disegnare le interaction drawings.
+//            non riesco bene a capire dove lanciare l'evento InteractionListPopulatedEvent per essere sicuro che le drawings sono pronte
+            //per ora il bottone resta necessario ma se non altro è stato eliminto il while per instanziare l'interaction panel vuoto.
+        }
+    }
+
 }
 

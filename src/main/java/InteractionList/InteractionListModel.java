@@ -43,6 +43,7 @@ public class InteractionListModel {
         for (GenericInteraction interaction: interactionList){
                 InteractionDrawing drawing = new InteractionDrawing(interaction, getCorrectPosition(interaction.getTimestamp()));
                 interactionDrawings.add(drawing);
+
         }
     }
 
