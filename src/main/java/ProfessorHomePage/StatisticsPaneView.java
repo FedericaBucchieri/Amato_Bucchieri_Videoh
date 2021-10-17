@@ -93,13 +93,13 @@ public class StatisticsPaneView implements Listener {
         videoTitleLabel, dateLabel and videoDescriptionLabel have been created locally in this method since no other
         objects will interact or modify them.
         * */
-        JLabel videoTitleLabel = new JLabel(videoBox.getModel().getVideo().getTitle());//Shows on screen the title of the video
+        JLabel videoTitleLabel = new JLabel(controller.getVideo().getTitle());//Shows on screen the title of the video
         videoTitleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         videoTitleLabel.setForeground(Color.BLACK);
         videoTitleLabel.setBackground(Color.white);
         videoTitleLabel.setFont(new Font(Font.SANS_SERIF,  Font.BOLD, Utils.SUBTITLE_WIDTH));
 
-        JLabel dateLabel = new JLabel(videoBox.getModel().getVideo().getDate().toString());//Shows on screen the date of creation of the video
+        JLabel dateLabel = new JLabel(controller.getVideo().getDate().toString());//Shows on screen the date of creation of the video
         dateLabel.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, Utils.SUBTITLE_WIDTH/2));
 
         videoDetailPanel_TitleDate.add(videoTitleLabel);
@@ -110,7 +110,7 @@ public class StatisticsPaneView implements Listener {
 
         northPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
 
-        JTextArea videoDescriptionTextArea = new JTextArea(videoBox.getModel().getVideo().getDescription());
+        JTextArea videoDescriptionTextArea = new JTextArea(controller.getVideo().getDescription());
         videoDescriptionTextArea.setWrapStyleWord(true);
         videoDescriptionTextArea.setLineWrap(true);
         videoDescriptionTextArea.setBackground(Color.white);
@@ -224,7 +224,7 @@ public class StatisticsPaneView implements Listener {
         summaryPanel.add(totalQuestionLabel);
         summaryPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
 
-        totalQuestion = new JLabel(String.valueOf(controller.getVideo().getQuestionList().size()));
+        totalQuestion = new JLabel(String.valueOf(controller.getTotalQuestions()));
         totalQuestion.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.STATS_LABEL_DIM));
         summaryPanel.add(totalQuestion);
         summaryPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
@@ -257,17 +257,18 @@ public class StatisticsPaneView implements Listener {
      * been posted by students for the current video.
      */
     private void displayInteractionPanel() {
-        interactionPanel.populateInteractionListByVideo(videoBox.getVideoId());
+        interactionPanel.populateInteractionListByVideo(controller.getVideo().getId());
         createQuestionsPanels();
         southPanel.repaint();
     }
 
-    /**
+    /*
      * Creates a questionPanel for each question attached to The Video. Each question panel is then added to the viewPortView
      * in order to be displayed in the scroll view
-     */
+
     private void createQuestionsPanels() {
         System.out.println("********[createQuestionsPanels] DIMENSIONE INTERACTION LIST: "+interactionPanel.getModel().getInteractionList().size());
+        //TODO prendere le domande direttamente dal controller e non dall'interaction panel?
         for (GenericInteraction genericInteraction : interactionPanel.getModel().getInteractionList()) {
             if (genericInteraction.getClass().equals(Question.class)){
                 Question question = (Question) genericInteraction;
@@ -278,6 +279,18 @@ public class StatisticsPaneView implements Listener {
                     viewPortView.add(toAdd);
                 }
 
+            }
+        }
+    }
+         */
+
+    private void createQuestionsPanels(){
+        for(Question question : controller.getQuestions()){
+            if (!hasBeenDisplayed(question)){
+                JPanel toAdd = createQuestionPanel(question);
+                displayedQuestions.add(question);
+                viewPortView.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
+                viewPortView.add(toAdd);
             }
         }
     }
@@ -339,8 +352,6 @@ public class StatisticsPaneView implements Listener {
     private void setupVideoBox() {
         videoBox = new VideoBox(controller.getVideo(), this);
         centerPanel.add(videoBox.getView().getVideoSurface());
-
-
     }
 
     /**
@@ -351,9 +362,6 @@ public class StatisticsPaneView implements Listener {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(Color.GRAY);
         mainPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-
-
     }
 
     public JPanel getMainPanel() {

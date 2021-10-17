@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceContext;
 
+import java.sql.SQLNonTransientConnectionException;
 import java.util.List;
 
 
@@ -28,6 +29,30 @@ public class InteractionService {
     public List<Interaction> findInteractionsByVideo(int videoId) {
         List<Interaction> interactions = em
                 .createQuery("Select interaction from Interaction interaction where interaction.video.id = :videoId", Interaction.class)
+                .setParameter("videoId", videoId).getResultList();
+        return interactions;
+    }
+
+    /**
+     * This method return the list of only negative interactions associated to a video from the database
+     * @param videoId the id of the video to retrieve the interaction list of
+     * @return the interaction list of the video
+     */
+    public List<Interaction> findNegativeInteractions(int videoId) {
+        List<Interaction> interactions = em
+                .createQuery("Select interaction from Interaction interaction where interaction.video.id = :videoId AND interaction.type =" + Utils.Utils.NEGATIVE_INTERACTION + "", Interaction.class)
+                .setParameter("videoId", videoId).getResultList();
+        return interactions;
+    }
+
+    /**
+     * This method return the list of only positive interactions associated to a video from the database
+     * @param videoId the id of the video to retrieve the interaction list of
+     * @return the interaction list of the video
+     */
+    public List<Interaction> findPositiveInteractions(int videoId) {
+        List<Interaction> interactions = em
+                .createQuery("Select interaction from Interaction interaction where interaction.video.id = :videoId AND interaction.type =" + Utils.Utils.POSITIVE_INTERACTION + "", Interaction.class)
                 .setParameter("videoId", videoId).getResultList();
         return interactions;
     }
@@ -61,17 +86,6 @@ public class InteractionService {
         em.merge(interaction);
         em.getTransaction().commit();
     }
-
-    /**
-     * This method retrieves the list of questions associated to a video from the databse
-     * @param videoId the video id
-     * @return the list of question related to the video id
-     */
-    public List<Question> findQuestionsByVideo(int videoId) {
-        Video video = em.find(Video.class, videoId);
-        return video.getQuestionList();
-    }
-    // TODO TO be removed
 
     /**
      * This method delete an interaction instance from the database

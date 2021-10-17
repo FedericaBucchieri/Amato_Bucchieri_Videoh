@@ -129,7 +129,7 @@ public class ProfessorHomePage implements Listener, Scene {
      * @param video the video for which to show the statistics
      */
     private void goToStatisticsPage(Video video) {
-        statisticsPane = new StatisticsPane(video, this);
+        statisticsPane = new StatisticsPane(video.getId(), this);
         centerPanel.add(statisticsPane.getScrollPane());
         cardLayout.next(centerPanel);
     }

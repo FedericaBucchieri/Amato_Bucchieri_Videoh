@@ -23,6 +23,16 @@ public class VideoService {
     }
 
     /**
+     * This method retrieves a video instance from the database knowing its id
+     * @param videoId the id of the video to be found
+     * @return the video instance if present, null otherwise
+     */
+    public Video findVideoById(int videoId){
+        Video video = em.find(Video.class, videoId);
+        return video;
+    }
+
+    /**
      * This method retrieves a video instance from the database knowing its videoCode
      * @param videoCode the code correspondent to the video to retrieve
      * @return the instance of video to be found, null otherwise

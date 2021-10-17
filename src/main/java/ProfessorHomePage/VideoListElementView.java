@@ -95,6 +95,7 @@ public class VideoListElementView {
         videoDescription.setPreferredSize(new Dimension(Utils.DESCRIPTION_WIDTH,Utils.DESCRIPTION_HEIGHT));
         videoDescription.setAlignmentY(Component.TOP_ALIGNMENT);
         leftPanel.add(videoDescription);
+        leftPanel.add(Box.createRigidArea(new Dimension(Utils.HORIZONTAL_RIGID_AREA_DIM30)));
     }
 
     /**
