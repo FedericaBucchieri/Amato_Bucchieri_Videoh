@@ -162,10 +162,7 @@ public class StudentLoginPanelView {
      * This method sets up the BackButton
      */
     private void setupBackButton(){
-        Icon icon = new ImageIcon("src/main/images/back-2.png");
-        backButton = new JButton(icon);
-        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backButton.setBorderPainted(false);
+        backButton = Utils.setUPBackButton();
 
         formPanel.add(Box.createVerticalGlue());
         formPanel.add(backButton);

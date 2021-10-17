@@ -57,7 +57,7 @@ public class Utils {
     public static final String EMPTY_DESCRIPTION_ERROR = "Please, insert a valid description";
     public static final String EMPTY_IMAGE_ERROR = "Please, type a valid image file for the preview image";
     public static final String EMPTY_VIDEO_ERROR = "Please, type a valid video file";
-    public static final String UPDATE_VIDEO_ERROR = "Sorry, an error occured while updating the video";
+    public static final String UPDATE_VIDEO_ERROR = "Sorry, an error occurred while updating the video";
     public static final String GUIDE_TEXT = "Prova di guida";
 
     public static final int STATS_LABEL_DIM = 25;
@@ -70,6 +70,11 @@ public class Utils {
     public static final int UNIT_SCROLLING_INCREMENT = 3;
 
 
+    /**
+     * This method gives a style to a button: style one
+     * @param button the button to be styled
+     * @return the button after styling
+     */
     public JButton styleButtonOne(JButton button){
         button.setBackground(Color.decode("#314668"));
         button.setOpaque(true);
@@ -102,6 +107,11 @@ public class Utils {
         return button;
     }
 
+    /**
+     * This method gives a style to a button: style two
+     * @param button the button to be styled
+     * @return the button after styling
+     */
     public JButton styleButtonTwo(JButton button){
         button.setBackground(Color.decode("#DB2A58"));
         button.setOpaque(true);
@@ -134,6 +144,11 @@ public class Utils {
         return button;
     }
 
+    /**
+     * This method gives a style to a button: style three
+     * @param button the button to be styled
+     * @return the button after styling
+     */
     public JButton styleButtonThree(JButton button){
         button.setBackground(Color.decode("#999999"));
         button.setOpaque(true);
@@ -166,6 +181,10 @@ public class Utils {
         return button;
     }
 
+    /**
+     * This button sets up a backButton style
+     * @return the button after styling
+     */
     public static JButton setUPBackButton(){
         ImageIcon imageIcon = new ImageIcon("src/main/images/back-2.png"); // load the image to a imageIcon
         Image image = imageIcon.getImage(); // transform it
@@ -221,6 +240,11 @@ public class Utils {
         return backButton;
     }
 
+    /**
+     * This method translates a long value into a printable String
+     * @param value the value to be formatted
+     * @return the String containing the value
+     */
     public static String formatTime(long value) {
         value /= 1000;
         int hours = (int) value / 3600;
