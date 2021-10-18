@@ -48,11 +48,7 @@ public class StudentLoginPanelView {
         studLoginButt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = nameTextField.getText();
-                if(username.equals("") || username.trim().length() == 0 )
-                    displayError();
-                else
-                    controller.sendUsername(nameTextField.getText());
+                controller.checkUsername(nameTextField.getText());
             }
         });
 
@@ -75,11 +71,7 @@ public class StudentLoginPanelView {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    String username = nameTextField.getText();
-                    if(username.equals("") || username.trim().length() == 0 )
-                        displayError();
-                    else
-                        controller.sendUsername(nameTextField.getText());
+                    controller.checkUsername(nameTextField.getText());
                 }
             }
         });
@@ -137,7 +129,7 @@ public class StudentLoginPanelView {
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         formPanel.add(label);
 
-        nameTextField = new JTextField("insert an username");
+        nameTextField = new JTextField(Utils.INSERT_USERNAME);
         nameTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
         nameTextField.setPreferredSize(new Dimension(Utils.STANDARD_SMALL_TEXT_FIELD_WIDTH, Utils.STANDARD_TEXT_FIELD_HEIGHT));
         nameTextField.setMaximumSize(nameTextField.getPreferredSize());
@@ -183,7 +175,7 @@ public class StudentLoginPanelView {
     /**
      * This method updates the text of the errorLabel to display the student login error message
      */
-    private void displayError(){
+    public void displayError(){
         errorLabel.setText(Utils.USERNAME_ERROR);
     }
 

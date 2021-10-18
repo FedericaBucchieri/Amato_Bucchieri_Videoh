@@ -12,10 +12,14 @@ import java.awt.event.MouseEvent;
 public class Utils {
     public static final int JFRAME_WIDTH = 1200;
     public static final int JFRAME_HEIGHT = 850;
+    public final static int JFRAME_LOCATION_X = 300;
+    public final static int JFRAME_LOCATION_Y = 100;
     public static final int VIDEOLIST_WIDTH = 900;
     public static final int VIDEOLIST_HEIGHT = 750;
     public static final int DETAILPANEL_WIDTH = 250;
     public static final int DETAILPANEL_HEIGHT = 700;
+    public static final int QUESTIONPANEL_WIDTH = 250;
+    public static final int QUESTIONPANEL_HEIGHT = 50;
     public static final int VIDEO_CODE_BOUND = 999999;
     public static final int TITLE_WIDTH = 36;
     public static final int DATE_FONT_WIDTH = 10;
@@ -41,9 +45,15 @@ public class Utils {
     public final static int TIMELINE_BOXES = 82;
     public final static int TAG_SIZE = 30;
     public final static int INFO_DIALOG_WIDTH = 600;
-    public final static int INFO_DIALOG_HEIGHT = 400;
+    public final static int INFO_DIALOG_HEIGHT = 600;
     public final static int STUDENT_VIDEO_FRAME_WIDTH = 960;
     public final static int STUDENT_VIDEO_FRAME_HEIGHT = 540;
+    public final static int BACK_BUTTON_DIMENSIONS = 64;
+    public final static int VIDEO_PREVIEW_WIDTH = 200;
+    public final static int VIDEO_PREVIEW_HEIGHT = 115;
+    public final static int QUESTIONBODY_WIDTH = 700;
+    public final static int QUESTIONBODY_HEIGHT = 100;
+    public final static String INSERT_USERNAME = "Insert an username";
     public final static String LINE_1_INTERACTION = "Click on the buttons to interact with the video";
     public final static String LINE_2_INTERACTION = "You can drag & drop every interaction to move it in time";
     public final static String LINE_1_DELETING = "Click on the interactions to delete them";
@@ -58,20 +68,25 @@ public class Utils {
     public static final String EMPTY_IMAGE_ERROR = "Please, type a valid image file for the preview image";
     public static final String EMPTY_VIDEO_ERROR = "Please, type a valid video file";
     public static final String UPDATE_VIDEO_ERROR = "Sorry, an error occurred while updating the video";
-    public static final String GUIDE_TEXT = "Prova di guida";
+    public static final String INVALID_USERNAME ="Please insert a valid username";
+    public static final String INVALID_PASSWORD ="Please insert a valid password";
+    public static final String GUIDE_TEXT = "VIDEOH is a video player application with educational purposes. \n\nVIDEOH allows you to enter the application both as a professor or as a student. Professors have a personal account and need to log in with username and password. Students instead can enter the application with a nickname in an anonymous way. \n\n" +
+            "If you are a student, don't forget to ask your professor to give you the video code to access the required lesson, otherwise it would not be possibile to show you any video. Once you select the desired video, you can then begin to use VIDEOH. You'll have three buttons to leave interactions and pose questions to the professor. You don't need to save anything, VIDEOH is going to do that for you automatically." +
+            "\n\nIf you are a professor, you need your username and password to access your homepage. From there you can manage all your videos, upload new ones and see all the statistics of your videos.";
 
     public static final int STATS_LABEL_DIM = 25;
     public static final Dimension VERTICAL_RIGID_AREA_DIM10 = new Dimension(0, 10);
     public static final Dimension VERTICAL_RIGID_AREA_DIM15 = new Dimension(0, 15);
     public static final Dimension VERTICAL_RIGID_AREA_DIM30 = new Dimension(0, 30);
     public static final Dimension VERTICAL_RIGID_AREA_DIM100 = new Dimension(0, 100);
+    public static final Dimension VERTICAL_RIGID_AREA_DIM80 = new Dimension(0, 80);
 
     public static final Dimension HORIZONTAL_RIGID_AREA_DIM30 = new Dimension(30,0);
     public static final int UNIT_SCROLLING_INCREMENT = 3;
 
 
     /**
-     * This method gives a style to a button: style one
+     * This method gives a style to a button: style one that is the blue button style
      * @param button the button to be styled
      * @return the button after styling
      */
@@ -108,7 +123,7 @@ public class Utils {
     }
 
     /**
-     * This method gives a style to a button: style two
+     * This method gives a style to a button: style two that is the violet button style
      * @param button the button to be styled
      * @return the button after styling
      */
@@ -145,7 +160,7 @@ public class Utils {
     }
 
     /**
-     * This method gives a style to a button: style three
+     * This method gives a style to a button: style three that is the grey button style
      * @param button the button to be styled
      * @return the button after styling
      */
@@ -188,7 +203,7 @@ public class Utils {
     public static JButton setUPBackButton(){
         ImageIcon imageIcon = new ImageIcon("src/main/images/back-2.png"); // load the image to a imageIcon
         Image image = imageIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        Image newimg = image.getScaledInstance(BACK_BUTTON_DIMENSIONS, BACK_BUTTON_DIMENSIONS,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         imageIcon = new ImageIcon(newimg);
 
         JButton backButton = new JButton(imageIcon);
@@ -200,7 +215,7 @@ public class Utils {
             public void mousePressed(MouseEvent e) {
                 ImageIcon imageIcon = new ImageIcon("src/main/images/back.png"); // load the image to a imageIcon
                 Image image = imageIcon.getImage(); // transform it
-                Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                Image newimg = image.getScaledInstance(BACK_BUTTON_DIMENSIONS, BACK_BUTTON_DIMENSIONS,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 imageIcon = new ImageIcon(newimg);
 
                 backButton.setIcon(imageIcon);
@@ -210,7 +225,7 @@ public class Utils {
             public void mouseEntered(MouseEvent e) {
                 ImageIcon imageIcon = new ImageIcon("src/main/images/back.png"); // load the image to a imageIcon
                 Image image = imageIcon.getImage(); // transform it
-                Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                Image newimg = image.getScaledInstance(BACK_BUTTON_DIMENSIONS, BACK_BUTTON_DIMENSIONS,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 imageIcon = new ImageIcon(newimg);
 
                 backButton.setIcon(imageIcon);
@@ -220,7 +235,7 @@ public class Utils {
             public void mouseExited(MouseEvent e) {
                 ImageIcon imageIcon = new ImageIcon("src/main/images/back-2.png"); // load the image to a imageIcon
                 Image image = imageIcon.getImage(); // transform it
-                Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                Image newimg = image.getScaledInstance(BACK_BUTTON_DIMENSIONS, BACK_BUTTON_DIMENSIONS,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 imageIcon = new ImageIcon(newimg);
 
                 backButton.setIcon(imageIcon);
@@ -230,7 +245,7 @@ public class Utils {
             public void mouseReleased(MouseEvent e) {
                 ImageIcon imageIcon = new ImageIcon("src/main/images/back-2.png"); // load the image to a imageIcon
                 Image image = imageIcon.getImage(); // transform it
-                Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                Image newimg = image.getScaledInstance(BACK_BUTTON_DIMENSIONS, BACK_BUTTON_DIMENSIONS,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 imageIcon = new ImageIcon(newimg);
 
                 backButton.setIcon(imageIcon);

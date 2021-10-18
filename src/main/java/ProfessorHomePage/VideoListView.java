@@ -58,17 +58,6 @@ public class VideoListView {
         paint();
     }
 
-    public void setVideoList(List<Video> videoList) {
-        this.videoList = videoList;
-    }
-
-    public JPanel getListPanel() {
-        return listPanel;
-    }
-
-    public JScrollPane getScrollPane() {
-        return scrollPane;
-    }
 
     public JPanel getMainPanel() {
         return mainPanel;

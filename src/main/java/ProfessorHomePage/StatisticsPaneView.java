@@ -1,12 +1,10 @@
 package ProfessorHomePage;
 
 import EventManagement.Event;
-import EventManagement.InteractionListPopulatedEvent;
 import EventManagement.InteractionPanelCreatedEvent;
 import EventManagement.Listener;
 import InteractionList.InteractionPanel;
 import VideoPlayer.VideoBox;
-import entities.GenericInteraction;
 import entities.Question;
 import Utils.Utils;
 
@@ -34,7 +32,7 @@ public class StatisticsPaneView implements Listener {
     //The videoPLayer that plays the video.
     private VideoBox videoBox;
     //The button that will show all the interactions and question in the interaction panel.
-    private JButton showInteratcionButton;
+    private JButton showInteractionButton;
     //The button to go back to the ProfessorHomePage
     private JButton backButton;
     //The panel that contains the backButton and Title, Date and Description of the video
@@ -147,7 +145,7 @@ public class StatisticsPaneView implements Listener {
     private void setupSouthPanel() {
         southPanel = new JPanel();
         southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
-        southPanel.add(videoBox.getView().getControllButtonsPanel());
+        southPanel.add(videoBox.getView().getControlButtonsPanel());
         interactionPanel = retrieveInteractionPanel();
         interactionPanel.disableListeners();
         southPanel.add(interactionPanel.getView().getGeneralInteractionsPanel());
@@ -240,12 +238,12 @@ public class StatisticsPaneView implements Listener {
      * Sets up the showInteratcionButton, that is the button that will show all the interactions and question in the interaction panel.
      */
     private void setupShowInteractionButton() {
-        showInteratcionButton = new JButton("Show interactions and Questions");
-        summaryPanel.add(showInteratcionButton);
-        showInteratcionButton.addActionListener(new ActionListener() {
+        showInteractionButton = new JButton("Show interactions and Questions");
+        summaryPanel.add(showInteractionButton);
+        showInteractionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showInteratcionButton.setEnabled(false);
+                showInteractionButton.setEnabled(false);
                 displayInteractionPanel();
             }
         });
@@ -339,7 +337,7 @@ public class StatisticsPaneView implements Listener {
         questionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         questionPanel.setBackground(Color.WHITE);
         questionPanel.setBorder(BorderFactory.createLineBorder(Color.orange));
-        questionPanel.setMinimumSize(new Dimension(250, 50));
+        questionPanel.setMinimumSize(new Dimension(Utils.QUESTIONPANEL_WIDTH, Utils.QUESTIONPANEL_HEIGHT));
         questionPanel.setMaximumSize(new Dimension(this.videoBox.getModel().getWidth(), this.videoBox.getModel().getHeight()));
 
         return questionPanel;
@@ -384,14 +382,6 @@ public class StatisticsPaneView implements Listener {
         if (event.getClass().equals(InteractionPanelCreatedEvent.class)){
             setupSouthPanel();
             setupSummaryPanel();
-        }
-        else if (event.getClass().equals(InteractionListPopulatedEvent.class)){
-            System.out.println("Statistics pane ui ha ricevuto l'evento InteractionListPopulatedEvent ");
-//            createQuestionsPanels();
-//            interactionPanel.repaint();
-            //TODO: ho fatto questo con l'obiettivo di disegnare le interaction dopo che sono state raccolte. ma evidentemente ci mette tempo a disegnare le interaction drawings.
-//            non riesco bene a capire dove lanciare l'evento InteractionListPopulatedEvent per essere sicuro che le drawings sono pronte
-            //per ora il bottone resta necessario ma se non altro è stato eliminto il while per instanziare l'interaction panel vuoto.
         }
     }
 

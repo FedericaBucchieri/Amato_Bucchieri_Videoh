@@ -141,7 +141,7 @@ public class AddVideoFormView {
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
         mainPanel.add(addVideoButton);
 
-        backButton = utils.setUPBackButton();
+        backButton = Utils.setUPBackButton();
         mainPanel.add(Box.createVerticalGlue());
         mainPanel.add(backButton);
 

@@ -156,8 +156,8 @@ public class QuestionReviewPanelView {
         questionBody.setWrapStyleWord(true);
         questionBody.setLineWrap(true);
         questionBody.setEditable(true);
-        questionBody.setMaximumSize(new Dimension(700, 100));
-        questionBody.setMinimumSize(new Dimension(700, 100));
+        questionBody.setMaximumSize(new Dimension(Utils.QUESTIONBODY_WIDTH, Utils.QUESTIONBODY_HEIGHT));
+        questionBody.setMinimumSize(new Dimension(Utils.QUESTIONBODY_WIDTH, Utils.QUESTIONBODY_HEIGHT));
         singleQuestionPanel.add(questionBody);
 
         return questionBody;

@@ -178,7 +178,7 @@ public class VideoListElementView {
         videoTitle.setText(video.getTitle());
         videoDescription.setText(video.getDescription());
         videoCode.setText("Code:" + String.valueOf(video.getCode()));
-        videoPreview.setIcon(new ImageIcon(new ImageIcon(video.getPreviewImage().getPath()).getImage().getScaledInstance(200, 113, Image.SCALE_SMOOTH)));
+        videoPreview.setIcon(new ImageIcon(new ImageIcon(video.getPreviewImage().getPath()).getImage().getScaledInstance(Utils.VIDEO_PREVIEW_WIDTH, Utils.VIDEO_PREVIEW_HEIGHT, Image.SCALE_SMOOTH)));
     }
 
 

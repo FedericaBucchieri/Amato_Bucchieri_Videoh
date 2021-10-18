@@ -31,7 +31,7 @@ public class InteractionDrawing extends JComponent {
         if(!isSelected())
             g.drawImage(image, x, 0, Utils.TAG_SIZE, Utils.TAG_SIZE, this);
         else
-            g.drawImage(image, x, 0, Utils.TAG_SIZE + 20, Utils.TAG_SIZE + 20, this);
+            g.drawImage(image, x, 0, Utils.TAG_SIZE + Utils.STANDARD_BORDER, Utils.TAG_SIZE + Utils.STANDARD_BORDER, this);
     }
 
     /**

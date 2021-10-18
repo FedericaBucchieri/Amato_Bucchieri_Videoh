@@ -23,9 +23,9 @@ public class UpdateProfileModel {
      * Update the given parameters into the corresponding tuple in the database
      * @param username the new username
      * @param password the new password
-     * @return
+     * @return the professor instance updated if no exception occurs
      */
-    public Professor updateProfile(String username, String  password){
+    public Professor updateProfile(String username, String  password) {
         ProfessorService service = new ProfessorService();
         service.updateProfessor(professor, username, password);
         return professor;

@@ -2,10 +2,8 @@ package ProfessorHomePage;
 
 import EventManagement.CancelEvent;
 import EventManagement.Listener;
-import entities.Interaction;
 import entities.Question;
 import entities.Video;
-import Utils.Utils;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -23,12 +21,12 @@ public class StatisticsPane extends JComponent {
     * Creates a statistics pane for the selected video, containing a videoPlayer, a summary of the interactions/questions posted by the students, a panel to see the interaction/question on the timeline and the list of all the question.
      * It will show
      * @param videoId: the id of the video to show the statistics for.
-     * @param professorHomePage: the home page component of the Professor, to add it to the list of listeners of events dispatched by StatisticsPane
+     * @param professorHomePageScene: the home page component of the Professor, to add it to the list of listeners of events dispatched by StatisticsPane
      */
-    public StatisticsPane (int videoId, ProfessorHomePage professorHomePage){
+    public StatisticsPane (int videoId, ProfessorHomePageScene professorHomePageScene){
         model = new StatisticsPaneModel(this, videoId);
         view = new StatisticsPaneView(this);
-        this.listeners.add(professorHomePage);
+        this.listeners.add(professorHomePageScene);
 
     }
 

@@ -21,13 +21,13 @@ public class AddVideoForm extends JComponent {
 
     /**
      * Creaates an AddVideoForm component. IT is the scene shown on top of the ProfessorHomePage when the AddVideo button is pressed
-     * @param professorHomePage: the listener of the event dispatched by the AddVideoForm component
+     * @param professorHomePageScene: the listener of the event dispatched by the AddVideoForm component
      */
-    public AddVideoForm(ProfessorHomePage professorHomePage) {
-        this.listeners.add(professorHomePage);
+    public AddVideoForm(ProfessorHomePageScene professorHomePageScene) {
+        this.listeners.add(professorHomePageScene);
         this.setLayout(new BorderLayout());
 
-        this.model = new AddVideoFormModel(this, professorHomePage.getProfessor());
+        this.model = new AddVideoFormModel(this, professorHomePageScene.getProfessor());
         this.view = new AddVideoFormView(this);
     }
 

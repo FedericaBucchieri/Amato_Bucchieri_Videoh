@@ -62,7 +62,7 @@ public class MainLoginPanelView {
             public void actionPerformed(ActionEvent e) {
                 try {
                     HelpDialogue dialog = new HelpDialogue();
-                    dialog.setLocation(300,100);
+                    dialog.setLocation(Utils.JFRAME_LOCATION_X,Utils.JFRAME_LOCATION_Y);
                     dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
                     dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                     dialog.setVisible(true);
@@ -74,13 +74,10 @@ public class MainLoginPanelView {
 
         //setupHelpButton
         problemPanel.add(helpButton);
-        problemPanel.add(Box.createRigidArea(new Dimension(0, 80)));
+        problemPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM80));
 
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 100)));
+        mainPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM100));
         mainPanel.add(problemPanel);
-
-        //add(problemPanel, BorderLayout.SOUTH);
-
     }
 
     /**

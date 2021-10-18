@@ -10,8 +10,8 @@ public class UpdateProfileScene implements Scene {
     private UpdateProfile updateProfile;
 
     //TODO: ma lo usiamo mai?
-    public UpdateProfileScene(ProfessorHomePage professorHomePage, Professor professor) {
-        updateProfile = new UpdateProfile(professorHomePage, professor);
+    public UpdateProfileScene(ProfessorHomePageScene professorHomePageScene, Professor professor) {
+        updateProfile = new UpdateProfile(professorHomePageScene, professor);
     }
 
     public JPanel getMainPanel(){
