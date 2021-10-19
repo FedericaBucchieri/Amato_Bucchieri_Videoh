@@ -97,6 +97,9 @@ public class StudentDetailPanelView {
         for (Question question: questionList) {
             displayNewQuestion(question);
         }
+
+        scrollPane.revalidate();
+        scrollPane.repaint();
     }
 
     /**
@@ -135,7 +138,7 @@ public class StudentDetailPanelView {
         questionTime.setAlignmentY(Component.TOP_ALIGNMENT);
         questionElement.add(questionTime);
 
-        questionElement.add(Box.createHorizontalStrut(Utils.STANDARD_BORDER));
+        questionElement.add(Box.createRigidArea(Utils.HORIZONTAL_RIGID_AREA_DIM15));
 
         JLabel questionBody = new JLabel(question.getText());
         questionBody.setAlignmentX(Component.LEFT_ALIGNMENT);

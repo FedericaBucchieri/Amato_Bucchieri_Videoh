@@ -44,7 +44,7 @@ public class InteractionListView {
                         selectInteractionDrawing(e.getPoint());
                         model.setMousePressed(true);
                     }
-                    else { // Shift pressed: Delete mode
+                    else {
                         selectInteractionDrawing(e.getPoint());
                         model.deleteSelectedInteraction();
                         controller.repaint();
@@ -73,7 +73,7 @@ public class InteractionListView {
             public void mouseReleased(MouseEvent e) {
                 if (model.isListenersActive()){
                     model.setMousePressed(false);
-                    if(model.getSelectedInteractionDrawing() != null) {
+                    if(model.getSelectedInteractionDrawing() != null && !model.isDeleteMode()) {
                         model.getSelectedInteractionDrawing().setSelected(false);
                         controller.updateInteraction(model.getSelectedInteractionDrawing().getInteraction(), e.getX());
                         controller.repaint();
