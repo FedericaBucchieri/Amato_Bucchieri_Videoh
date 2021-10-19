@@ -97,7 +97,7 @@ public class StudentDetailPanelView {
         for (Question question: questionList) {
             displayNewQuestion(question);
         }
-        questionPanel.repaint();
+//        questionPanel.repaint();
     }
 
     /**
@@ -146,7 +146,7 @@ public class StudentDetailPanelView {
         questionElement.setAlignmentY(Component.TOP_ALIGNMENT);
         questionElement.setAlignmentX(Component.LEFT_ALIGNMENT);
         questionPanel.add(questionElement);
-
+        questionElement.repaint();
     }
 
     /**
