@@ -108,20 +108,24 @@ public class QuestionReviewPanelView {
 
         if(questionList.size() > 0) {
             for (Question question : questionList) {
-                JPanel singleQuestionElement = new JPanel();
+                JPanel singleQuestionElement = new JPanel();//A panel containing the info timeline label, the textArea of the question, and two buttons: Modify button and Delete button.
                 singleQuestionElement.setLayout(new BoxLayout(singleQuestionElement, BoxLayout.Y_AXIS));
 
-                JPanel singleQuestionInfo = new JPanel();
+                JPanel singleQuestionInfo = new JPanel(); //Panel containing just the info timeline label, the textArea of the question
                 singleQuestionInfo.setLayout(new BoxLayout(singleQuestionInfo, BoxLayout.X_AXIS));
 
                 setQuestionDate(singleQuestionInfo, question);
 
-                JTextArea questionBody = setQuestionBody(singleQuestionInfo, question);
-                singleQuestionElement.add(singleQuestionInfo);
+                singleQuestionInfo.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
 
+                JTextArea questionBody = setQuestionBody(singleQuestionInfo, question);
+                questionBody.setAlignmentY(Component.CENTER_ALIGNMENT);
+                singleQuestionElement.add(singleQuestionInfo);
+                singleQuestionElement.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
                 setQuestionCommandButtons(singleQuestionElement, question, questionBody);
 
                 questionListPanel.add(singleQuestionElement);
+                singleQuestionElement.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
             }
         }
         else {
@@ -138,9 +142,10 @@ public class QuestionReviewPanelView {
      * @param question the question to display the date of
      */
     private void setQuestionDate(JPanel singleQuestionPanel, Question question){
-        JLabel dateLabel = new JLabel(Utils.formatTime(question.getTimestamp()));
-        dateLabel.setAlignmentY(Component.TOP_ALIGNMENT);
+        JLabel dateLabel = new JLabel(Utils.formatTime(question.getTimestamp())); //the label containing just the date of the quesiton
+        dateLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
         singleQuestionPanel.add(dateLabel);
+        singleQuestionPanel.add(Box.createRigidArea(Utils.HORIZONTAL_RIGID_AREA_DIM10));
     }
 
     /**
@@ -154,7 +159,6 @@ public class QuestionReviewPanelView {
         questionBody.setLineWrap(true);
         questionBody.setEditable(true);
         questionBody.setMaximumSize(new Dimension(Utils.QUESTIONBODY_WIDTH, Utils.QUESTIONBODY_HEIGHT));
-        questionBody.setPreferredSize(new Dimension(Utils.QUESTIONBODY_WIDTH, Utils.QUESTIONBODY_HEIGHT));
         questionBody.setMinimumSize(new Dimension(Utils.QUESTIONBODY_WIDTH, Utils.QUESTIONBODY_HEIGHT));
         singleQuestionPanel.add(questionBody);
 
@@ -168,7 +172,7 @@ public class QuestionReviewPanelView {
      * @param questionBody the question body
      */
     private void setQuestionCommandButtons(JPanel singleQuestionPanel, Question question, JTextArea questionBody){
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(); //The panel with the 2 buttons: Modify and Delete Button
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
         JLabel confirmationMessage = new JLabel();
@@ -193,7 +197,7 @@ public class QuestionReviewPanelView {
             }
         });
 
-        buttonPanel.add(Box.createHorizontalStrut(Utils.STANDARD_BORDER));
+        buttonPanel.add(Box.createRigidArea(Utils.HORIZONTAL_RIGID_AREA_DIM15));
 
         JButton deleteButton = new JButton("Delete");
         deleteButton = utils.styleButtonTwo(deleteButton);
