@@ -5,6 +5,7 @@ import InteractionList.InteractionPanel;
 import ProfessorHomePage.ProfessorHomePageScene;
 import ProfessorHomePage.StatisticsPaneView;
 import StudentHomePage.StudentHomePageScene;
+import entities.Question;
 import entities.Video;
 import Utils.Utils;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
@@ -58,6 +59,14 @@ public class VideoBox implements Listener {//controller
 
         model = new VideoBoxModel(video, username, Utils.STUDENT_VIDEO_FRAME_WIDTH, Utils.STUDENT_VIDEO_FRAME_HEIGHT);
         view = new VideoBoxView(this, false);
+    }
+
+    /**
+     * This method allows to delete a question interaction from the interaction panel
+     * @param question the question to be deleted
+     */
+    public void deleteQuestion(Question question){
+        getInteractionPanel().deleteQuestion(question);
     }
 
     /**

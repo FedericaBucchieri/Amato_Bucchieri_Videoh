@@ -32,9 +32,9 @@ public class QuestionReviewPanelModel {
      * @param question The question instance to update
      * @param newText the new text body of the question
      */
-    public void updateQuestion(Question question, String newText){
+    public boolean updateQuestion(Question question, String newText){
         QuestionService service = new QuestionService();
-        service.updateQuestionBody(question, newText);
+        return service.updateQuestionBody(question, newText);
     }
 
     /**

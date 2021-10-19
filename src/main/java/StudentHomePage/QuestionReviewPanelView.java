@@ -116,15 +116,12 @@ public class QuestionReviewPanelView {
 
                 setQuestionDate(singleQuestionInfo, question);
 
-                singleQuestionInfo.add(Box.createHorizontalStrut(Utils.STANDARD_BORDER));
-
                 JTextArea questionBody = setQuestionBody(singleQuestionInfo, question);
                 singleQuestionElement.add(singleQuestionInfo);
 
                 setQuestionCommandButtons(singleQuestionElement, question, questionBody);
 
                 questionListPanel.add(singleQuestionElement);
-                questionListPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
             }
         }
         else {
@@ -157,6 +154,7 @@ public class QuestionReviewPanelView {
         questionBody.setLineWrap(true);
         questionBody.setEditable(true);
         questionBody.setMaximumSize(new Dimension(Utils.QUESTIONBODY_WIDTH, Utils.QUESTIONBODY_HEIGHT));
+        questionBody.setPreferredSize(new Dimension(Utils.QUESTIONBODY_WIDTH, Utils.QUESTIONBODY_HEIGHT));
         questionBody.setMinimumSize(new Dimension(Utils.QUESTIONBODY_WIDTH, Utils.QUESTIONBODY_HEIGHT));
         singleQuestionPanel.add(questionBody);
 
@@ -173,6 +171,10 @@ public class QuestionReviewPanelView {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
+        JLabel confirmationMessage = new JLabel();
+        confirmationMessage.setForeground(Color.decode("#32a852"));
+        singleQuestionPanel.add(confirmationMessage);
+
         Utils utils = new Utils();
         JButton modifyButton = new JButton("Modify");
         modifyButton = utils.styleButtonTwo(modifyButton);
@@ -181,7 +183,13 @@ public class QuestionReviewPanelView {
         modifyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.handleModifyRequest(question, questionBody.getText());
+                if(controller.handleModifyRequest(question, questionBody.getText())) {
+                    confirmationMessage.setText("Question modified with success");
+                }
+                else {
+                    confirmationMessage.setText("An error occurred while modifying the question");
+                    confirmationMessage.setForeground(Color.red);
+                }
             }
         });
 

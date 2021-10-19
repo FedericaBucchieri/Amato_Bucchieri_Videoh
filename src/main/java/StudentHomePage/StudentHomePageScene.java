@@ -18,7 +18,7 @@ public class StudentHomePageScene implements Listener, Scene{
     private VideoBox videoBox;
     // A component of the Scene: the student detail panel to be displayed on the right
     private StudentDetailPanel studentDetailPanel;
-    // A componet of the Scene: a panel to review all student questions
+    // A component of the Scene: a panel to review all student questions
     private QuestionReviewPanel questionReviewPanel;
     // The logged student username
     private String username;
@@ -85,11 +85,11 @@ public class StudentHomePageScene implements Listener, Scene{
      * @param questionList the list of questions to be displayed for review
      */
     private void switchToReviewMode(List<Question> questionList){
-        //videoPlayerArea.stopVideoPlaying();
         videoBox.stopVideoPlaying();
         studentDetailPanel.hideQuestionList();
 
         questionReviewPanel = new QuestionReviewPanel(this, questionList);
+        centerPanel.removeAll();
         centerPanel.add(questionReviewPanel.getMainPanel());
         cardLayout.next(centerPanel);
     }
@@ -106,10 +106,11 @@ public class StudentHomePageScene implements Listener, Scene{
      * This method allows to display the VideoPlayerArea in the centerPanel
      */
     private  void switchToVideoPanel(){
-        //videoPlayerArea.unlockVideoPlaying();
         videoBox.unlockVideoPlaying();
         studentDetailPanel.showQuestionList(questionReviewPanel.getQuestionList());
+        questionReviewPanel = null;
 
+        centerPanel.removeAll();
         centerPanel.add(videoBox.getView().getMainPanel());
         cardLayout.next(centerPanel);
     }
@@ -119,7 +120,6 @@ public class StudentHomePageScene implements Listener, Scene{
      * @param event the event to be dispatched
      */
     private void dispatchEndReviewEvent(EndReviewEvent event){
-        //videoPlayerArea.dismissVideo();
         videoBox.dismissVideo();
         for (Listener listener : listeners)
             listener.listen(event);
@@ -135,7 +135,6 @@ public class StudentHomePageScene implements Listener, Scene{
     @Override
     public void listen(Event event) {
         if(event.getClass().equals(LogoutEvent.class)){
-            //videoPlayerArea.dismissVideo();
             videoBox.dismissVideo();
         }
         else if(event.getClass().equals(NewQuestionEvent.class)){
@@ -146,10 +145,9 @@ public class StudentHomePageScene implements Listener, Scene{
         }
         else if(event.getClass().equals(DeleteQuestionEvent.class)){
             studentDetailPanel.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
-            //videoPlayerArea.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
-            // TODO FARE SISTEMATO
-           videoBox.getInteractionPanel().deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
-            if(questionReviewPanel != null)
+           videoBox.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
+
+           if(questionReviewPanel != null)
                 repaintReview();
         }
         else if(event.getClass().equals(ReviewRequestEvent.class)){

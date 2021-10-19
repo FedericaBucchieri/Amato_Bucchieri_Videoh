@@ -2,10 +2,7 @@ package services;
 
 import entities.Question;
 import entities.Video;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -68,12 +65,18 @@ public class QuestionService {
      * @param question the question to be updated
      * @param text the text to be set
      */
-    public void updateQuestionBody(Question question, String text){
-        question.setText(text);
+    public boolean updateQuestionBody(Question question, String text){
 
-        em.getTransaction().begin();
-        em.merge(question);
-        em.getTransaction().commit();
+        try {
+            question.setText(text);
+
+            em.getTransaction().begin();
+            em.merge(question);
+            em.getTransaction().commit();
+            return true;
+        } catch (PersistenceException e){
+            return false;
+        }
     }
 
     /**

@@ -64,8 +64,8 @@ public class QuestionReviewPanel {
      * @param question the question instance to be modified
      * @param newText the new text body of the question
      */
-    public void handleModifyRequest(Question question, String newText){
-        model.updateQuestion(question, newText);
+    public boolean handleModifyRequest(Question question, String newText){
+        return model.updateQuestion(question, newText);
     }
 
     /**
