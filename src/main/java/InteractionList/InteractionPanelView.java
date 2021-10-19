@@ -11,21 +11,36 @@ import java.awt.event.*;
 import java.util.List;
 
 public class InteractionPanelView {
+    //The controller of the InteractionPanel
     private InteractionPanel controller;
+    //The button to add a positiveInteraction
     private JButton positiveInteractionButton;
+    //the button to add a negativeInteraction
     private JButton negativeInteractionButton;
+    //the button to add a question
     private JButton questionButton;
+    //The button to activate the delete mode to delete interactions/questions from the
     private JButton deleteButton;
+    //The interactionList element containing all the interactions
     private InteractionList interactionList;
+    //The textField to write the question
     private JTextField questionField;
+    //The main panel containing all the interactions/questions panel
     private JPanel mainPanel;
+    //The panel that substitutes the whole interaction panel with a panel just for the question. it contains the text field and the confirm question/discard question buttons
     private JPanel questionPanel;
+    //
     private JPanel interactionTimelinePanel;
+    //The layout that manages the changes between the questionPanel and the interactionPanel
     private CardLayout cardLayout;
+    //
     private JPanel generalInteractionsPanel;
+    //instructionsLine1 & instructionsLine2 are the 2 info labels at the bottom of the window
     private JLabel instructionsLine1;
     private JLabel instructionsLine2;
+    //The button to confirm a posted question
     private JButton sendButton;
+    //The button to discard the posted question
     private JButton cancelButton;
 
 
@@ -297,6 +312,7 @@ public class InteractionPanelView {
         negativeInteractionButton.setEnabled(true);
         questionButton.setEnabled(true);
     }
+
     public void repaint() {
         this.interactionList.repaint();
     }
