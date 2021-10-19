@@ -29,7 +29,7 @@ public class VideoBox implements Listener {//controller
     public VideoBox(Video video, StatisticsPaneView statisticsPaneView){
         new NativeDiscovery().discover();//this function check for the VLC library within the local machine where the app is running.
         model = new VideoBoxModel(video);
-        view = new VideoBoxView(this, "");
+        view = new VideoBoxView(this, true);
         this.listeners.add(statisticsPaneView);
 
     }
@@ -46,7 +46,7 @@ public class VideoBox implements Listener {//controller
         this.listeners.add(videoPlayerArea);
 
         model = new VideoBoxModel(video, username, Utils.STUDENT_VIDEO_FRAME_WIDTH, Utils.STUDENT_VIDEO_FRAME_HEIGHT);
-        view = new VideoBoxView(this);
+        view = new VideoBoxView(this, false);
     }
 
     /**

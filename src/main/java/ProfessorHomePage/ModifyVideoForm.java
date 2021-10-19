@@ -24,11 +24,11 @@ public class ModifyVideoForm {
 
     /**
      * Creates a new ModifyVideoForm. It's the scene that is shown in the
-     * @param professorHomePage: the parent component that will handle the  event dispatched by this Component
+     * @param professorHomePageScene: the parent component that will handle the  event dispatched by this Component
      * @param video the video to modify
      */
-    public ModifyVideoForm(ProfessorHomePage professorHomePage, Video video) {
-        this.listeners.add(professorHomePage);
+    public ModifyVideoForm(ProfessorHomePageScene professorHomePageScene, Video video) {
+        this.listeners.add(professorHomePageScene);
 
         this.model = new ModifyVideoFormModel(video);
         this.view = new ModifyVideoFormView(this);

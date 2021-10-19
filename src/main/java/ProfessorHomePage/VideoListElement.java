@@ -25,14 +25,14 @@ public class VideoListElement extends JPanel{
      * Creates a new videoListElement, that is the single row of the videoList to be displayed. This videoListElement will show
      * the preview of the video, the title, the description and all the buttons to modify it.
      * @param video: the video for which the VideoListElement has to be created
-     * @param professorHomePage the parent component to be added to the listeners of the VideoListElement
+     * @param professorHomePageScene the parent component to be added to the listeners of the VideoListElement
      */
-    public VideoListElement(Video video, ProfessorHomePage professorHomePage) {
+    public VideoListElement(Video video, ProfessorHomePageScene professorHomePageScene) {
         this.video = video;
         setBackground(Color.white);
 
         this.model = new VideoListElementModel(video);
-        this.listeners.add(professorHomePage);
+        this.listeners.add(professorHomePageScene);
 
         this.view = new VideoListElementView();
         this.view.installUI(this);

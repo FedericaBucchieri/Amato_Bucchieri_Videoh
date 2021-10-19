@@ -14,15 +14,15 @@ public class VideoList extends JComponent  {
     //The view of a VideoList element
     private VideoListView view;
     //The component that controlls the VideoList
-    private ProfessorHomePage parentComponent;
+    private ProfessorHomePageScene parentComponent;
 
     /**
      * Creates a new VideoList for the givenProfessor: it containts all the video that this professor have uploaded.
      * @param professor: the logged in professor
-     * @param professorHomePage: the component that controls the VideoList
+     * @param professorHomePageScene: the component that controls the VideoList
      */
-    public VideoList(Professor professor, ProfessorHomePage professorHomePage) {
-        this.parentComponent = professorHomePage;
+    public VideoList(Professor professor, ProfessorHomePageScene professorHomePageScene) {
+        this.parentComponent = professorHomePageScene;
         this.model = new VideoListModel(professor);
         this.view = new VideoListView();
         this.view.installUI(this);
@@ -30,7 +30,7 @@ public class VideoList extends JComponent  {
         this.setLayout(new BorderLayout());
     }
 
-    public ProfessorHomePage getParentComponent() {
+    public ProfessorHomePageScene getParentComponent() {
         return parentComponent;
     }
 

@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import Utils.Utils;
 
 public class StudentLoginPanel extends JComponent {
     // The model of the component
@@ -41,6 +42,13 @@ public class StudentLoginPanel extends JComponent {
     @Override
     public void paintComponent(Graphics pen) {
         add(view.getMainPanel(), BorderLayout.CENTER);
+    }
+
+    public void checkUsername(String username){
+        if(username.equals("") || username.trim().length() == 0 || username.equals(Utils.INSERT_USERNAME))
+            view.displayError();
+        else
+            sendUsername(username);
     }
 
     /**

@@ -20,7 +20,8 @@ public class UpdateProfileView {
     private JTextField usernameField;
     //The textfield to set the new password
     private JTextField passwordField;
-    private JLabel errorLabel;//TODO da eliminare?
+    // a label for error displaying
+    private JLabel errorLabel;
     //The fancy logo of the UpdateProfile scene
     private JLabel logo;
 
@@ -37,6 +38,7 @@ public class UpdateProfileView {
         setupTitle();
         setupSettingsLogo();
         setupForm();
+        setupErrorLabel();
         setupButtons();
     }
 
@@ -109,7 +111,7 @@ public class UpdateProfileView {
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
         mainPanel.add(updateButton);
 
-        backButton = utils.setUPBackButton();
+        backButton = Utils.setUPBackButton();
         mainPanel.add(Box.createVerticalGlue());
         mainPanel.add(backButton);
     }
@@ -125,6 +127,23 @@ public class UpdateProfileView {
         mainPanel.add(logo);
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
 
+    }
+
+    /**
+     * This method sets up the Error label with an empty text
+     */
+    private void setupErrorLabel(){
+        errorLabel = new JLabel();
+        errorLabel.setForeground(Color.red);
+        errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(errorLabel);
+    }
+
+    /**
+     * This method updates the text of the errorLabel to display the student login error message
+     */
+    public void displayErrorEvent(String error){
+        errorLabel.setText(error);
     }
 
 }

@@ -9,7 +9,7 @@ import StudentInsertCode.InsertCodeScene;
 import StudentLogin.StudentLoginScene;
 import Utils.Utils;
 import entities.Professor;
-import ProfessorHomePage.ProfessorHomePage;
+import ProfessorHomePage.ProfessorHomePageScene;
 import ProfessorLoginScene.ProfessorLoginScene;
 import entities.Video;
 
@@ -18,65 +18,40 @@ import java.awt.*;
 
 
 public class SceneManager extends JFrame implements Listener {
+    // The current Scene instance displayed in the application
     private Scene currentScene;
-    private CardLayout cardLayout;
+    // The content Pane of the main Jframe of the applicaiton
     private Container container;
+    // the layout of the container
+    private CardLayout cardLayout;
 
     public SceneManager() {
         super("VIDEOH");
-        setPreferredSize(new Dimension(Utils.JFRAME_WIDTH, Utils.JFRAME_HEIGHT));
-        setLocation(300,100);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        cardLayout = new CardLayout();
-        container = getContentPane();
-        container.setLayout(cardLayout);
-
-        initializeFirstScene();
+        setupFrame();
+        setupGeneralLayout();
+        goToGeneralLoginPage();
 
         pack();
     }
 
-    private void initializeFirstScene(){
-         goToGeneralLoginPage();
-
-         /*
-        ProfessorService service = new ProfessorService();
-        Professor professor = null;
-        try {
-            professor = service.checkCredentials("prof1", "pass1");
-        } catch (CredentialsException | UserNotRegisteredException e) {
-            e.printStackTrace();
-        }
-
-        goToProfessorHomePage(professor);
-
-          */
-
-
-
-//        ProfessorLoginScene professorLoginScene = new ProfessorLoginScene(this);
-//        professorLoginScene.setVisible(true);
-//        currentScene = professorLoginScene;
-//        add(professorLoginScene);
-
-        /*
-        GeneralLoginScene generalLoginScene = new GeneralLoginScene(this);
-        currentScene = generalLoginScene;
-        cardLayout.addLayoutComponent(generalLoginScene.getMainPanel(), "1");
-        add(generalLoginScene.getMainPanel());
-
-         */
-
-
-//        StudentLoginScene studentLoginScene = new StudentLoginScene(this);
-//        studentLoginScene.setVisible(true);
-//        currentScene = studentLoginScene;
-//        add(studentLoginScene);
-
-
-
-
+    /**
+     * This method sets up the preferences for appearance and dimensions of the frame
+     */
+    private void setupFrame(){
+        setPreferredSize(new Dimension(Utils.JFRAME_WIDTH, Utils.JFRAME_HEIGHT));
+        setLocation(Utils.JFRAME_LOCATION_X,Utils.JFRAME_LOCATION_Y);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    /**
+     * This method sets up the cardLayout as basic layout of the frame to enable scenes change
+     */
+    private void setupGeneralLayout(){
+        cardLayout = new CardLayout();
+        container = getContentPane();
+        container.setLayout(cardLayout);
+    }
+
 
     @Override
     public void listen(Event event) {
@@ -108,13 +83,9 @@ public class SceneManager extends JFrame implements Listener {
 
     }
 
-    private void goToVideoStudentPage(Video video, String username) {
-        StudentHomePageScene studentHomePageScene = new StudentHomePageScene(this, video, username);
-        currentScene = studentHomePageScene;
-        container.add(studentHomePageScene.getMainPanel());
-        cardLayout.next(container);
-    }
-
+    /**
+     * This method allows going to the Scene "GeneralLoginScene"
+     */
     private void goToGeneralLoginPage() {
         GeneralLoginScene generalLoginScene = new GeneralLoginScene(this);
         currentScene = generalLoginScene;
@@ -123,6 +94,21 @@ public class SceneManager extends JFrame implements Listener {
         cardLayout.next(container);
     }
 
+    /**
+     * This method allows going to the Scene "StudentHomePage"
+     * @param video the video to be displayed in the scene
+     * @param username the username of the student that want to go to that scene
+     */
+    private void goToVideoStudentPage(Video video, String username) {
+        StudentHomePageScene studentHomePageScene = new StudentHomePageScene(this, video, username);
+        currentScene = studentHomePageScene;
+        container.add(studentHomePageScene.getMainPanel());
+        cardLayout.next(container);
+    }
+
+    /**
+     * This method allows going to the Scene "StudentLoginScene"
+     */
     private void goToStudLoginPage() {
         StudentLoginScene studentLoginScene = new StudentLoginScene(this);
         currentScene = studentLoginScene;
@@ -131,6 +117,9 @@ public class SceneManager extends JFrame implements Listener {
         cardLayout.next(container);
     }
 
+    /**
+     * This method allows going to the Scene "ProfessorLoginScene"
+     */
     private void goToProfLoginPage() {
         ProfessorLoginScene professorLoginScene = new ProfessorLoginScene(this);
         currentScene = professorLoginScene;
@@ -139,14 +128,21 @@ public class SceneManager extends JFrame implements Listener {
         cardLayout.next(container);
     }
 
+    /**
+     * This method allows going to the Scene "ProfessorHomePage"
+     * @param professor the professor entity that is logged in the application
+     */
     private void goToProfessorHomePage(Professor professor){
-        ProfessorHomePage professorHomePage = new ProfessorHomePage(this, professor);
-        currentScene = professorHomePage;
+        ProfessorHomePageScene professorHomePageScene = new ProfessorHomePageScene(this, professor);
+        currentScene = professorHomePageScene;
 
-        container.add(professorHomePage.getMainPanel());
+        container.add(professorHomePageScene.getMainPanel());
         cardLayout.next(container);
     }
 
+    /**
+     * This method allows going to the Scene "StudentEndVisionScene"
+     */
     private void goToStudentEndVisionScene(){
         StudentEndVisionScene studentEndVisionScene = new StudentEndVisionScene(this);
         studentEndVisionScene.installUI();
@@ -156,6 +152,9 @@ public class SceneManager extends JFrame implements Listener {
         cardLayout.next(container);
     }
 
+    /**
+     * This method helps to handle BackEvents, directing the scene to the correct one accordingly to the currentScene displayed in the application
+     */
     private void handleBackEvent(){
         if(currentScene instanceof ProfessorLoginScene)
             goToGeneralLoginPage();
@@ -172,11 +171,15 @@ public class SceneManager extends JFrame implements Listener {
         }
     }
 
+    /**
+     * This method allows going to the Scene "InsertCodeScene"
+     * @param username the username of the student that is logged in the application
+     */
     private void goToInsertCodePage(String username) {
-        InsertCodeScene studentLoginScene = new InsertCodeScene(this, username);
-        currentScene = studentLoginScene;
+        InsertCodeScene insertCodeScene = new InsertCodeScene(this, username);
+        currentScene = insertCodeScene;
 
-        container.add(studentLoginScene.getMainPanel());
+        container.add(insertCodeScene.getMainPanel());
         cardLayout.next(container);
     }
 

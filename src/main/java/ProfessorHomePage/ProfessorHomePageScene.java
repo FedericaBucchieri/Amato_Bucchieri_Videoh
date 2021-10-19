@@ -12,7 +12,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfessorHomePage implements Listener, Scene {
+public class ProfessorHomePageScene implements Listener, Scene {
     //The VideoList component that manages the list of videoListElement
     private VideoList videoList;
     //The lateral blue panel showing all the settings buttons of the professor
@@ -37,6 +37,8 @@ public class ProfessorHomePage implements Listener, Scene {
     private CardLayout cardLayout;
     //The array of listeners that will handle the events dispatched by PRofessoreHomePage
     private List<Listener> listeners = new ArrayList<>();
+    // a boolean to know if it is needed to dismiss a video in the background or not
+    private boolean needDismiss;
 
 
     /**
@@ -45,7 +47,7 @@ public class ProfessorHomePage implements Listener, Scene {
      * @param sceneManager the listener of the events dispatched by ProfessorHomePage
      * @param professor the logged professor
      */
-    public ProfessorHomePage(SceneManager sceneManager, Professor professor) {
+    public ProfessorHomePageScene(SceneManager sceneManager, Professor professor) {
         this.listeners.add(sceneManager);
         this.professor = professor;
 
@@ -90,6 +92,7 @@ public class ProfessorHomePage implements Listener, Scene {
 
     @Override
     public void listen(Event event) {
+        checkPreviousSceneForVideoDismiss();
 
         if(event.getClass().equals(NewVideoRequestEvent.class)){
             openNewVideoForm();
@@ -113,7 +116,7 @@ public class ProfessorHomePage implements Listener, Scene {
             openModifyVideoForm(((ModifyVideoEvent) event).getVideo());
         }
         else if(event.getClass().equals(UpdateProfileEvent.class)) {
-            updateProfile(((UpdateProfileEvent) event).getProfessor());
+            openVideoListAfterUpdate(((UpdateProfileEvent) event).getProfessor());
         }
         else if(event.getClass().equals(LogoutEvent.class)){
             dispatchLogoutEvent((LogoutEvent) event);
@@ -125,11 +128,23 @@ public class ProfessorHomePage implements Listener, Scene {
     }
 
     /**
+     * This method checks if there is the need to dismiss a video playing in the background
+     */
+    private void checkPreviousSceneForVideoDismiss(){
+        if(needDismiss){
+            needDismiss = false;
+            statisticsPane.dismissVideo();
+        }
+    }
+
+    /**
      * Present the statisticsPage related to the given video
      * @param video the video for which to show the statistics
      */
     private void goToStatisticsPage(Video video) {
         statisticsPane = new StatisticsPane(video.getId(), this);
+        needDismiss = true;
+
         centerPanel.add(statisticsPane.getScrollPane());
         cardLayout.next(centerPanel);
     }
@@ -200,10 +215,10 @@ public class ProfessorHomePage implements Listener, Scene {
     }
 
     /**
-     * //TODO
-     * @param professor
+     * This method opens the videoList panel after the current professor profile has been updated
+     * @param professor the updated instance of professor
      */
-    public void updateProfile(Professor professor){
+    public void openVideoListAfterUpdate(Professor professor){
         detailPanel = new DetailPanel(professor, this);
         rightPanel.removeAll();
         rightPanel.add(detailPanel.getMainPanel());

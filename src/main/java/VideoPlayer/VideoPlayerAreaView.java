@@ -8,7 +8,7 @@ public class VideoPlayerAreaView {
     private VideoPlayerArea controller;
     //The main panel in which the videoBox is set.
     private JPanel mainPanel;
-    //The video box that will show the the video and its related controller
+    //The video box that will show the video and its related controller
     private VideoBox videoBox;
 
     public VideoPlayerAreaView(VideoPlayerArea controller){

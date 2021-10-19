@@ -25,10 +25,10 @@ public class DetailPanel extends JComponent {
      * Creates a new DetailPanel component. It is the right blue panel where all the info of the professor are displayed
      * and whete these can be managed
      * @param professor the logged in professor
-     * @param professorHomePage the parnet component that creates the DetailPanel. it is a listener for this DetailPanel component
+     * @param professorHomePageScene the parnet component that creates the DetailPanel. it is a listener for this DetailPanel component
      */
-    public DetailPanel(Professor professor, ProfessorHomePage professorHomePage) {
-        this.listeners.add(professorHomePage);
+    public DetailPanel(Professor professor, ProfessorHomePageScene professorHomePageScene) {
+        this.listeners.add(professorHomePageScene);
 
         this.model = new DetailPanelModel(professor);
         this.view = new DetailPanelView();

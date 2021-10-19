@@ -1,6 +1,7 @@
 package ProfessorHomePage;
 
 import EventManagement.*;
+import Utils.Utils;
 import entities.Professor;
 
 import javax.swing.*;
@@ -18,11 +19,11 @@ public class UpdateProfile extends JComponent {
 
     /**
      * Creates a new UpdateProfile component. It is the page that is shown when the professor wants to update its username and it password
-     * @param professorHomePage the home page that has created the UpdateProfile page; it is added to the listeners
+     * @param professorHomePageScene the home page that has created the UpdateProfile page; it is added to the listeners
      * @param professor the entity of the logged professor
      */
-    public UpdateProfile(ProfessorHomePage professorHomePage, Professor professor) {
-        this.listeners.add(professorHomePage);
+    public UpdateProfile(ProfessorHomePageScene professorHomePageScene, Professor professor) {
+        this.listeners.add(professorHomePageScene);
         this.model = new UpdateProfileModel(this, professor);
         this.view = new UpdateProfileView(this);
         this.view.installUI();
@@ -34,8 +35,14 @@ public class UpdateProfile extends JComponent {
      * @param password the updated password
      */
     public void handleUpdateProfileRequest(String username, String password){
-        Professor professor = model.updateProfile(username, password);
-        dispatchUpdateProfileEvent(professor);
+        if(username.equals("") || username.trim().length() == 0)
+            view.displayErrorEvent(Utils.INVALID_USERNAME);
+        else if (password.equals("") || password.trim().length() == 0)
+            view.displayErrorEvent(Utils.INVALID_PASSWORD);
+        else {
+            Professor professor = model.updateProfile(username, password);
+            dispatchUpdateProfileEvent(professor);
+        }
     }
 
     /**

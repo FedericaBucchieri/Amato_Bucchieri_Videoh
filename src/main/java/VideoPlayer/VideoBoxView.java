@@ -49,21 +49,21 @@ public class VideoBoxView {
     private BufferedImage image;
     //The actual VLCj media player component that expose into Swing the VLCj API to controll and create the video element.
     private DirectMediaPlayerComponent mediaPlayerComponent;
-
+    // the list of listeners for event handling
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
 
 
     /**
-     * This will build the VideoBoxView. It will contains the actual VideoPanel, the controlls button, the info button, the slider and the interaction panel. This constructor also add
-     * controller as a listener. The string parameter is actually unused: its purpose is just to change the signature of the constructor in order to differentiate this one (that add the
-     * controller as a listener) and the other one.
-     * @param controller a VideoBox. It'll be added to list of listeners
-     * @param unused: string of whatever velue not actually used. It's added just to change the signature of the Constructor.
+     * This creates the view of the videoBox. It will contains the actual VideoPanel, the controls button, the info button, the slider and the interaction panel.
+     * @param controller the controller of the Component
+     * @param needListener a boolean to know if the controller must be added as a listener or not
      */
-    public VideoBoxView(VideoBox controller, String unused) {
+    public VideoBoxView(VideoBox controller, boolean needListener) {
         this.controller = controller;
         this.mainPanel = new JPanel();
-        this.listeners.add(controller); //this is the difference with the other constructor
+
+        if(needListener)
+            this.listeners.add(controller);
 
         setupMainPanel();
         setupImage();
@@ -74,29 +74,6 @@ public class VideoBoxView {
         isPlaying = true;
 
         setupSouthPanel();
-
-
-
-    }
-
-    /**
-     * This creates the view of the videoBox. It will contains the actual VideoPanel, the controlls button, the info button, the slider and the interaction panel.
-     * @param controller
-     */
-    public VideoBoxView(VideoBox controller) {
-        this.controller = controller;
-        this.mainPanel = new JPanel();
-
-        setupMainPanel();
-        setupImage();
-        setupVideoTitle();
-        setupVideoSurface();
-
-        mediaPlayerComponent.getMediaPlayer().playMedia(this.controller.getModel().getVideo().getFile().getPath());
-        isPlaying = true;
-
-        setupSouthPanel();
-
     }
 
     /**
@@ -207,7 +184,7 @@ public class VideoBoxView {
             public void actionPerformed(ActionEvent e) {
                 try {
                     InfoDialog dialog = new InfoDialog(controller.getModel().getVideo());
-                    dialog.setLocation(300,100);
+                    dialog.setLocation(Utils.JFRAME_LOCATION_X,Utils.JFRAME_LOCATION_Y);
                     dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
                     dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                     dialog.setVisible(true);
@@ -422,14 +399,11 @@ public class VideoBoxView {
 
     }
 
-    public JPanel getSouthPanel() {
-        return southPanel;
-    }
     public JPanel getVideoSurface() {
         return videoSurface;
     }
 
-    public JPanel getControllButtonsPanel() {
+    public JPanel getControlButtonsPanel() {
         return controllButtonsPanel;
     }
     public InteractionPanel getInteractionPanel() {

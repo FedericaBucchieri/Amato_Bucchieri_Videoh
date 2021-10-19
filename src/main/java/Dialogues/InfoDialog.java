@@ -31,8 +31,9 @@ public class InfoDialog extends JDialog {
      */
     private void setupMainPanel() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.setBackground(Color.decode("#42577F"));
+        mainPanel.setPreferredSize(new Dimension(Utils.INFO_DIALOG_WIDTH - Utils.STANDARD_BORDER, Utils.INFO_DIALOG_HEIGHT - Utils.STANDARD_BORDER));
 
         setupTitle();
         setupDescription();
@@ -45,8 +46,11 @@ public class InfoDialog extends JDialog {
     private void setupTitle() {
         JLabel title = new JLabel(video.getTitle());
         title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.SUBTITLE_WIDTH));
+        title.setAlignmentX(Component.LEFT_ALIGNMENT);
         title.setForeground(Color.white);
+
         mainPanel.add(title);
+        mainPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM15));
     }
 
 
@@ -54,8 +58,12 @@ public class InfoDialog extends JDialog {
      * This method adds the video description to the mainPanel
      */
     private void setupDescription() {
-        JLabel description = new JLabel(video.getDescription());
+        JTextArea description = new JTextArea(video.getDescription());
+        description.setWrapStyleWord(true);
+        description.setLineWrap(true);
         description.setForeground(Color.white);
+        description.setBackground(Color.decode("#42577F"));
+        description.setAlignmentX(Component.LEFT_ALIGNMENT);
         mainPanel.add(description);
     }
 
@@ -67,8 +75,10 @@ public class InfoDialog extends JDialog {
 
         JLabel code = new JLabel("Video Code: " + video.getCode());
         code.setForeground(Color.white);
+        code.setAlignmentX(Component.LEFT_ALIGNMENT);
         mainPanel.add(code);
     }
+
 
     @Override
     public Dimension getPreferredSize() {
