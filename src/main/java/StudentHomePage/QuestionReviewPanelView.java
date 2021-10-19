@@ -177,7 +177,7 @@ public class QuestionReviewPanelView {
 
 
         JLabel confirmationMessage = new JLabel();
-        confirmationMessage.setForeground(Color.decode("#32a852"));
+        confirmationMessage.setForeground(Utils.CUSTOM_GREEN);
         confirmationMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
         singleQuestionPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
         singleQuestionPanel.add(confirmationMessage);
