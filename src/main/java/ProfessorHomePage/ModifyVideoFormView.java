@@ -128,7 +128,7 @@ public class ModifyVideoFormView {
         mainPanel.add(Box.createVerticalStrut(Utils.TITLE_MARGIN));
         JLabel title = new JLabel("Modify video '" + controller.getModel().getVideo().getTitle() + "'");
         title.setFont(new Font(Font.SANS_SERIF,  Font.BOLD, Utils.TITLE_WIDTH));
-        title.setForeground(Color.decode("#314668"));
+        title.setForeground(Utils.CUSTOM_BLUE);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(title);
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
@@ -219,7 +219,7 @@ public class ModifyVideoFormView {
      */
     private void setupErrorLabel(){
         errorLabel = new JLabel();
-        errorLabel.setForeground(Color.decode("#DB2A58"));
+        errorLabel.setForeground(Utils.CUSTOM_VIOLET2);
         errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(errorLabel);
     }

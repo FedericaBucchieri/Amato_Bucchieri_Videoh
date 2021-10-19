@@ -31,7 +31,7 @@ public class VideoListView {
 
         JLabel title = new JLabel("Your video List");
         title.setFont(new Font(Font.SANS_SERIF,  Font.BOLD, Utils.TITLE_WIDTH));
-        title.setForeground(Color.decode("#42577F"));
+        title.setForeground(Utils.CUSTOM_BLUE3);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(title);
 

@@ -87,7 +87,7 @@ public class MainLoginPanelView {
         mainPanel.add(Box.createVerticalStrut(Utils.TITLE_MARGIN));
         JLabel welcomeLabel = new JLabel("Welcome");
         welcomeLabel.setFont(new Font(Font.SANS_SERIF,  Font.BOLD, Utils.TITLE_WIDTH));
-        welcomeLabel.setForeground(Color.decode("#314668"));
+        welcomeLabel.setForeground(Utils.CUSTOM_BLUE);
         welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(welcomeLabel);
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
@@ -101,7 +101,7 @@ public class MainLoginPanelView {
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
         JLabel loginLabel = new JLabel("Do you want to login as a Student or a Professor?");
         loginLabel.setFont(new Font(Font.SANS_SERIF,  Font.BOLD, Utils.SUBTITLE_WIDTH));
-        loginLabel.setForeground(Color.decode("#314668"));
+        loginLabel.setForeground(Utils.CUSTOM_BLUE);
         loginLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(loginLabel);
         mainPanel.add(Box.createVerticalStrut(Utils.TITLE_MARGIN));

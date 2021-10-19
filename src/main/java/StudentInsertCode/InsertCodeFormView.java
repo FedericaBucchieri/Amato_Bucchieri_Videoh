@@ -100,7 +100,7 @@ public class InsertCodeFormView {
     private void setupMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-        mainPanel.setBackground(Color.decode("#42577F"));
+        mainPanel.setBackground(Utils.CUSTOM_BLUE3);
     }
 
     /**
