@@ -39,6 +39,8 @@ public class SceneManager extends JFrame implements Listener {
      */
     private void setupFrame(){
         setPreferredSize(new Dimension(Utils.JFRAME_WIDTH, Utils.JFRAME_HEIGHT));
+        setMinimumSize(getPreferredSize());
+        setMaximumSize(getPreferredSize());
         setLocation(Utils.JFRAME_LOCATION_X,Utils.JFRAME_LOCATION_Y);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
