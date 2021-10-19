@@ -43,6 +43,8 @@ public class VideoBoxView {
     private boolean isPlaying = false;
     //The video timeline status: setted or not setted
     private boolean isTimeSetted = false;
+    // The video status: freezed or not
+    private boolean isFreezed = false;
     //The southPanel that contains the interactions and the controlls
     private JPanel southPanel;
     //The BufferedImage that will host the frame of the video to be displayed and update as the video is played.
@@ -245,8 +247,10 @@ public class VideoBoxView {
         videoSurface.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                togglePausePlayButton();
-                super.mouseClicked(e);
+                if(!isFreezed) {
+                    togglePausePlayButton();
+                    super.mouseClicked(e);
+                }
             }
         });
     }
@@ -287,6 +291,7 @@ public class VideoBoxView {
      * This method will pause the video.
      */
     public void freezeVideo(){
+        isFreezed = true;
         togglePausePlayButton();
         pausePlayButton.setEnabled(false);
     }
@@ -295,6 +300,7 @@ public class VideoBoxView {
      * This method will play the video after it's been frozen.
      */
     public void restartVideoAfterFreeze(){
+        isFreezed = false;
         togglePausePlayButton();
         pausePlayButton.setEnabled(true);
     }

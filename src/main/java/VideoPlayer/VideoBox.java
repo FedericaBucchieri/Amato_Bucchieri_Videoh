@@ -2,7 +2,9 @@ package VideoPlayer;
 
 import EventManagement.*;
 import InteractionList.InteractionPanel;
+import ProfessorHomePage.ProfessorHomePageScene;
 import ProfessorHomePage.StatisticsPaneView;
+import StudentHomePage.StudentHomePageScene;
 import entities.Video;
 import Utils.Utils;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
@@ -34,16 +36,25 @@ public class VideoBox implements Listener {//controller
 
     }
 
-    /**
+    /*
      * This constructor creates a new VideoBox element, that takes care of playing the video, managing pause/play button, the slider to manage the timeline of the video and the interactions related to the video.
      * This contructor is meant to be used by the videoBoxAreaView class when it creates the videoBox element.
      * @param videoPlayerArea: the contoller of the videoBoxAreaView that created this video box.
      * @param video the video entity (from the db) that will be displayed
      * @param username the username of the student that is currently posting the interactions and questions.
-     */
+
     public VideoBox(VideoPlayerArea videoPlayerArea ,Video video, String username){
         new NativeDiscovery().discover();
         this.listeners.add(videoPlayerArea);
+
+        model = new VideoBoxModel(video, username, Utils.STUDENT_VIDEO_FRAME_WIDTH, Utils.STUDENT_VIDEO_FRAME_HEIGHT);
+        view = new VideoBoxView(this, false);
+    }
+     */
+
+    public VideoBox(StudentHomePageScene studentHomePageScene , Video video, String username){
+        new NativeDiscovery().discover();
+        this.listeners.add(studentHomePageScene);
 
         model = new VideoBoxModel(video, username, Utils.STUDENT_VIDEO_FRAME_WIDTH, Utils.STUDENT_VIDEO_FRAME_HEIGHT);
         view = new VideoBoxView(this, false);

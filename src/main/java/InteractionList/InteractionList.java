@@ -32,61 +32,10 @@ public class InteractionList extends JComponent {
 
         this.model = new InteractionListModel(generalLength, this);
         this.view = new InteractionListView(this);
+        this.view.installUI();
 
     }
 
-    /**
-     * this method install all the eventListeners required by the UI to make the component work
-     * Allowing drag and drop of interaction drawing in the timeline
-     */
-    public void installUI(){
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (model.isListenersActive()){
-                    if(!model.isDeleteMode()) {
-                        view.selectInteractionDrawing(e.getPoint());
-                        model.setMousePressed(true);
-                    }
-                    else { // Shift pressed: Delete mode
-                        view.selectInteractionDrawing(e.getPoint());
-                        model.deleteSelectedInteraction();
-                        repaint();
-                    }
-                }
-
-            }
-        });
-
-        addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if (model.isListenersActive()){
-                    if(model.isMousePressed() && model.getSelectedInteractionDrawing() != null){
-                        model.getSelectedInteractionDrawing().setX(e.getX());
-                        repaint();
-                    }
-                }
-
-            }
-        });
-
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (model.isListenersActive()){
-                    model.setMousePressed(false);
-                    if(model.getSelectedInteractionDrawing() != null) {
-                        model.getSelectedInteractionDrawing().setSelected(false);
-                        updateInteraction(model.getSelectedInteractionDrawing().getInteraction(), e.getX());
-                        repaint();
-                    }
-                }
-
-            }
-        });
-    }
 
     public InteractionListModel getModel() {
         return model;
@@ -138,7 +87,7 @@ public class InteractionList extends JComponent {
      */
     public void deleteQuestionFromList(Question question){
         model.deleteQuestion(question);
-        repaint();
+        //repaint();
     }
 
     /**
