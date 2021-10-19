@@ -2,7 +2,7 @@ package StudentHomePage;
 
 import EventManagement.*;
 import EventManagement.Event;
-import VideoPlayer.VideoPlayerArea;
+import VideoPlayer.VideoBox;
 import entities.Question;
 import entities.Video;
 import sceneManager.Scene;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class StudentHomePageScene implements Listener, Scene{
     // A component of the Scene: a videoPlayerArea to display the Video
-    private VideoPlayerArea videoPlayerArea;
+    private VideoBox videoBox;
     // A component of the Scene: the student detail panel to be displayed on the right
     private StudentDetailPanel studentDetailPanel;
     // A componet of the Scene: a panel to review all student questions
@@ -64,8 +64,8 @@ public class StudentHomePageScene implements Listener, Scene{
         this.centerPanel = new JPanel();
         centerPanel.setLayout(cardLayout);
 
-        videoPlayerArea = new VideoPlayerArea(sceneManager, this, video, username);
-        centerPanel.add(videoPlayerArea.getMainPanel());
+        videoBox = new VideoBox(this, video, username);
+        centerPanel.add(videoBox.getView().getMainPanel());
         cardLayout.next(centerPanel);
     }
 
@@ -85,7 +85,8 @@ public class StudentHomePageScene implements Listener, Scene{
      * @param questionList the list of questions to be displayed for review
      */
     private void switchToReviewMode(List<Question> questionList){
-        videoPlayerArea.stopVideoPlaying();
+        //videoPlayerArea.stopVideoPlaying();
+        videoBox.stopVideoPlaying();
         studentDetailPanel.hideQuestionList();
 
         questionReviewPanel = new QuestionReviewPanel(this, questionList);
@@ -105,10 +106,11 @@ public class StudentHomePageScene implements Listener, Scene{
      * This method allows to display the VideoPlayerArea in the centerPanel
      */
     private  void switchToVideoPanel(){
-        videoPlayerArea.unlockVideoPlaying();
+        //videoPlayerArea.unlockVideoPlaying();
+        videoBox.unlockVideoPlaying();
         studentDetailPanel.showQuestionList(questionReviewPanel.getQuestionList());
 
-        centerPanel.add(videoPlayerArea.getMainPanel());
+        centerPanel.add(videoBox.getView().getMainPanel());
         cardLayout.next(centerPanel);
     }
 
@@ -117,7 +119,8 @@ public class StudentHomePageScene implements Listener, Scene{
      * @param event the event to be dispatched
      */
     private void dispatchEndReviewEvent(EndReviewEvent event){
-        videoPlayerArea.dismissVideo();
+        //videoPlayerArea.dismissVideo();
+        videoBox.dismissVideo();
         for (Listener listener : listeners)
             listener.listen(event);
     }
@@ -132,7 +135,8 @@ public class StudentHomePageScene implements Listener, Scene{
     @Override
     public void listen(Event event) {
         if(event.getClass().equals(LogoutEvent.class)){
-            videoPlayerArea.dismissVideo();
+            //videoPlayerArea.dismissVideo();
+            videoBox.dismissVideo();
         }
         else if(event.getClass().equals(NewQuestionEvent.class)){
             studentDetailPanel.addQuestionToList(((NewQuestionEvent) event).getQuestion());
@@ -142,7 +146,9 @@ public class StudentHomePageScene implements Listener, Scene{
         }
         else if(event.getClass().equals(DeleteQuestionEvent.class)){
             studentDetailPanel.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
-            videoPlayerArea.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
+            //videoPlayerArea.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
+            // TODO FARE SISTEMATO
+           videoBox.getInteractionPanel().deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
             if(questionReviewPanel != null)
                 repaintReview();
         }

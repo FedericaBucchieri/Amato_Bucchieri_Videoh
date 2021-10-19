@@ -97,7 +97,6 @@ public class InteractionPanelView {
     public void setupAnnotationDisplay() {
         interactionTimelinePanel = new JPanel(new BorderLayout());
         interactionList = new InteractionList(controller.getModel().getSliderMaximum(), controller);
-        interactionList.installUI();
 
         interactionList.setBorder(new LineBorder(Color.black));
         interactionTimelinePanel.add(Box.createHorizontalStrut(Utils.TIMELINE_BOXES), BorderLayout.WEST);
@@ -119,10 +118,8 @@ public class InteractionPanelView {
     }
 
     public void printInteractionList(){
-        for (GenericInteraction interaction : interactionList.getModel().getInteractionList()){
-            interactionList.repaint();
-        }
-
+        interactionList.repaint();
+        repaint();
     }
 
     public void setupAnnotationButtons(){
