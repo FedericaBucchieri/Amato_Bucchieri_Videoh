@@ -315,7 +315,7 @@ public class StatisticsPaneView implements Listener {
         questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
 
         JLabel questionTime = new JLabel(String.valueOf(Utils.formatTime(question.getTimestamp())));
-        questionTime.setForeground(Color.decode("#F0A037"));
+        questionTime.setForeground(Utils.CUSTOM_ORANGE);
         questionTime.setFont((new Font(Font.SANS_SERIF,  Font.ITALIC, Utils.DATE_FONT_WIDTH)));
         questionTime.setAlignmentX(Component.LEFT_ALIGNMENT);
         questionTime.setAlignmentY(Component.TOP_ALIGNMENT);

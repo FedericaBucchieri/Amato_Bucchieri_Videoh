@@ -30,7 +30,7 @@ public class ProfessorLoginFormView {
     public ProfessorLoginFormView(){
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-        mainPanel.setBackground(Color.decode("#42577F"));
+        mainPanel.setBackground(Utils.CUSTOM_BLUE3);
 
         setupTitleLabel();
         setupProfLogo();
@@ -128,7 +128,7 @@ public class ProfessorLoginFormView {
      */
     private void setupErrorLabel(){
         errorLabel = new JLabel();
-        errorLabel.setForeground(Color.decode("#DB2A58"));
+        errorLabel.setForeground(Utils.CUSTOM_VIOLET2);
         errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(errorLabel);
     }

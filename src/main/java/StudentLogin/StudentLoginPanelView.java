@@ -85,7 +85,7 @@ public class StudentLoginPanelView {
 
         formPanel = new JPanel();
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
-        formPanel.setBackground(Color.decode("#42577F"));
+        formPanel.setBackground(Utils.CUSTOM_BLUE3);
         formPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         mainPanel.add(formPanel, BorderLayout.CENTER);

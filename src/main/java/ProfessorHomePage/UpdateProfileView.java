@@ -69,7 +69,7 @@ public class UpdateProfileView {
         mainPanel.add(Box.createVerticalStrut(Utils.TITLE_MARGIN));
         JLabel title = new JLabel("Update your profile");
         title.setFont(new Font(Font.SANS_SERIF,  Font.BOLD, Utils.TITLE_WIDTH));
-        title.setForeground(Color.decode("#314668"));
+        title.setForeground(Utils.CUSTOM_BLUE);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(title);
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));

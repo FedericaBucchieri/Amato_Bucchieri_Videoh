@@ -31,7 +31,7 @@ public class DetailPanelView {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.setSize(getPreferredSize());
         mainPanel.setPreferredSize(getPreferredSize());
-        mainPanel.setBackground(Color.decode("#42577F"));
+        mainPanel.setBackground(Utils.CUSTOM_BLUE3);
 
         mainPanel.add(Box.createVerticalStrut(Utils.STANDARD_BORDER));
         setupProfLogo();

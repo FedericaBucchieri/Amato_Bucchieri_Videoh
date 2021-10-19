@@ -85,6 +85,16 @@ public class Utils {
     public static final Dimension HORIZONTAL_RIGID_AREA_DIM15 = new Dimension(15,0);
     public static final Dimension HORIZONTAL_RIGID_AREA_DIM10 = new Dimension(10,0);
 
+    public static final Color CUSTOM_GREEN = Color.decode("#32a852");
+    public static final Color CUSTOM_BLUE = Color.decode("#314668");
+    public static final Color CUSTOM_BLUE2 = Color.decode("#223047");
+    public static final Color CUSTOM_BLUE3 = Color.decode("#42577F");
+    public static final Color CUSTOM_VIOLET = Color.decode("#b8234b");
+    public static final Color CUSTOM_VIOLET2 = Color.decode("#DB2A58");
+    public static final Color CUSTOM_GREY = Color.decode("#999999");
+    public static final Color CUSTOM_GREY2 = Color.decode("#807e7e");
+    public static final Color CUSTOM_ORANGE = Color.decode("#F0A037");
+
     public static final int UNIT_SCROLLING_INCREMENT = 3;
 
 
@@ -94,7 +104,7 @@ public class Utils {
      * @return the button after styling
      */
     public JButton styleButtonOne(JButton button){
-        button.setBackground(Color.decode("#314668"));
+        button.setBackground(CUSTOM_BLUE);
         button.setOpaque(true);
         button.setBorderPainted(false);
         button.setForeground(Color.white);
@@ -103,22 +113,22 @@ public class Utils {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                button.setBackground(Color.decode("#223047"));
+                button.setBackground(CUSTOM_BLUE2);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setBackground(Color.decode("#223047"));
+                button.setBackground(CUSTOM_BLUE2);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                button.setBackground(Color.decode("#314668"));
+                button.setBackground(CUSTOM_BLUE);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                button.setBackground(Color.decode("#314668"));
+                button.setBackground(CUSTOM_BLUE);
             }
         });
 
@@ -131,7 +141,7 @@ public class Utils {
      * @return the button after styling
      */
     public JButton styleButtonTwo(JButton button){
-        button.setBackground(Color.decode("#DB2A58"));
+        button.setBackground(CUSTOM_VIOLET2);
         button.setOpaque(true);
         button.setBorderPainted(false);
         button.setForeground(Color.white);
@@ -140,22 +150,22 @@ public class Utils {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                button.setBackground(Color.decode("#b8234b"));
+                button.setBackground(CUSTOM_VIOLET);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setBackground(Color.decode("#b8234b"));
+                button.setBackground(CUSTOM_VIOLET);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                button.setBackground(Color.decode("#DB2A58"));
+                button.setBackground(CUSTOM_VIOLET2);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                button.setBackground(Color.decode("#DB2A58"));
+                button.setBackground(CUSTOM_VIOLET2);
             }
         });
 
@@ -168,7 +178,7 @@ public class Utils {
      * @return the button after styling
      */
     public JButton styleButtonThree(JButton button){
-        button.setBackground(Color.decode("#999999"));
+        button.setBackground(CUSTOM_GREY);
         button.setOpaque(true);
         button.setBorderPainted(false);
         button.setForeground(Color.white);
@@ -177,22 +187,22 @@ public class Utils {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                button.setBackground(Color.decode("#807e7e"));
+                button.setBackground(CUSTOM_GREY2);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setBackground(Color.decode("#807e7e"));
+                button.setBackground(CUSTOM_GREY2);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                button.setBackground(Color.decode("#999999"));
+                button.setBackground(CUSTOM_GREY);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                button.setBackground(Color.decode("#999999"));
+                button.setBackground(CUSTOM_GREY);
             }
         });
 
