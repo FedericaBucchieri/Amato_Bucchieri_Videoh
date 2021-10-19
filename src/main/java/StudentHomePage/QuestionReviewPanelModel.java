@@ -22,9 +22,7 @@ public class QuestionReviewPanelModel {
      * @param toBeDeleted the question to be deleted from the list
      */
     public void removeQuestionFormList(Question toBeDeleted){
-        System.out.println(questionList.size());
         questionList.removeIf(question -> question.getId() == toBeDeleted.getId());
-        System.out.println(questionList.size());
     }
 
     /**
