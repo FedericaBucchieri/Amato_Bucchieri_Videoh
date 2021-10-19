@@ -109,6 +109,7 @@ public class StudentDetailPanelView {
         listTitle.setVisible(false);
         scrollPane.setVisible(false);
         reviewButton.setVisible(false);
+        endVisionButton.setVisible(false);
     }
 
     /**
@@ -120,6 +121,7 @@ public class StudentDetailPanelView {
         listTitle.setVisible(true);
         scrollPane.setVisible(true);
         reviewButton.setVisible(true);
+        endVisionButton.setVisible(true);
         repaintQuestionList();
     }
 
