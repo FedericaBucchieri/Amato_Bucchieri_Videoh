@@ -292,7 +292,9 @@ public class VideoBoxView {
      */
     public void freezeVideo(){
         isFreezed = true;
-        togglePausePlayButton();
+        mediaPlayerComponent.getMediaPlayer().pause();
+        isPlaying = false;
+        pausePlayButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/play.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
         pausePlayButton.setEnabled(false);
     }
 

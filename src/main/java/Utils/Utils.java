@@ -82,6 +82,9 @@ public class Utils {
     public static final Dimension VERTICAL_RIGID_AREA_DIM80 = new Dimension(0, 80);
 
     public static final Dimension HORIZONTAL_RIGID_AREA_DIM30 = new Dimension(30,0);
+    public static final Dimension HORIZONTAL_RIGID_AREA_DIM15 = new Dimension(15,0);
+    public static final Dimension HORIZONTAL_RIGID_AREA_DIM10 = new Dimension(10,0);
+
     public static final int UNIT_SCROLLING_INCREMENT = 3;
 
 
