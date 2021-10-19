@@ -25,11 +25,16 @@ public class InteractionPanelView {
     private JPanel generalInteractionsPanel;
     private JLabel instructionsLine1;
     private JLabel instructionsLine2;
+    private JButton sendButton;
+    private JButton cancelButton;
 
 
-
-    public InteractionPanelView(InteractionPanel interactionTimelinePanel) {
-        this.controller = interactionTimelinePanel;
+    /**
+     * This constructor creates an instance of InteractionPanelView, adding all the UI element required to the mainPanel
+     * @param controller the InteractionPanel instance that is the component controller
+     */
+    public InteractionPanelView(InteractionPanel controller) {
+        this.controller = controller;
 
         mainPanel = new JPanel();
         mainPanel.setLayout( new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -43,7 +48,10 @@ public class InteractionPanelView {
         setupAnnotationButtons();
     }
 
-    public void install(){
+    /**
+     * This method installs the UI, setting up all the required actionListeners for each element of the UI
+     */
+    public void installUI(){
         InteractionsPanelModel model = controller.getModel();
 
         positiveInteractionButton.addActionListener(new ActionListener() {
@@ -71,18 +79,10 @@ public class InteractionPanelView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(model.isDeleteMode()) {
-                    enableInteractionButtons();
-                    controller.handleDeleteRequest(false);
-                    deleteButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/trash-bin.png").getImage().getScaledInstance(Utils.ANNOTATION_BUTTON_SIZE, Utils.ANNOTATION_BUTTON_SIZE, Image.SCALE_SMOOTH)));
-                    instructionsLine1.setText(Utils.LINE_1_INTERACTION);
-                    instructionsLine2.setText(Utils.LINE_2_INTERACTION);
+                    exitDeleteMode();
                 }
                 else {
-                    disableInteractionButtons();
-                    controller.handleDeleteRequest(true);
-                    deleteButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/cancel.png").getImage().getScaledInstance(Utils.ANNOTATION_BUTTON_SIZE, Utils.ANNOTATION_BUTTON_SIZE, Image.SCALE_SMOOTH)));
-                    instructionsLine1.setText(Utils.LINE_1_DELETING);
-                    instructionsLine2.setText(Utils.LINE_2_DELETING);
+                    enterDeleteMode();
                 }
                 model.setDeleteMode(!model.isDeleteMode());
             }
@@ -90,10 +90,35 @@ public class InteractionPanelView {
 
     }
 
+    /**
+     * This method exits the delete mode performing all the UI actions needed
+     */
+    private void exitDeleteMode(){
+        enableInteractionButtons();
+        controller.handleDeleteRequest(false);
+        deleteButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/trash-bin.png").getImage().getScaledInstance(Utils.ANNOTATION_BUTTON_SIZE, Utils.ANNOTATION_BUTTON_SIZE, Image.SCALE_SMOOTH)));
+        instructionsLine1.setText(Utils.LINE_1_INTERACTION);
+        instructionsLine2.setText(Utils.LINE_2_INTERACTION);
+    }
+
+    /**
+     * This method enables the delete mode performing all the UI actions needed
+     */
+    private void enterDeleteMode(){
+        disableInteractionButtons();
+        controller.handleDeleteRequest(true);
+        deleteButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/cancel.png").getImage().getScaledInstance(Utils.ANNOTATION_BUTTON_SIZE, Utils.ANNOTATION_BUTTON_SIZE, Image.SCALE_SMOOTH)));
+        instructionsLine1.setText(Utils.LINE_1_DELETING);
+        instructionsLine2.setText(Utils.LINE_2_DELETING);
+    }
+
     public InteractionList getInteractionList() {
         return interactionList;
     }
 
+    /**
+     * This method sets up the annotation Display and the interaction List
+     */
     public void setupAnnotationDisplay() {
         interactionTimelinePanel = new JPanel(new BorderLayout());
         interactionList = new InteractionList(controller.getModel().getSliderMaximum(), controller);
@@ -107,11 +132,19 @@ public class InteractionPanelView {
         cardLayout.next(generalInteractionsPanel);
     }
 
+    /**
+     * This method allows to print a new interaction
+     * @param interaction the interaction to be printed
+     */
     public void printNewInteraction(GenericInteraction interaction){
         interactionList.addInteractionToList(interaction);
         interactionList.repaint();
     }
 
+    /**
+     * This method deletes a question from the interaction list
+     * @param question the question to be deleted
+     */
     public void deleteQuestionFromInteractionList(Question question){
         interactionList.deleteQuestionFromList(question);
         printInteractionList();
@@ -122,6 +155,9 @@ public class InteractionPanelView {
         repaint();
     }
 
+    /**
+     * This method sets up all the annotation buttons, their labels, position etc
+     */
     public void setupAnnotationButtons(){
         JLabel title = new JLabel("Your annotation List");
         title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, Utils.SUBTITLE_WIDTH));
@@ -174,6 +210,9 @@ public class InteractionPanelView {
     }
 
 
+    /**
+     * This method allows to display the question textField to add a new question to the interaction list
+     */
     public void displayQuestionTextField(){
         questionPanel = new JPanel();
         questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.X_AXIS));
@@ -197,7 +236,7 @@ public class InteractionPanelView {
             }
         });
 
-        JButton sendButton = new JButton();
+        sendButton = new JButton();
         sendButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/check.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
         sendButton.setOpaque(true);
         sendButton.setBorderPainted(false);
@@ -210,7 +249,7 @@ public class InteractionPanelView {
         });
         questionPanel.add(sendButton);
 
-        JButton cancelButton = new JButton();
+        cancelButton = new JButton();
         cancelButton.setIcon(new ImageIcon(new ImageIcon("src/main/images/cancel.png").getImage().getScaledInstance(Utils.PLAY_PAUSE_SIZE, Utils.PLAY_PAUSE_SIZE, Image.SCALE_SMOOTH)));
         cancelButton.setOpaque(true);
         cancelButton.setBorderPainted(false);
@@ -228,6 +267,9 @@ public class InteractionPanelView {
         generalInteractionsPanel.repaint();
     }
 
+    /**
+     * This method hides the questionTextField
+     */
     public void hideQuestionTextField(){
         generalInteractionsPanel.add(interactionTimelinePanel);
         cardLayout.next(generalInteractionsPanel);
@@ -238,12 +280,18 @@ public class InteractionPanelView {
         this.interactionList.getModel().setInteractionList(allListPerVideo);
     }
 
+    /**
+     * This method disables all the interaction buttons
+     */
     private void disableInteractionButtons(){
         positiveInteractionButton.setEnabled(false);
         negativeInteractionButton.setEnabled(false);
         questionButton.setEnabled(false);
     }
 
+    /**
+     * This method enables all the interaction buttons
+     */
     private void enableInteractionButtons(){
         positiveInteractionButton.setEnabled(true);
         negativeInteractionButton.setEnabled(true);
@@ -264,7 +312,5 @@ public class InteractionPanelView {
     public JPanel getGeneralInteractionsPanel() {
         return generalInteractionsPanel;
     }
-
-
 
 }

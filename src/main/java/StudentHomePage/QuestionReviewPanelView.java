@@ -175,9 +175,13 @@ public class QuestionReviewPanelView {
         JPanel buttonPanel = new JPanel(); //The panel with the 2 buttons: Modify and Delete Button
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
+
         JLabel confirmationMessage = new JLabel();
         confirmationMessage.setForeground(Color.decode("#32a852"));
+        confirmationMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        singleQuestionPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
         singleQuestionPanel.add(confirmationMessage);
+        singleQuestionPanel.add(Box.createRigidArea(Utils.VERTICAL_RIGID_AREA_DIM10));
 
         Utils utils = new Utils();
         JButton modifyButton = new JButton("Modify");

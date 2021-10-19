@@ -27,7 +27,7 @@ public class InteractionPanel implements Listener {
 
         this.model = new InteractionsPanelModel(videoBox);
         this.view = new InteractionPanelView(this);
-        this.view.install();
+        this.view.installUI();
     }
 
     public JPanel getMainPanel(){
