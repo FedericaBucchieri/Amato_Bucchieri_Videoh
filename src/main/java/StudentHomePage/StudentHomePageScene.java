@@ -145,7 +145,7 @@ public class StudentHomePageScene implements Listener, Scene{
         }
         else if(event.getClass().equals(DeleteQuestionEvent.class)){
             studentDetailPanel.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
-           videoBox.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
+            videoBox.deleteQuestion(((DeleteQuestionEvent) event).getQuestion());
 
            if(questionReviewPanel != null)
                 repaintReview();

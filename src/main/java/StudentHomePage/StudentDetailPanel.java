@@ -79,6 +79,7 @@ public class StudentDetailPanel extends JComponent{
      */
     public void deleteQuestion(Question question){
         model.removeQuestion(question);
+        model.sortQuestionList();
         view.repaintQuestionList();
         repaint();
     }
