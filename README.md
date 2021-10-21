@@ -6,7 +6,7 @@ Videoh is a java application that allows professors to upload video lessons and 
 
 The application uses a vlcj library to play videos. This requires that the application [VLC](https://www.videolan.org/vlc/index.it.html) is installed on the same machine where Videoh is launched.
 Make sure to install it, otherwise no video will play.  
-Note that vlcj may prompt a few errors while rendering the videos: just ignore them since they're related to the mismatch between the settings we're giving to the video and the actual video characteristics (i.e. codec, resolution or dimension of the video).
+Note that vlcj may prompt a few errors in the console tab while rendering the videos: just ignore them since they're related to the mismatch between the settings we're giving to the video and the actual video characteristics (i.e. codec, resolution or dimension of the video).
 
 ## Usage
 ### Preparation - Professor side
