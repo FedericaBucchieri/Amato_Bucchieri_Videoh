@@ -8,6 +8,11 @@ The application uses [vlcj library](https://capricasoftware.co.uk/projects/vlcj-
 Vlcj library and all its dependency may not be included in the project. There's a zip file (downloaded from the official website of Vlcj) in this directory containing all the dependency that should be installed if missing: vlcj-3.12.1.jar, jna-platform-5.2.0.jar, jna-5.2.0.jar and slf4j-api-1.7.25.jar. If while launching Videoh the compiler won't regonize some classes, or will prompt some errors regarding missing dependencies, check if all these files are present in the project settings.  
 Note that vlcj may prompt a few errors in the console tab while rendering the videos: just ignore them since they're related to the mismatch between the settings we're giving to the video and the actual video characteristics (i.e. codec, resolution or dimension of the video).  
 
+## Database connection
+We are using an HyperSQL DataBase embedded in IntelliJ. To run the project there is no need to connect to database, it will run automatically. For debug purposes instead, if there is the need to explore the data store in the database, you have to connect to the embedded database instance. 
+You should open the "Database" panel on the right and you should find a database instance called "VideohDB". Click right on that instance and select Properties. You should login with:
+> 'user as username  
+> 'password' as password
 
 ## Usage
 ### Preparation - Professor side
