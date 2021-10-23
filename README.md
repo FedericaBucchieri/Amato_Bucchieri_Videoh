@@ -18,7 +18,7 @@ To do this, log in as a professor  with these credentials:
   
 Once logged in as professor1 push the button **Add New Video**.  
 Then insert a title, a description, load a Thumbnail and finally the actual video file.  
-The video file format **must be** an mp4 file.  
+The video file format **must be** an mp4 file. In this directory you will find a zip folder with a fiew videos and thumbnails that you can use for testing.  
 Once the video has been uploaded, the application will show again the video list, that now contains the video just uploaded. The application will generate a **code** for this video, you can see it at the bottom right corner of the video row: copy it, you will need it on the next step.  
 
 ### Preparation -  Student side
